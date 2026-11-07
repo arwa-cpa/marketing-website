@@ -1,3 +1,11 @@
+# IDE
+.idea/
+.DS_Store
+
+# Local-only reference material (brand guidelines, raw mockups/photos) —
+# not needed to build or serve the site, kept out of the repo on purpose.
+/Website - Arbur CPA/
+
 # Logs
 logs
 *.log
