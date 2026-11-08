@@ -1,0 +1,18 @@
+{
+  "name": "arbur-cpa-marketing-website",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Arbur CPA marketing site, built with Eleventy",
+  "type": "module",
+  "scripts": {
+    "start": "eleventy --serve",
+    "build": "eleventy"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arwa-cpa/marketing-website.git"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^3.1.8"
+  }
+}

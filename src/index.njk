@@ -1,55 +1,8 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Arbur CPA | U.S.–Canada Cross-Border Tax &amp; Accounting</title>
-  <meta name="description" content="Arbur CPA — U.S.–Canada cross-border tax specialist, plus individual and business tax preparation, explained in plain language. CPA licensed in Michigan and Ontario.">
-
-  <link rel="icon" type="image/png" sizes="192x192" href="assets/images/favicon-192.png">
-  <link rel="icon" type="image/png" sizes="512x512" href="assets/images/favicon-512.png">
-  <link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png">
-  <link rel="shortcut icon" href="assets/favicon.ico">
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-
-  <link rel="stylesheet" href="css/styles.css">
-</head>
-<body>
-
-  <a class="skip-link" href="#main">Skip to content</a>
-
-  <header class="site-header">
-    <div class="wrap header-inner">
-      <a class="brand" href="#top" aria-label="Arbur CPA home">
-        <img src="assets/images/logo-horizontal-sage.png" alt="Arbur CPA" class="brand-logo">
-      </a>
-
-      <nav class="main-nav" id="main-nav">
-        <a href="#top">Home</a>
-        <a href="#about">About</a>
-        <a href="#services">Services</a>
-        <a href="#reviews">Client Reviews</a>
-        <a href="#contact">Contact</a>
-      </nav>
-
-      <div class="header-actions">
-        <a class="icon-link" href="https://www.linkedin.com/" target="_blank" rel="noopener" aria-label="Arbur CPA on LinkedIn">
-          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.6 0 4.27 2.37 4.27 5.46zM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56z"/></svg>
-        </a>
-        <a class="btn btn-primary" href="#contact">Book a free consultation</a>
-      </div>
-
-      <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="main-nav">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
-  </header>
-
-  <main id="main">
-
+---
+layout: base.njk
+title: "Arbur CPA | U.S.–Canada Cross-Border Tax & Accounting"
+description: "Arbur CPA — U.S.–Canada cross-border tax specialist, plus individual and business tax preparation, explained in plain language. CPA licensed in Michigan and Ontario."
+---
     <section class="hero" id="top">
       <div class="wrap hero-inner">
         <div class="hero-copy">
@@ -159,28 +112,18 @@
       <div class="wrap">
         <div class="testimonials-head">
           <h2>What clients say</h2>
-          <a class="rating-pill" href="#" target="_blank" rel="noopener">
-            <!-- TODO: replace with actual Google rating, review count, and Google Business Profile link -->
-            [X.X] stars from [00] Google reviews &middot; Read on Google
+          <a class="rating-pill" href="{{ site.googleProfileUrl }}" target="_blank" rel="noopener">
+            {{ site.googleRatingText }} &middot; Read on Google
           </a>
         </div>
 
         <div class="testimonial-grid">
+          {%- for testimonial in testimonials %}
           <article class="testimonial-card">
-            <!-- TODO: paste actual review text for this client -->
-            <p class="testimonial-quote">[Paste actual review text here.]</p>
-            <p class="testimonial-name">Prasath Durairaj</p>
+            <p class="testimonial-quote">{{ testimonial.quote }}</p>
+            <p class="testimonial-name">{{ testimonial.name }}</p>
           </article>
-          <article class="testimonial-card">
-            <!-- TODO: paste actual review text for this client -->
-            <p class="testimonial-quote">[Paste actual review text here.]</p>
-            <p class="testimonial-name">Shoeb and Munira Ali</p>
-          </article>
-          <article class="testimonial-card">
-            <!-- TODO: paste actual review text for this client -->
-            <p class="testimonial-quote">[Paste actual review text here.]</p>
-            <p class="testimonial-name">Jonathan Almeida</p>
-          </article>
+          {%- endfor %}
         </div>
       </div>
     </section>
@@ -191,13 +134,17 @@
           <h2>Book a free consultation</h2>
           <p>Send a short note about what you need help with &mdash; cross-border filing, a business return, or general tax questions. We&rsquo;ll follow up to discuss your needs, explore options, and find the best path forward.</p>
           <p class="contact-detail">
-            <a href="mailto:info@arwacpa.com">info@arwacpa.com</a>
+            <a href="mailto:{{ site.email }}">{{ site.email }}</a>
           </p>
-          <!-- Phone is optional per the source wireframe; add a tel: link here if Arwa wants one shown. -->
+          {%- if site.phone %}
+          <p class="contact-detail">
+            <a href="tel:{{ site.phone }}">{{ site.phone }}</a>
+          </p>
+          {%- endif %}
         </div>
 
         <div class="contact-form-wrap">
-          <form id="contact-form" class="contact-form" action="https://formspree.io/f/REPLACE_WITH_FORM_ID" method="POST">
+          <form id="contact-form" class="contact-form" action="https://formspree.io/f/{{ site.formspreeId }}" method="POST">
             <div class="form-row">
               <label for="name">Name</label>
               <input type="text" id="name" name="name" autocomplete="name" required>
@@ -216,40 +163,3 @@
         </div>
       </div>
     </section>
-
-  </main>
-
-  <footer class="site-footer">
-    <div class="wrap footer-inner">
-      <div class="footer-brand">
-        <img src="assets/images/logo-mark-white.png" alt="" class="footer-logo-mark" aria-hidden="true">
-        <div>
-          <p class="footer-wordmark">Arbur CPA</p>
-          <p class="footer-tagline">Books in order, taxes simplified.</p>
-        </div>
-      </div>
-
-      <div class="footer-links">
-        <h3>Explore</h3>
-        <a href="#about">About</a>
-        <a href="#services">Services</a>
-        <a href="#reviews">Client Reviews</a>
-      </div>
-
-      <div class="footer-links">
-        <h3>Connect</h3>
-        <a href="#contact">Book a consultation</a>
-        <a href="mailto:info@arwacpa.com">info@arwacpa.com</a>
-        <a href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn</a>
-        <a href="#" target="_blank" rel="noopener">Google Business Profile</a>
-      </div>
-    </div>
-
-    <div class="wrap footer-bottom">
-      <p>&copy; <span id="year"></span> Arbur CPA. All rights reserved.</p>
-    </div>
-  </footer>
-
-  <script src="js/main.js"></script>
-</body>
-</html>
