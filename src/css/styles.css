@@ -398,7 +398,8 @@ button { font-family: inherit; }
   display: grid;
   grid-template-columns: 1.4fr 0.8fr 0.8fr;
   gap: 40px;
-  padding: 56px 0 36px;
+  padding-top: 56px;
+  padding-bottom: 36px;
 }
 .footer-brand { display: flex; align-items: center; gap: 14px; }
 .footer-logo-mark { height: 42px; width: auto; }
@@ -425,7 +426,8 @@ button { font-family: inherit; }
 .footer-links a:hover { color: #fff; }
 .footer-bottom {
   border-top: 1px solid rgba(255,255,255,.12);
-  padding: 20px 0;
+  padding-top: 20px;
+  padding-bottom: 20px;
   font-size: 0.85rem;
   color: #92998f;
 }
