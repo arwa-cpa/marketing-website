@@ -39,4 +39,4 @@ A representative check: load the page, confirm there are no console errors, clic
 
 ## Known placeholders
 
-Grep `src/_data/` for `TODO` to find content Arwa still needs to supply: the Formspree form ID (`site.js`).
+All placeholder content has been filled in. The only optional item left is a phone number (`phone` in `src/_data/site.js`).

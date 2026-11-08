@@ -48,8 +48,7 @@ Source: `Website - Arbur CPA/ARBUR _ BRAND guidlines.pdf`.
 
 ## Content still needed from Arwa
 
-Marked `TODO` in `src/_data/site.js`:
-- Formspree form endpoint ID (`formspreeId: "REPLACE_WITH_FORM_ID"`)
+In `src/_data/site.js`:
 - Phone number, if Arwa wants one shown (`phone: ""`; the contact section renders a `tel:` link once it's set. The wireframe marked it optional)
 
 Testimonials in `src/_data/testimonials.js` are real client reviews copied verbatim from the old site (including the reviewers' own typos). Don't edit or paraphrase them. The Google rating text in `site.js` (`5.0 stars from 11 Google reviews` as of 2026-11-07) is updated by hand.
