@@ -129,6 +129,7 @@ button { font-family: inherit; }
   display: flex;
   align-items: center;
   gap: 18px;
+  margin-left: auto;
 }
 .icon-link { color: var(--dark-green); }
 .icon-link:hover { color: var(--sage); }
