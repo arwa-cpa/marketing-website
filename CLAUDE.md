@@ -49,7 +49,6 @@ Source: `Website - Arbur CPA/ARBUR _ BRAND guidlines.pdf`.
 ## Content still needed from Arwa
 
 Marked `TODO` in `src/_data/site.js`:
-- LinkedIn URL
 - Formspree form endpoint ID (`formspreeId: "REPLACE_WITH_FORM_ID"`)
 - Phone number, if Arwa wants one shown (`phone: ""`; the contact section renders a `tel:` link once it's set. The wireframe marked it optional)
 

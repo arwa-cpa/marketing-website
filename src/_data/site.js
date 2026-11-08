@@ -2,8 +2,8 @@
 export default {
   email: "info@arwacpa.com",
 
-  // TODO: replace with Arbur CPA's LinkedIn URL
-  linkedinUrl: "https://www.linkedin.com/",
+  // Arwa's personal LinkedIn profile
+  linkedinUrl: "https://www.linkedin.com/in/anaalwala",
 
   googleProfileUrl: "https://maps.app.goo.gl/wBYL2nPMFZ6Q5nUa6",
 
