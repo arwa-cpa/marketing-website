@@ -37,11 +37,11 @@ form.addEventListener('submit', async (event) => {
       status.className = 'form-status success';
       form.reset();
     } else {
-      status.textContent = 'Something went wrong. Please email info@arwacpa.com directly.';
+      status.textContent = 'Something went wrong. Please try again in a moment.';
       status.className = 'form-status error';
     }
   } catch (err) {
-    status.textContent = 'Something went wrong. Please email info@arwacpa.com directly.';
+    status.textContent = 'Something went wrong. Please try again in a moment.';
     status.className = 'form-status error';
   }
 });

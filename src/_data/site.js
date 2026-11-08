@@ -1,7 +1,6 @@
-// Site-wide contact details and links, used by the header, footer and contact section.
+// Site-wide links and settings, used by the header, footer and page sections.
+// No email address is shown on the site by choice; the contact form is the way in.
 export default {
-  email: "info@arwacpa.com",
-
   // Arwa's personal LinkedIn profile
   linkedinUrl: "https://www.linkedin.com/in/anaalwala",
 

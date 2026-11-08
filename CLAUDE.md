@@ -10,7 +10,7 @@ Node is pinned in `.nvmrc`. In non-interactive shells, run `source ~/.nvm/nvm.sh
 
 ## Hosting
 
-GitHub Pages, deployed by `.github/workflows/deploy.yml`: every push to `main` runs `npm run build` and publishes `_site/`. The repo's Pages source must be set to **GitHub Actions** (Settings → Pages), not "Deploy from a branch". `CNAME` and `.nojekyll` live in `src/` and are passthrough-copied into the build. Current working domain is `arwacpa.com`; a matching `arburcpa.com` domain is planned but not yet purchased — don't hard-code either domain anywhere beyond the `info@arwacpa.com` address already used as the contact email.
+GitHub Pages, deployed by `.github/workflows/deploy.yml`: every push to `main` runs `npm run build` and publishes `_site/`. The repo's Pages source must be set to **GitHub Actions** (Settings → Pages), not "Deploy from a branch". `CNAME` and `.nojekyll` live in `src/` and are passthrough-copied into the build. Current working domain is `arwacpa.com`; a matching `arburcpa.com` domain is planned but not yet purchased — don't hard-code either domain anywhere in the site.
 
 ## File layout
 
@@ -20,7 +20,7 @@ src/index.njk                   page front matter (title, description) + section
 src/_includes/sections/         one file per page section: hero, highlights, services, about, testimonials, contact
 src/_includes/base.njk          <head>, fonts, header/footer includes, script tag
 src/_includes/partials/         header.njk, footer.njk
-src/_data/site.js               email, LinkedIn/Google URLs, rating text, Formspree ID
+src/_data/site.js               LinkedIn/Google URLs, rating text, Formspree ID
 src/_data/testimonials.js       client review quotes
 src/css/styles.css              all styles; design tokens as CSS custom properties at the top
 src/js/main.js                  mobile nav toggle + Formspree contact form submit (fetch, no page redirect)
@@ -53,7 +53,7 @@ Source: `Website - Arbur CPA/ARBUR _ BRAND guidlines.pdf`.
 
 ## Content notes
 
-No placeholder content remains. No phone number is shown on the site, by choice; don't add one.
+No placeholder content remains. No phone number or email address is shown on the site, by choice; the contact form is the only contact method. Don't add either back.
 
 Testimonials in `src/_data/testimonials.js` are real client reviews copied verbatim from the old site (including the reviewers' own typos). Don't edit or paraphrase them. The Google rating text in `site.js` (`5.0 stars from 11 Google reviews` as of 2026-11-07) is updated by hand.
 

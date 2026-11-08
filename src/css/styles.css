@@ -379,7 +379,6 @@ main > section { padding: var(--section-pad) 0; }
 }
 .contact-copy h2 { font-size: clamp(1.8rem, 3vw, 2.2rem); }
 .contact-copy p { color: var(--text-muted); }
-.contact-detail a { color: var(--sage); font-weight: 500; }
 
 .contact-form-wrap {
   background: #fff;
