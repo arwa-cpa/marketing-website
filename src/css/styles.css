@@ -155,7 +155,7 @@ main > section { padding: var(--section-pad) 0; }
   font-family: var(--font-heading);
   font-size: 1.45rem;
   font-weight: 600;
-  color: var(--dark-green);
+  color: var(--sage); /* matches the mark */
   white-space: nowrap;
 }
 
