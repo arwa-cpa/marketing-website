@@ -32,6 +32,8 @@ src/assets/favicon.ico
 
 Each section of the page lives in its own file under `src/_includes/sections/`. That's the main reason the site moved to Eleventy, so keep it that way: add a new section as a new file and include it from `index.njk`, rather than putting markup in `index.njk` directly. Section anchor IDs (`#about`, `#services`, …) must keep matching the nav links in the header and footer.
 
+Sections share a header pattern: a small uppercase `.eyebrow` label (matching the nav link name where there is one), the `h2` title, and an optional one-line `.subtitle`. Layouts are shared too: `.split` (text left, picture or form right) for hero/about/contact, `.section-head` (title block left, action right) for services/reviews, and `.card` for every card. New sections should reuse these rather than adding one-off styles.
+
 Sections share sizing through the `main > section` rule in `styles.css`: the same vertical padding (`--section-pad`) everywhere, and on desktop a shared minimum height (`--section-min`) with content centered vertically. Don't add per-section `padding` to a section; adjust the tokens instead.
 
 Asset links are relative (`css/styles.css`, not `/css/styles.css`), matching the pre-Eleventy site. Text in front matter or data files is autoescaped, so write a plain `&` there, not `&amp;`.

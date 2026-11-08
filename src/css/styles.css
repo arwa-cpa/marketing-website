@@ -22,7 +22,7 @@
 
   --wrap: 1180px;
   --section-pad: 80px;
-  --section-min: 640px; /* desktop only; see Sections below */
+  --section-min: 700px; /* desktop only; see Sections below */
   --radius: 10px;
 }
 
@@ -119,15 +119,33 @@ main > section { padding: var(--section-pad) 0; }
 .section-head {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-end;
   flex-wrap: wrap;
   gap: 20px;
   margin-bottom: 36px;
 }
 .section-head h2 { margin-bottom: 0; }
+.section-head .subtitle { margin: 10px 0 0; }
 
 /* Shared building blocks, so sections that do the same job look the same */
 main h2 { font-size: clamp(1.9rem, 3vw, 2.4rem); }
+/* Every section header: .eyebrow label, h2 title, optional .subtitle */
+.eyebrow,
+.split-copy .eyebrow,
+.intro-inner .eyebrow {
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--sage);
+  margin-bottom: 14px;
+}
+.subtitle,
+.split-copy .subtitle {
+  font-size: 1.15rem;
+  color: var(--text-body);
+  max-width: 60ch;
+}
 
 /* Text on the left, picture or form on the right (hero, about, contact) */
 .split {
@@ -254,14 +272,6 @@ main h2 { font-size: clamp(1.9rem, 3vw, 2.4rem); }
 /* Hero                                                */
 /* -------------------------------------------------- */
 .hero { background: var(--bg-leaf); }
-.eyebrow {
-  text-transform: uppercase;
-  letter-spacing: .08em;
-  font-size: 0.8rem;
-  font-weight: 500;
-  color: var(--sage);
-  margin-bottom: 14px;
-}
 .hero h1 {
   font-size: clamp(2.4rem, 4vw, 3.4rem);
   line-height: 1.12;
