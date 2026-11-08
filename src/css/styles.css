@@ -469,5 +469,6 @@ button { font-family: inherit; }
   .nav-toggle { display: flex; }
   .header-actions { gap: 12px; }
   .service-grid { grid-template-columns: 1fr; }
+  .rating-pill { white-space: normal; border-radius: 18px; }
   .footer-inner { grid-template-columns: 1fr; }
 }

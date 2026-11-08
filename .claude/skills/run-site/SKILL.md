@@ -39,4 +39,4 @@ A representative check: load the page, confirm there are no console errors, clic
 
 ## Known placeholders
 
-Grep `src/_data/` for `TODO` to find content Arwa still needs to supply: testimonial quotes (`testimonials.js`), the Google review rating/link, the Formspree form ID, and the LinkedIn / Google Business Profile links (`site.js`).
+Grep `src/_data/` for `TODO` to find content Arwa still needs to supply: the Formspree form ID and the LinkedIn URL (`site.js`).
