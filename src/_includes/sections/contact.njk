@@ -1,0 +1,30 @@
+    <section class="contact" id="contact">
+      <div class="wrap contact-inner">
+        <div class="contact-copy">
+          <h2>Book a free consultation</h2>
+          <p>Send a short note about what you need help with &mdash; cross-border filing, a business return, or general tax questions. We&rsquo;ll follow up to discuss your needs, explore options, and find the best path forward.</p>
+          <p class="contact-detail">
+            <a href="mailto:{{ site.email }}">{{ site.email }}</a>
+          </p>
+        </div>
+
+        <div class="contact-form-wrap">
+          <form id="contact-form" class="contact-form" action="https://formspree.io/f/{{ site.formspreeId }}" method="POST">
+            <div class="form-row">
+              <label for="name">Name</label>
+              <input type="text" id="name" name="name" autocomplete="name" required>
+            </div>
+            <div class="form-row">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" autocomplete="email" required>
+            </div>
+            <div class="form-row">
+              <label for="message">How can we help?</label>
+              <textarea id="message" name="message" rows="5" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary form-submit">Send message</button>
+            <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+      </div>
+    </section>

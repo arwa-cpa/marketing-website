@@ -9,4 +9,4 @@ npm start      # dev server at http://localhost:8080
 npm run build  # one-off build into _site/
 ```
 
-Contact details, links and testimonials live in `src/_data/`. Page markup is in `src/index.njk`, with the shared layout and partials in `src/_includes/`.
+Contact details, links and testimonials live in `src/_data/`. Each page section has its own file in `src/_includes/sections/`, and `src/index.njk` includes them in order. The shared layout, header and footer are also in `src/_includes/`.

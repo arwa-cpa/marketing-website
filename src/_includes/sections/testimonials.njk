@@ -1,0 +1,19 @@
+    <section class="testimonials" id="reviews">
+      <div class="wrap">
+        <div class="testimonials-head">
+          <h2>What clients say</h2>
+          <a class="rating-pill" href="{{ site.googleProfileUrl }}" target="_blank" rel="noopener">
+            {{ site.googleRatingText }} &middot; Read on Google
+          </a>
+        </div>
+
+        <div class="testimonial-grid">
+          {%- for testimonial in testimonials %}
+          <article class="testimonial-card">
+            <p class="testimonial-quote">{{ testimonial.quote }}</p>
+            <p class="testimonial-name">{{ testimonial.name }}</p>
+          </article>
+          {%- endfor %}
+        </div>
+      </div>
+    </section>

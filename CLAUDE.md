@@ -16,7 +16,8 @@ GitHub Pages, deployed by `.github/workflows/deploy.yml`: every push to `main` r
 
 ```
 eleventy.config.js              input src/, output _site/, passthrough copies
-src/index.njk                   single page, all sections, anchor IDs matching the nav links
+src/index.njk                   page front matter (title, description) + section includes, in page order
+src/_includes/sections/         one file per page section: hero, stats, intro, services, about, testimonials, contact
 src/_includes/base.njk          <head>, fonts, header/footer includes, script tag
 src/_includes/partials/         header.njk, footer.njk
 src/_data/site.js               email, LinkedIn/Google URLs, rating text, Formspree ID
@@ -27,6 +28,8 @@ src/assets/images/              logo variants, hero photo, headshot
 src/assets/favicon.ico
 .claude/skills/run-site/        how to preview the site locally
 ```
+
+Each section of the page lives in its own file under `src/_includes/sections/`. That's the main reason the site moved to Eleventy, so keep it that way: add a new section as a new file and include it from `index.njk`, rather than putting markup in `index.njk` directly. Section anchor IDs (`#about`, `#services`, …) must keep matching the nav links in the header and footer.
 
 Asset links are relative (`css/styles.css`, not `/css/styles.css`), matching the pre-Eleventy site. Text in front matter or data files is autoescaped, so write a plain `&` there, not `&amp;`.
 
