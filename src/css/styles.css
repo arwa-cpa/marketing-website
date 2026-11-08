@@ -149,17 +149,36 @@ main > section { padding: var(--section-pad) 0; }
 
 .main-nav {
   display: flex;
-  gap: 28px;
-  margin-left: 12px;
+  align-items: center;
+  gap: 32px;
+  margin-left: 24px;
   flex: 1;
 }
+/* Same small-caps treatment as the hero eyebrow and footer headings */
 .main-nav a {
-  font-size: 0.95rem;
-  color: var(--text-body);
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--dark-green);
   position: relative;
-  padding: 4px 0;
+  padding: 6px 0;
+}
+.main-nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: var(--sage);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .2s ease;
 }
 .main-nav a:hover { color: var(--sage); }
+.main-nav a:hover::after,
+.main-nav a:focus-visible::after { transform: scaleX(1); }
 
 .header-actions {
   display: flex;
@@ -474,6 +493,8 @@ main > section { padding: var(--section-pad) 0; }
   .main-nav.is-open {
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
+    margin-left: 0;
     position: absolute;
     top: 100%;
     left: 0;
