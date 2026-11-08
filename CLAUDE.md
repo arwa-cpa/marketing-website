@@ -19,7 +19,7 @@ eleventy.config.js              input src/, output _site/, passthrough copies
 src/index.njk                   single page, all sections, anchor IDs matching the nav links
 src/_includes/base.njk          <head>, fonts, header/footer includes, script tag
 src/_includes/partials/         header.njk, footer.njk
-src/_data/site.js               email, LinkedIn/Google URLs, rating text, Formspree ID, phone
+src/_data/site.js               email, LinkedIn/Google URLs, rating text, Formspree ID
 src/_data/testimonials.js       client review quotes
 src/css/styles.css              all styles; design tokens as CSS custom properties at the top
 src/js/main.js                  mobile nav toggle + Formspree contact form submit (fetch, no page redirect)
@@ -46,10 +46,9 @@ Source: `Website - Arbur CPA/ARBUR _ BRAND guidlines.pdf`.
 - Hero and headshot were re-encoded as JPEG (cut file size by ~90% with no visible quality loss)
 - All three logo PNGs were cropped to their content bounding box — the originals have large transparent margins that make the logo render illegibly tiny if used as-is. If re-exporting a logo from source, re-crop to content bounds the same way.
 
-## Content still needed from Arwa
+## Content notes
 
-In `src/_data/site.js`:
-- Phone number, if Arwa wants one shown (`phone: ""`; the contact section renders a `tel:` link once it's set. The wireframe marked it optional)
+No placeholder content remains. No phone number is shown on the site, by choice; don't add one.
 
 Testimonials in `src/_data/testimonials.js` are real client reviews copied verbatim from the old site (including the reviewers' own typos). Don't edit or paraphrase them. The Google rating text in `site.js` (`5.0 stars from 11 Google reviews` as of 2026-11-07) is updated by hand.
 

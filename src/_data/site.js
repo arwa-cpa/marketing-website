@@ -12,7 +12,4 @@ export default {
 
   // Formspree form ID (the part after /f/ in the endpoint)
   formspreeId: "xrppvrva",
-
-  // Phone is optional per the source wireframe; set this (e.g. "+1-555-555-5555") if Arwa wants one shown.
-  phone: "",
 };
