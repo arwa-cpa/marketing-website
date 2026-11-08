@@ -10,7 +10,7 @@ Node is pinned in `.nvmrc`. In non-interactive shells, run `source ~/.nvm/nvm.sh
 
 ## Hosting
 
-GitHub Pages, deployed by `.github/workflows/deploy.yml`: every push to `main` runs `npm run build` and publishes `_site/`. The repo's Pages source must be set to **GitHub Actions** (Settings → Pages), not "Deploy from a branch". `CNAME` and `.nojekyll` live in `src/` and are passthrough-copied into the build. Current working domain is `arwacpa.com`; a matching `arburcpa.com` domain is planned but not yet purchased — don't hard-code either domain anywhere in the site.
+GitHub Pages, deployed by `.github/workflows/deploy.yml`: every push to `main` runs `npm run build` and publishes `_site/`. The repo's Pages source must be set to **GitHub Actions** (Settings → Pages), not "Deploy from a branch". `CNAME` and `.nojekyll` live in `src/` and are passthrough-copied into the build. Current working domain is `arwacpa.com`; a matching `arburcpa.com` domain is planned but not yet purchased — don't hard-code either domain anywhere in the site. `src/CNAME` is the single source of the domain: `src/_data/structuredData.js` reads it at build time to build absolute URLs, so switching domains means editing only CNAME.
 
 ## File layout
 
@@ -22,6 +22,7 @@ src/_includes/base.njk          <head>, fonts, header/footer includes, script ta
 src/_includes/partials/         header.njk, footer.njk
 src/_data/site.js               LinkedIn/Google URLs, rating text, Formspree ID
 src/_data/testimonials.js       client review quotes
+src/_data/structuredData.js     JSON-LD (AccountingService + Person + WebSite) rendered into <head>
 src/css/styles.css              all styles; design tokens as CSS custom properties at the top
 src/js/main.js                  mobile nav toggle + Formspree contact form submit (fetch, no page redirect)
 src/assets/images/              logo variants, hero photo, headshot
@@ -41,7 +42,7 @@ Source: `Website - Arbur CPA/ARBUR _ BRAND guidlines.pdf`.
 
 - Colors: `--bg-cream:#F6F4F1` `--bg-taupe:#E6DED6` `--accent-tan:#D3C3A6` `--sage:#738063` `--dark-green:#20322E`
 - Fonts: **Cormorant Garamond** (headings), **Roboto** (body) — loaded via Google Fonts `<link>` tags in `src/_includes/base.njk`
-- Logo usage: the header uses the sage tree mark alone (`logo-mark-sage.png`, cropped out of `logo-horizontal-sage.png`) with "Arbur CPA" set as live text in Cormorant Garamond beside it. Below 1040px the header collapses to the hamburger and the name centers in the header. The footer uses the white mark (`logo-mark-white.png`) with the same live-text wordmark. `logo-horizontal-sage.png` and `logo-stacked-sage.png` are kept but not currently used on the page.
+- Logo usage: the header uses the sage tree mark alone (`logo-mark-sage.png`, cropped out of `logo-horizontal-sage.png`) with "Arbur CPA" set as live text in Cormorant Garamond beside it. Below 1040px the header collapses to the hamburger and the name centers in the header. The footer uses the white mark (`logo-mark-white.png`) with the same live-text wordmark. `logo-stacked-sage.png` is the logo in the structured data; `logo-horizontal-sage.png` is kept but not currently used.
 
 ## Source vs. site assets
 
@@ -55,7 +56,7 @@ Source: `Website - Arbur CPA/ARBUR _ BRAND guidlines.pdf`.
 
 No placeholder content remains. No phone number or email address is shown on the site, by choice; the contact form is the only contact method. Don't add either back.
 
-Testimonials in `src/_data/testimonials.js` are real client reviews copied verbatim from the old site (including the reviewers' own typos). Don't edit or paraphrase them. The Google rating text in `site.js` (`5.0 stars from 11 Google reviews` as of 2026-11-07) is updated by hand.
+Testimonials in `src/_data/testimonials.js` are real client reviews copied verbatim from the old site (including the reviewers' own typos). Don't edit or paraphrase them. Don't add them (or the Google rating) to the structured data: Google disallows marking up reviews copied from another site. The Google rating text in `site.js` (`5.0 stars from 11 Google reviews` as of 2026-11-07) is updated by hand.
 
 Everything else (bio paragraphs, service descriptions, intro copy) is drafted sample copy meant to be reviewed/personalized before launch, not placeholder brackets — it's safe to ship as-is but better if Arwa edits it in her own voice.
 
