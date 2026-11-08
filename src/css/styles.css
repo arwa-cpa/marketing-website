@@ -20,7 +20,7 @@
   --font-heading: 'Cormorant Garamond', Georgia, serif;
   --font-body: 'Roboto', Arial, sans-serif;
 
-  --wrap: 1180px;
+  --wrap: 1040px;
   --section-pad: 80px;
   --section-min: 700px; /* desktop only; see Sections below */
   --radius: 10px;
