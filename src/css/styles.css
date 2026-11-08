@@ -126,6 +126,32 @@ main > section { padding: var(--section-pad) 0; }
 }
 .section-head h2 { margin-bottom: 0; }
 
+/* Shared building blocks, so sections that do the same job look the same */
+main h2 { font-size: clamp(1.9rem, 3vw, 2.4rem); }
+
+/* Text on the left, picture or form on the right (hero, about, contact) */
+.split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+}
+.split-copy p { color: var(--text-muted); font-size: 1.05rem; max-width: 52ch; }
+.split-media img {
+  border-radius: var(--radius);
+  width: 100%;
+  object-fit: cover;
+  aspect-ratio: 4 / 3;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid rgba(32,50,46,.08);
+  border-radius: var(--radius);
+  box-shadow: 0 1px 3px rgba(32,50,46,.06);
+  padding: 28px;
+}
+
 /* -------------------------------------------------- */
 /* Header                                              */
 /* -------------------------------------------------- */
@@ -228,12 +254,6 @@ main > section { padding: var(--section-pad) 0; }
 /* Hero                                                */
 /* -------------------------------------------------- */
 .hero { background: var(--bg-leaf); }
-.hero-inner {
-  display: grid;
-  grid-template-columns: 1.05fr 0.95fr;
-  gap: 56px;
-  align-items: center;
-}
 .eyebrow {
   text-transform: uppercase;
   letter-spacing: .08em;
@@ -247,23 +267,11 @@ main > section { padding: var(--section-pad) 0; }
   line-height: 1.12;
   margin-bottom: 20px;
 }
-.hero .lede {
-  font-size: 1.1rem;
-  color: var(--text-muted);
-  max-width: 48ch;
-}
 .hero-ctas {
   display: flex;
   gap: 16px;
   flex-wrap: wrap;
   margin-top: 28px;
-}
-.hero-media img {
-  border-radius: var(--radius);
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  aspect-ratio: 4 / 3;
 }
 
 /* -------------------------------------------------- */
@@ -289,9 +297,9 @@ main > section { padding: var(--section-pad) 0; }
   max-width: 760px;
   margin-top: 72px;
 }
-.intro-inner h2 { font-size: clamp(1.8rem, 3vw, 2.4rem); }
 .intro-inner p { color: var(--text-muted); font-size: 1.05rem; }
-.pull-line {
+.pull-line,
+.split-copy .pull-line {
   font-weight: 600;
   color: var(--dark-green);
   font-size: 1.05rem;
@@ -301,19 +309,12 @@ main > section { padding: var(--section-pad) 0; }
 /* Services                                            */
 /* -------------------------------------------------- */
 .services { background: var(--bg-cream); }
-.services h2 { font-size: clamp(1.8rem, 3vw, 2.4rem); }
 .service-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
 }
-.service-card {
-  background: #fff;
-  border-radius: var(--radius);
-  padding: 28px 24px;
-  box-shadow: 0 1px 3px rgba(32,50,46,.06);
-}
-.service-card-featured { border: 1px solid var(--sage); }
+.service-card-featured { border-color: var(--sage); }
 .service-icon {
   width: 48px;
   height: 48px;
@@ -332,22 +333,9 @@ main > section { padding: var(--section-pad) 0; }
 /* -------------------------------------------------- */
 /* About                                               */
 /* -------------------------------------------------- */
-.about-inner {
-  display: grid;
-  grid-template-columns: 0.8fr 1.2fr;
-  gap: 56px;
-  align-items: center;
-}
-.about-media img {
-  border-radius: var(--radius);
-  width: 100%;
-  object-fit: cover;
-  object-position: 50% 35%; /* trims background above the head, keeps the face framed */
-  aspect-ratio: 1 / 1;
-}
-.about-copy h2 { font-size: clamp(1.8rem, 3vw, 2.2rem); }
-.about-copy p { color: var(--text-muted); }
-.about-copy .pull-line { margin-top: 1.2em; }
+/* Portrait photo in the shared 4:3 frame: keep the face, trim background and robe */
+.about .split-media img { object-position: 50% 30%; }
+.about .pull-line { margin-top: 1.2em; }
 
 /* -------------------------------------------------- */
 /* Testimonials                                        */
@@ -369,12 +357,6 @@ main > section { padding: var(--section-pad) 0; }
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
 }
-.testimonial-card {
-  background: #fff;
-  border: 1px solid rgba(32,50,46,.1);
-  border-radius: var(--radius);
-  padding: 24px;
-}
 .testimonial-quote {
   font-style: italic;
   color: var(--text-body);
@@ -386,21 +368,6 @@ main > section { padding: var(--section-pad) 0; }
 /* Contact                                             */
 /* -------------------------------------------------- */
 .contact { background: var(--bg-sand); }
-.contact-inner {
-  display: grid;
-  grid-template-columns: 0.9fr 1.1fr;
-  gap: 56px;
-  align-items: start;
-}
-.contact-copy h2 { font-size: clamp(1.8rem, 3vw, 2.2rem); }
-.contact-copy p { color: var(--text-muted); }
-
-.contact-form-wrap {
-  background: #fff;
-  border-radius: var(--radius);
-  padding: 32px;
-  box-shadow: 0 1px 3px rgba(32,50,46,.08);
-}
 .form-row { margin-bottom: 18px; }
 .form-row label {
   display: block;
@@ -517,12 +484,7 @@ main > section { padding: var(--section-pad) 0; }
 }
 
 @media (max-width: 920px) {
-  .hero-inner,
-  .about-inner,
-  .contact-inner {
-    grid-template-columns: 1fr;
-  }
-  .about-media { max-width: 360px; }
+  .split { grid-template-columns: 1fr; gap: 40px; }
   .service-grid { grid-template-columns: repeat(2, 1fr); }
   .stats-grid { grid-template-columns: repeat(2, 1fr); row-gap: 28px; }
   .stat:nth-child(3) { border-left: none; padding-left: 0; }
