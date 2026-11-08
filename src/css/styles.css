@@ -199,8 +199,9 @@ main > section { padding: var(--section-pad) 0; }
   gap: 18px;
   margin-left: auto;
 }
-.icon-link { color: var(--dark-green); }
-.icon-link:hover { color: var(--sage); }
+/* Header icons match the logo; hover darkens like .btn-primary */
+.icon-link { color: var(--sage); }
+.icon-link:hover { color: #60704f; }
 
 .nav-toggle {
   display: none;
@@ -218,9 +219,10 @@ main > section { padding: var(--section-pad) 0; }
   display: block;
   height: 2px;
   width: 100%;
-  background: var(--dark-green);
-  transition: transform .2s ease, opacity .2s ease;
+  background: var(--sage);
+  transition: transform .2s ease, opacity .2s ease, background-color .15s ease;
 }
+.nav-toggle:hover span { background: #60704f; }
 
 /* -------------------------------------------------- */
 /* Hero                                                */
