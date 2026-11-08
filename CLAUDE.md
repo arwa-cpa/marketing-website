@@ -41,7 +41,7 @@ Source: `Website - Arbur CPA/ARBUR _ BRAND guidlines.pdf`.
 
 - Colors: `--bg-cream:#F6F4F1` `--bg-taupe:#E6DED6` `--accent-tan:#D3C3A6` `--sage:#738063` `--dark-green:#20322E`
 - Fonts: **Cormorant Garamond** (headings), **Roboto** (body) — loaded via Google Fonts `<link>` tags in `src/_includes/base.njk`
-- Logo usage: sage lockup (`logo-horizontal-sage.png`) on light backgrounds (header); white icon-only mark (`logo-mark-white.png`) on dark-green backgrounds (footer)
+- Logo usage: the header uses the sage tree mark alone (`logo-mark-sage.png`, cropped out of `logo-horizontal-sage.png`) with "Arbur CPA" set as live text in Cormorant Garamond beside it. Below 1040px the header collapses to the hamburger and the name centers in the header. The footer uses the white mark (`logo-mark-white.png`) with the same live-text wordmark. `logo-horizontal-sage.png` and `logo-stacked-sage.png` are kept but not currently used on the page.
 
 ## Source vs. site assets
 
