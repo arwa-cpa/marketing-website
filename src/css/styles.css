@@ -289,7 +289,7 @@ main h2 { font-size: clamp(1.9rem, 3vw, 2.4rem); }
 /* -------------------------------------------------- */
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 32px;
 }
 .stat { text-align: center; border-left: 1px solid var(--bg-taupe); padding-left: 32px; }
@@ -321,7 +321,8 @@ main h2 { font-size: clamp(1.9rem, 3vw, 2.4rem); }
 .services { background: var(--bg-cream); }
 .service-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 1fr; /* every card matches the tallest, even when the grid wraps */
   gap: 20px;
 }
 .service-card-featured { border-color: var(--sage); }
@@ -495,9 +496,8 @@ main h2 { font-size: clamp(1.9rem, 3vw, 2.4rem); }
 
 @media (max-width: 920px) {
   .split { grid-template-columns: 1fr; gap: 40px; }
-  .service-grid { grid-template-columns: repeat(2, 1fr); }
-  .stats-grid { grid-template-columns: repeat(2, 1fr); row-gap: 28px; }
-  .stat:nth-child(3) { border-left: none; padding-left: 0; }
+  /* Three-up card rows stack to one column */
+  .service-grid,
   .testimonial-grid { grid-template-columns: 1fr; }
   .footer-inner { grid-template-columns: 1fr 1fr; }
   .footer-brand { grid-column: 1 / -1; margin-bottom: 8px; }
@@ -506,7 +506,8 @@ main h2 { font-size: clamp(1.9rem, 3vw, 2.4rem); }
 @media (max-width: 720px) {
   :root { --section-pad: 56px; }
   .intro-inner { margin-top: 48px; }
-  .service-grid { grid-template-columns: 1fr; }
+  .stats-grid { grid-template-columns: 1fr; row-gap: 24px; }
+  .stat { border-left: none; padding-left: 0; }
   .rating-pill { white-space: normal; border-radius: 18px; }
   .footer-inner { grid-template-columns: 1fr; }
 }
