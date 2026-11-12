@@ -52,6 +52,8 @@ If no server is running, every test fails with `net::ERR_CONNECTION_REFUSED`. On
 
 Playwright's browser is kept inside `node_modules` (`PLAYWRIGHT_BROWSERS_PATH=0`), never a machine-wide cache, so the repo stays self-contained. The `pretest`/`prescreenshots` hooks run `npm run browsers` to download it if it's missing.
 
+A git `pre-push` hook (`.githooks/pre-push`, enabled by `npm install` via the `prepare` script) starts its own dev server on port 8282 and runs `npm test` before every push; a failure cancels the push. `git push --no-verify` skips it.
+
 In CI, `.github/workflows/deploy.yml` does the same: starts `npm start` in the background, waits for port 8080, runs `npm test`, and only deploys if the tests pass.
 
 Never submit the contact form in a test: it sends a real message to Formspree.

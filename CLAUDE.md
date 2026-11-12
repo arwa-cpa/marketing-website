@@ -30,6 +30,7 @@ src/assets/favicon.ico
 playwright.config.js            test config; keeps the browser in node_modules
 tests/site.spec.js              browser checks against the running site (npm test)
 scripts/screenshots.mjs         saves screenshots to screenshots/ for visual review (npm run screenshots)
+.githooks/pre-push              runs npm test against its own server before every push (enabled by npm install)
 .claude/skills/run-site/        how to preview and verify the site locally
 ```
 

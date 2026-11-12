@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+# Runs the browser tests before every push; a failure cancels the push.
+# Enabled by `npm install` (the "prepare" script sets core.hooksPath).
+# Skip once with: git push --no-verify
+set -euo pipefail
+
+cd "$(git rev-parse --show-toplevel)"
+
+# Git hooks don't get an interactive shell, so activate the .nvmrc Node version
+if [ -s "$HOME/.nvm/nvm.sh" ]; then
+  source "$HOME/.nvm/nvm.sh"
+  nvm use --silent >/dev/null
+fi
+
+# Own server on its own port, so a running `npm start` (8080) is left alone
+port=8282
+node_modules/.bin/eleventy --serve --quiet --port=$port >/dev/null 2>&1 &
+server=$!
+trap 'kill $server 2>/dev/null' EXIT
+
+for _ in $(seq 1 60); do
+  curl -s -o /dev/null "http://localhost:$port/" && break
+  sleep 1
+done
+
+echo "pre-push: running browser tests (skip with git push --no-verify)"
+BASE_URL="http://localhost:$port/" npm test --silent

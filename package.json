@@ -11,7 +11,8 @@
     "screenshots": "node scripts/screenshots.mjs",
     "pretest": "npm run browsers --silent",
     "prescreenshots": "npm run browsers --silent",
-    "browsers": "PLAYWRIGHT_BROWSERS_PATH=0 playwright install --only-shell chromium"
+    "browsers": "PLAYWRIGHT_BROWSERS_PATH=0 playwright install --only-shell chromium",
+    "prepare": "git config core.hooksPath .githooks || true"
   },
   "repository": {
     "type": "git",
