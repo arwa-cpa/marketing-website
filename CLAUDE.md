@@ -6,7 +6,7 @@ Single-page marketing site for **Arbur CPA** (Arwa Naalwala, CPA) — a rebrand 
 
 [Eleventy](https://www.11ty.dev/) (v3) with Nunjucks templates, plain CSS, and vanilla JS. Eleventy is the only dependency, and there's no bundler or client-side framework. The site is edited rarely, and the owner wanted to avoid the overhead that made Squarespace feel harder than necessary. Keep it lean: don't add a bundler, framework, CMS, extra Eleventy plugins, or a test framework without checking first.
 
-Node is pinned in `.nvmrc`. In non-interactive shells, run `source ~/.nvm/nvm.sh && nvm use` before `npm` commands.
+Node is pinned in `.nvmrc`. A SessionStart hook in `.claude/settings.json` activates it for Claude's Bash tool, so `npm` commands need no prefix; if `node -v` doesn't match, fall back to `source ~/.nvm/nvm.sh && nvm use`.
 
 ## Hosting
 

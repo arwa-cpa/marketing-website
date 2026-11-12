@@ -9,7 +9,7 @@ This is an Eleventy static site. Source lives in `src/`; the build writes to `_s
 
 ## Node version
 
-Node is pinned in `.nvmrc`. In an interactive shell, re-entering the repo folder switches to it. In a non-interactive shell (e.g. Claude's Bash tool), the auto-switch doesn't fire, so prefix commands with:
+Node is pinned in `.nvmrc`. A SessionStart hook in `.claude/settings.json` activates it for Claude's Bash tool, so `npm` commands work without a prefix. Check with `node -v`; if it doesn't match `.nvmrc` (e.g. the hook didn't run), fall back to prefixing commands with:
 
 ```
 source ~/.nvm/nvm.sh && nvm use
@@ -25,7 +25,7 @@ From the repo root:
 npm start
 ```
 
-Then open http://localhost:8080. Eleventy's dev server rebuilds and live-reloads on save. Stop it with Ctrl-C.
+Then open http://localhost:8080. Eleventy's dev server rebuilds and live-reloads on save. Stop it with Ctrl-C. When Claude runs it, start it in the background so the session isn't blocked.
 
 `npm run build` produces a one-off build in `_site/`.
 
@@ -33,10 +33,12 @@ The contact form's `fetch()` call to Formspree needs to run from a server origin
 
 ## Visually verifying a change
 
-No project-specific browser driver is set up here. Any generic headless-Chromium approach (Playwright, `chromium-cli`) works against the dev server URL above. There's no auth, no routing beyond anchor links, and no data fetching except the contact form.
+Use Claude in Chrome (the `mcp__claude-in-chrome__*` tools) against the dev server; no extra dependencies are needed. There's no auth, no routing beyond anchor links, and no data fetching except the contact form.
 
-A representative check: load the page, confirm there are no console errors, click a nav link and confirm the anchor scroll lands, then resize to a mobile viewport (~390px wide) and confirm the hamburger menu opens.
+1. Start `npm start` in the background.
+2. Open a new tab at http://localhost:8080 and take a screenshot at desktop width.
+3. Read console messages and confirm there are no errors.
+4. Click a nav link and confirm the anchor scroll lands on the right section.
+5. Resize to a phone viewport (~390px wide), screenshot again, and confirm the hamburger menu opens (the header collapses below 1040px).
 
-## Known placeholders
-
-All placeholder content has been filled in. No phone number is shown, by choice.
+Don't submit the contact form during checks; it sends a real message to Formspree.
