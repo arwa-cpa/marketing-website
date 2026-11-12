@@ -6,6 +6,8 @@
     "allow": [
       "Bash(npm start)",
       "Bash(npm run build)",
+      "Bash(npm test)",
+      "Bash(npm run screenshots)",
       "Bash(npm install)",
       "Bash(npm ci)",
       "Bash(git status*)",

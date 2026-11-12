@@ -1,6 +1,6 @@
 ---
 name: run-site
-description: Launch and preview the Arbur CPA marketing site locally. Eleventy (11ty) static site — use `npm start` for a live-reloading dev server instead of reaching for other tooling from scratch.
+description: Launch, test, and screenshot the Arbur CPA marketing site locally. Eleventy (11ty) static site — use `npm start` for a live-reloading dev server, then `npm test` / `npm run screenshots` against it, instead of reaching for other tooling from scratch.
 ---
 
 # Running the Arbur CPA site
@@ -31,14 +31,27 @@ Then open http://localhost:8080. Eleventy's dev server rebuilds and live-reloads
 
 The contact form's `fetch()` call to Formspree needs to run from a server origin (not `file://`), so test it through `npm start`.
 
-## Visually verifying a change
+## Verifying a change
 
-Use Claude in Chrome (the `mcp__claude-in-chrome__*` tools) against the dev server; no extra dependencies are needed. There's no auth, no routing beyond anchor links, and no data fetching except the contact form.
+Both tasks below expect the site to be running already: start `npm start` first (in the background, for Claude). Neither starts a server. Set `BASE_URL` to point them somewhere other than http://localhost:8080/.
 
-1. Start `npm start` in the background.
-2. Open a new tab at http://localhost:8080 and take a screenshot at desktop width.
-3. Read console messages and confirm there are no errors.
-4. Click a nav link and confirm the anchor scroll lands on the right section.
-5. Resize to a phone viewport (~390px wide), screenshot again, and confirm the hamburger menu opens (the header collapses below 1040px).
+```
+npm test             # browser checks in tests/site.spec.js
+npm run screenshots  # scripts/screenshots.mjs: saves images, asserts nothing
+```
 
-Don't submit the contact form during checks; it sends a real message to Formspree.
+`npm test` uses Playwright's test runner and headless Chromium. It checks, at desktop (1280px) and phone (390px) widths:
+
+- no console errors or failed local requests
+- every header nav link scrolls to its section (desktop)
+- no horizontal scroll, and the hamburger opens the menu and a link closes it (mobile)
+
+If no server is running, every test fails with `net::ERR_CONNECTION_REFUSED`. On other failures, `npx playwright show-report` opens the HTML report (`playwright-report/`, gitignored).
+
+`npm run screenshots` saves `desktop.png`, `mobile.png` (both full page) and `mobile-menu.png` (menu open) to `screenshots/` (gitignored). After a visual change, run it and read the images to check the result: the tests catch breakage, not whether it looks right.
+
+Playwright's browser is kept inside `node_modules` (`PLAYWRIGHT_BROWSERS_PATH=0`), never a machine-wide cache, so the repo stays self-contained. The `pretest`/`prescreenshots` hooks run `npm run browsers` to download it if it's missing.
+
+In CI, `.github/workflows/deploy.yml` does the same: starts `npm start` in the background, waits for port 8080, runs `npm test`, and only deploys if the tests pass.
+
+Never submit the contact form in a test: it sends a real message to Formspree.

@@ -6,13 +6,19 @@
   "type": "module",
   "scripts": {
     "start": "eleventy --serve",
-    "build": "eleventy"
+    "build": "eleventy",
+    "test": "playwright test",
+    "screenshots": "node scripts/screenshots.mjs",
+    "pretest": "npm run browsers --silent",
+    "prescreenshots": "npm run browsers --silent",
+    "browsers": "PLAYWRIGHT_BROWSERS_PATH=0 playwright install --only-shell chromium"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/arwa-cpa/marketing-website.git"
   },
   "devDependencies": {
-    "@11ty/eleventy": "^3.1.8"
+    "@11ty/eleventy": "^3.1.8",
+    "@playwright/test": "^1.65.0"
   }
 }

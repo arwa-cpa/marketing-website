@@ -4,13 +4,13 @@ Single-page marketing site for **Arbur CPA** (Arwa Naalwala, CPA) — a rebrand 
 
 ## Stack
 
-[Eleventy](https://www.11ty.dev/) (v3) with Nunjucks templates, plain CSS, and vanilla JS. Eleventy is the only dependency, and there's no bundler or client-side framework. The site is edited rarely, and the owner wanted to avoid the overhead that made Squarespace feel harder than necessary. Keep it lean: don't add a bundler, framework, CMS, extra Eleventy plugins, or a test framework without checking first.
+[Eleventy](https://www.11ty.dev/) (v3) with Nunjucks templates, plain CSS, and vanilla JS. Eleventy is the only build dependency (`@playwright/test` is used only for browser tests and screenshots), and there's no bundler or client-side framework. The site is edited rarely, and the owner wanted to avoid the overhead that made Squarespace feel harder than necessary. Keep it lean: don't add a bundler, framework, CMS, extra Eleventy plugins, or a test framework without checking first.
 
 Node is pinned in `.nvmrc`. A SessionStart hook in `.claude/settings.json` activates it for Claude's Bash tool, so `npm` commands need no prefix; if `node -v` doesn't match, fall back to `source ~/.nvm/nvm.sh && nvm use`.
 
 ## Hosting
 
-GitHub Pages, deployed by `.github/workflows/deploy.yml`: every push to `main` runs `npm run build` and publishes `_site/`. The repo's Pages source must be set to **GitHub Actions** (Settings → Pages), not "Deploy from a branch". `CNAME` and `.nojekyll` live in `src/` and are passthrough-copied into the build. Current working domain is `arwacpa.com`; a matching `arburcpa.com` domain is planned but not yet purchased — don't hard-code either domain anywhere in the site. `src/CNAME` is the single source of the domain: `src/_data/structuredData.js` reads it at build time to build absolute URLs, so switching domains means editing only CNAME.
+GitHub Pages, deployed by `.github/workflows/deploy.yml`: every push to `main` starts the dev server, runs `npm test` against it, then runs `npm run build` and publishes `_site/`. A failing test blocks the deploy. The repo's Pages source must be set to **GitHub Actions** (Settings → Pages), not "Deploy from a branch". `CNAME` and `.nojekyll` live in `src/` and are passthrough-copied into the build. Current working domain is `arwacpa.com`; a matching `arburcpa.com` domain is planned but not yet purchased — don't hard-code either domain anywhere in the site. `src/CNAME` is the single source of the domain: `src/_data/structuredData.js` reads it at build time to build absolute URLs, so switching domains means editing only CNAME.
 
 ## File layout
 
@@ -27,7 +27,10 @@ src/css/styles.css              all styles; design tokens as CSS custom properti
 src/js/main.js                  mobile nav toggle + Formspree contact form submit (fetch, no page redirect)
 src/assets/images/              logo variants, hero photo, headshot
 src/assets/favicon.ico
-.claude/skills/run-site/        how to preview the site locally
+playwright.config.js            test config; keeps the browser in node_modules
+tests/site.spec.js              browser checks against the running site (npm test)
+scripts/screenshots.mjs         saves screenshots to screenshots/ for visual review (npm run screenshots)
+.claude/skills/run-site/        how to preview and verify the site locally
 ```
 
 Each section of the page lives in its own file under `src/_includes/sections/`. That's the main reason the site moved to Eleventy, so keep it that way: add a new section as a new file and include it from `index.njk`, rather than putting markup in `index.njk` directly. Section anchor IDs (`#about`, `#services`, …) must keep matching the nav links in the header and footer.
@@ -64,4 +67,4 @@ Everything else (bio paragraphs, service descriptions, intro copy) is drafted sa
 
 ## Previewing / verifying changes
 
-See `.claude/skills/run-site/SKILL.md`. Short version: `npm install` once, then `npm start` (live-reload dev server at http://localhost:8080).
+See `.claude/skills/run-site/SKILL.md`. Short version: `npm install` once, then `npm start` (live-reload dev server at http://localhost:8080). After a change, with `npm start` running, run `npm test` (browser checks) and, for visual changes, `npm run screenshots` and look at the images in `screenshots/`. Neither starts a server itself.

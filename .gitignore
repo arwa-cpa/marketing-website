@@ -158,3 +158,10 @@ vite.config.ts.timestamp-*
 
 # Eleventy build output
 _site/
+
+# Screenshots from npm run screenshots
+screenshots/
+
+# Playwright test output
+test-results/
+playwright-report/
