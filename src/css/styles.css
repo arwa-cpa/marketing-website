@@ -372,6 +372,24 @@ main h2 { font-size: clamp(1.9rem, 3vw, 2.4rem); }
 .testimonial-name { font-weight: 700; color: var(--dark-green); margin: 0; }
 
 /* -------------------------------------------------- */
+/* Booking                                             */
+/* -------------------------------------------------- */
+/* Google Calendar appointment schedule, edge to edge inside a card */
+.booking-card { padding: 0; overflow: hidden; }
+.booking-frame {
+  display: block;
+  width: 100%;
+  height: 680px;
+  border: 0;
+}
+/* Google stacks the calendar above the time slots below ~600px of frame
+   width, roughly doubling its height. Measured: 671px side by side,
+   1137px stacked. */
+@media (max-width: 650px) {
+  .booking-frame { height: 1160px; }
+}
+
+/* -------------------------------------------------- */
 /* Contact                                             */
 /* -------------------------------------------------- */
 .contact { background: var(--bg-sand); }

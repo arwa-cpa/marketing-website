@@ -3,10 +3,14 @@
 import { test, expect } from "@playwright/test";
 
 // Load the page, recording console errors, uncaught exceptions, and failed
-// requests to the local server (external ones like Google Fonts are ignored).
+// requests from the site itself. Third-party ones (Google Fonts, the Google
+// Calendar booking frame, which logs its own cookie-permission errors) are
+// ignored: they aren't ours to fix.
 async function openPage(page, baseURL) {
   const errors = [];
-  page.on("console", (msg) => msg.type() === "error" && errors.push(msg.text()));
+  page.on("console", (msg) => {
+    if (msg.type() === "error" && msg.location().url.startsWith(baseURL)) errors.push(msg.text());
+  });
   page.on("pageerror", (err) => errors.push(err.message));
   page.on("response", (res) => {
     if (res.url().startsWith(baseURL) && res.status() >= 400) errors.push(`${res.status()} ${res.url()}`);

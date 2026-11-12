@@ -17,10 +17,10 @@ GitHub Pages, deployed by `.github/workflows/deploy.yml`: every push to `main` s
 ```
 eleventy.config.js              input src/, output _site/, passthrough copies
 src/index.njk                   page front matter (title, description) + section includes, in page order
-src/_includes/sections/         one file per page section: hero, highlights, services, about, testimonials, contact
+src/_includes/sections/         one file per page section: hero, highlights, services, about, testimonials, booking, contact
 src/_includes/base.njk          <head>, fonts, header/footer includes, script tag
 src/_includes/partials/         header.njk, footer.njk
-src/_data/site.js               LinkedIn/Google URLs, rating text, Formspree ID
+src/_data/site.js               LinkedIn/Google URLs, rating text, booking embed URL, Formspree ID
 src/_data/testimonials.js       client review quotes
 src/_data/structuredData.js     JSON-LD (AccountingService + Person + WebSite) rendered into <head>
 src/css/styles.css              all styles; design tokens as CSS custom properties at the top
@@ -36,7 +36,7 @@ scripts/screenshots.mjs         saves screenshots to screenshots/ for visual rev
 
 Each section of the page lives in its own file under `src/_includes/sections/`. That's the main reason the site moved to Eleventy, so keep it that way: add a new section as a new file and include it from `index.njk`, rather than putting markup in `index.njk` directly. Section anchor IDs (`#about`, `#services`, …) must keep matching the nav links in the header and footer.
 
-Sections share a header pattern: a small uppercase `.eyebrow` label (matching the nav link name where there is one), the `h2` title, and an optional one-line `.subtitle`. Layouts are shared too: `.split` (text left, picture or form right) for hero/about/contact, `.section-head` (title block left, action right) for services/reviews, and `.card` for every card. New sections should reuse these rather than adding one-off styles.
+Sections share a header pattern: a small uppercase `.eyebrow` label (matching the nav link name where there is one), the `h2` title, and an optional one-line `.subtitle`. Layouts are shared too: `.split` (text left, picture or form right) for hero/about/contact, `.section-head` (title block left, action right) for services/reviews/booking, and `.card` for every card. New sections should reuse these rather than adding one-off styles.
 
 Sections share sizing through the `main > section` rule in `styles.css`: the same vertical padding (`--section-pad`) everywhere, and on desktop a shared minimum height (`--section-min`) with content centered vertically. Don't add per-section `padding` to a section; adjust the tokens instead.
 
@@ -60,7 +60,9 @@ Source: `Website - Arbur CPA/ARBUR _ BRAND guidlines.pdf`.
 
 ## Content notes
 
-No placeholder content remains. No phone number or email address is shown on the site, by choice; the contact form is the only contact method. Don't add either back.
+No placeholder content remains. No phone number or email address is shown on the site, by choice; visitors book a consultation through the embedded Google Calendar appointment schedule (`#book`), or use the contact form below it if they are not ready to book. Every "Book a free consultation" button links to `#book`; the "Contact" nav link goes to the form. Don't add a phone number or email back.
+
+The booking section embeds Google's appointment page in an iframe (`site.bookingEmbedUrl`). Its height is set by hand in `styles.css`: Google stacks the calendar above the time slots when the frame is narrower than ~600px, so phones get a taller frame. If Google changes the layout and the calendar gets cut off or leaves a big gap, re-measure and adjust those two heights.
 
 Testimonials in `src/_data/testimonials.js` are real client reviews copied verbatim from the old site (including the reviewers' own typos). Don't edit or paraphrase them. Don't add them (or the Google rating) to the structured data: Google disallows marking up reviews copied from another site. The Google rating text in `site.js` (`5.0 stars from 11 Google reviews` as of 2026-11-07) is updated by hand.
 
