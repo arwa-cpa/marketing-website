@@ -374,19 +374,22 @@ main h2 { font-size: clamp(1.9rem, 3vw, 2.4rem); }
 /* -------------------------------------------------- */
 /* Booking                                             */
 /* -------------------------------------------------- */
-/* Google Calendar appointment schedule, edge to edge inside a card */
-.booking-card { padding: 0; overflow: hidden; }
+/* Google Calendar appointment schedule, edge to edge inside a card.
+   The frame can't size itself to Google's content, so its height is set by
+   hand, with ~90px to spare so font differences (e.g. on Windows) don't
+   make the calendar overflow and scroll inside the frame. */
+.booking-card { padding: 0; overflow: hidden; container-type: inline-size; }
 .booking-frame {
   display: block;
   width: 100%;
-  height: 680px;
+  height: 760px; /* content measured at 671px */
   border: 0;
 }
-/* Google stacks the calendar above the time slots below ~600px of frame
-   width, roughly doubling its height. Measured: 671px side by side,
-   1137px stacked. */
-@media (max-width: 650px) {
-  .booking-frame { height: 1160px; }
+/* Google stacks the calendar above the time slots when the frame is under
+   600px wide. Key off the frame's own width (a container query), not the
+   window's: Windows scrollbars make the two differ by ~17px. */
+@container (max-width: 620px) {
+  .booking-frame { height: 1230px; } /* content measured at 1121–1137px */
 }
 
 /* -------------------------------------------------- */
