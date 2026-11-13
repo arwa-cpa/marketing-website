@@ -75,19 +75,15 @@ test.describe("mobile", () => {
   });
 
   // Links aren't followed: tel:/sms: would try to start a call or text.
-  test("call icon offers call and text links, and closes on outside click", async ({ page, baseURL }) => {
+  test("header has call and text buttons", async ({ page, baseURL }) => {
     await openPage(page, baseURL);
-    const toggle = page.locator("#phone-toggle");
-    const options = page.locator("#phone-options");
+    const header = page.locator(".site-header");
+    const call = header.getByRole("link", { name: /^Call/ });
+    const text = header.getByRole("link", { name: /^Text/ });
 
-    await expect(toggle).toBeVisible();
-    await toggle.click();
-    await expect(toggle).toHaveAttribute("aria-expanded", "true");
-    await expect(options.getByRole("link", { name: /^Call/ })).toHaveAttribute("href", /^tel:\+1\d{10}$/);
-    await expect(options.getByRole("link", { name: /^Text/ })).toHaveAttribute("href", /^sms:\+1\d{10}$/);
-
-    await page.locator("main").click({ position: { x: 10, y: 300 } });
-    await expect(toggle).toHaveAttribute("aria-expanded", "false");
-    await expect(options).toBeHidden();
+    await expect(call).toBeVisible();
+    await expect(call).toHaveAttribute("href", /^tel:\+1\d{10}$/);
+    await expect(text).toBeVisible();
+    await expect(text).toHaveAttribute("href", /^sms:\+1\d{10}$/);
   });
 });

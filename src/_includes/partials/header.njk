@@ -15,16 +15,13 @@
       </nav>
 
       <div class="header-actions">
-        <div class="header-phone">
-          <button class="icon-link phone-toggle" id="phone-toggle" aria-label="Call or text Arbur CPA" aria-expanded="false" aria-controls="phone-options">
-            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.02-.24c1.12.37 2.32.57 3.57.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1.02z"/></svg>
-          </button>
-          <div class="phone-options" id="phone-options">
-            <a href="tel:{{ site.phoneLink }}">Call {{ site.phone }}</a>
-            <a href="sms:{{ site.phoneLink }}">Text {{ site.phone }}</a>
-          </div>
-        </div>
-        <a class="icon-link" href="{{ site.linkedinUrl }}" target="_blank" rel="noopener" aria-label="Arwa Naalwala on LinkedIn">
+        <a class="icon-link header-contact" href="tel:{{ site.phoneLink }}" aria-label="Call Arbur CPA at {{ site.phone }}">
+          <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M6.62 10.79a15.05 15.05 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.02-.24c1.12.37 2.32.57 3.57.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1.02z"/></svg>
+        </a>
+        <a class="icon-link header-contact" href="sms:{{ site.phoneLink }}" aria-label="Text Arbur CPA at {{ site.phone }}">
+          <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zM9 11H7V9h2zm4 0h-2V9h2zm4 0h-2V9h2z"/></svg>
+        </a>
+        <a class="icon-link header-linkedin" href="{{ site.linkedinUrl }}" target="_blank" rel="noopener" aria-label="Arwa Naalwala on LinkedIn">
           <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.6 0 4.27 2.37 4.27 5.46zM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56z"/></svg>
         </a>
         <a class="btn btn-primary" href="#book">Book a free consultation</a>

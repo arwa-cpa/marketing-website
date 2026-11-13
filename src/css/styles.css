@@ -253,37 +253,9 @@ main h2 { font-size: clamp(1.9rem, 3vw, 2.4rem); }
 /* Header icons match the logo; hover darkens like .btn-primary */
 .icon-link { color: var(--sage); }
 .icon-link:hover { color: #60704f; }
-/* Call icon is for phones only; it appears with the hamburger (see Responsive).
-   Tapping it opens a small menu: Call or Text. */
-.header-phone { display: none; position: relative; }
-.phone-toggle {
-  display: flex;
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-}
-.phone-options {
-  display: none;
-  position: absolute;
-  top: calc(100% + 16px);
-  right: -12px;
-  min-width: 200px;
-  padding: 6px 0;
-  background: #fff;
-  border: 1px solid var(--bg-taupe);
-  border-radius: var(--radius);
-  box-shadow: 0 6px 20px rgba(32,50,46,.12);
-}
-.phone-options.is-open { display: block; }
-.phone-options a {
-  display: block;
-  padding: 12px 18px;
-  font-size: 0.95rem;
-  color: var(--dark-green);
-  white-space: nowrap;
-}
-.phone-options a:hover { background: var(--bg-cream); color: var(--sage); }
+/* Call and Text buttons replace LinkedIn when the header collapses to the
+   hamburger (see Responsive); LinkedIn stays in the footer. */
+.header-contact { display: none; }
 
 .nav-toggle {
   display: none;
@@ -542,9 +514,11 @@ main h2 { font-size: clamp(1.9rem, 3vw, 2.4rem); }
     gap: 16px;
   }
   .nav-toggle { display: flex; }
-  .header-phone { display: block; }
-  .top-bar { display: none; }
-  .header-actions { gap: 12px; }
+  .top-bar, .header-linkedin { display: none; }
+  /* Padding makes each icon a bigger tap target without spacing them apart */
+  .header-contact { display: flex; padding: 6px; }
+  .header-actions { gap: 2px; }
+  .header-inner { gap: 14px; }
   /* Mark stays in the corner; the name moves to the middle of the header */
   .brand-name {
     position: absolute;
@@ -552,6 +526,11 @@ main h2 { font-size: clamp(1.9rem, 3vw, 2.4rem); }
     top: 50%;
     transform: translate(-50%, -50%);
   }
+}
+/* Narrow phones: a centered name would collide with the Call and Text
+   buttons, so it sits beside the mark as on desktop */
+@media (max-width: 420px) {
+  .brand-name { position: static; transform: none; }
 }
 @media (max-width: 360px) {
   .brand-name { font-size: 1.25rem; }
@@ -572,8 +551,4 @@ main h2 { font-size: clamp(1.9rem, 3vw, 2.4rem); }
   .rating-pill { white-space: normal; border-radius: 18px; }
   .footer-actions .btn { display: none; } /* like the header, the CTA drops on phones */
   .footer-phone { display: none; } /* the header's call icon covers phones */
-}
-@media (max-width: 480px) {
-  /* Room for the call icon beside the centered name; LinkedIn stays in the footer */
-  .header-actions > .icon-link { display: none; }
 }

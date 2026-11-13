@@ -16,25 +16,6 @@ mainNav.querySelectorAll('a').forEach((link) => {
   });
 });
 
-// Header call icon (narrow screens): opens a Call / Text menu.
-// Any click elsewhere, or choosing an option, closes it.
-const phoneToggle = document.getElementById('phone-toggle');
-const phoneOptions = document.getElementById('phone-options');
-
-function setPhoneMenu(open) {
-  phoneOptions.classList.toggle('is-open', open);
-  phoneToggle.setAttribute('aria-expanded', String(open));
-}
-
-phoneToggle.addEventListener('click', (event) => {
-  event.stopPropagation();
-  setPhoneMenu(!phoneOptions.classList.contains('is-open'));
-});
-document.addEventListener('click', () => setPhoneMenu(false));
-document.addEventListener('keydown', (event) => {
-  if (event.key === 'Escape') setPhoneMenu(false);
-});
-
 // Contact form submission via Formspree (fetch keeps the user on-page)
 const form = document.getElementById('contact-form');
 const status = document.getElementById('form-status');
