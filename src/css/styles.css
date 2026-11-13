@@ -442,21 +442,15 @@ main h2 { font-size: clamp(1.9rem, 3vw, 2.4rem); }
 }
 .form-status.success { color: var(--sage); }
 .form-status.error { color: #a4493a; }
-.split-copy .contact-phone {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-top: 1.4em;
-  color: var(--dark-green);
-}
-.contact-phone svg { color: var(--sage); flex-shrink: 0; }
-.contact-phone a {
+/* Call and text links in the subtitle, so phone and form read as one option */
+.contact .subtitle strong { color: var(--dark-green); white-space: nowrap; }
+.contact .subtitle a {
   color: var(--sage);
   font-weight: 500;
   text-decoration: underline;
   text-underline-offset: 3px;
 }
-.contact-phone a:hover { color: #60704f; }
+.contact .subtitle a:hover { color: #60704f; }
 
 /* -------------------------------------------------- */
 /* Footer                                              */
