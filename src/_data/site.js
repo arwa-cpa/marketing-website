@@ -1,6 +1,13 @@
 // Site-wide links and settings, used by the header, footer and page sections.
-// No email address is shown on the site by choice; the contact form is the way in.
+// No email address is shown on the site by choice; the phone number and the
+// contact form are the way in.
 export default {
+  // Google Voice business number: calls ring Arwa's phone, and texts are
+  // answered in the Google Voice app or at voice.google.com.
+  // phone is shown on the page; phoneLink is used in tel:/sms: links.
+  phone: "(248) 537-2210",
+  phoneLink: "+12485372210",
+
   // Arwa's personal LinkedIn profile
   linkedinUrl: "https://www.linkedin.com/in/anaalwala",
 

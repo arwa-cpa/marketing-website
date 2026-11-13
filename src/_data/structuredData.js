@@ -16,6 +16,7 @@ export default {
       "@id": `${url}#business`,
       name: "Arbur CPA",
       url,
+      telephone: site.phoneLink,
       logo: `${url}assets/images/logo-stacked-sage.png`,
       image: `${url}assets/images/hero.jpg`,
       description:

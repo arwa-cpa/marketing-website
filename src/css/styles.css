@@ -239,6 +239,8 @@ main h2 { font-size: clamp(1.9rem, 3vw, 2.4rem); }
 /* Header icons match the logo; hover darkens like .btn-primary */
 .icon-link { color: var(--sage); }
 .icon-link:hover { color: #60704f; }
+/* Call icon is for phones only; it appears with the hamburger (see Responsive) */
+.header-phone { display: none; }
 
 .nav-toggle {
   display: none;
@@ -425,6 +427,21 @@ main h2 { font-size: clamp(1.9rem, 3vw, 2.4rem); }
 }
 .form-status.success { color: var(--sage); }
 .form-status.error { color: #a4493a; }
+.split-copy .contact-phone {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 1.4em;
+  color: var(--dark-green);
+}
+.contact-phone svg { color: var(--sage); flex-shrink: 0; }
+.contact-phone a {
+  color: var(--sage);
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.contact-phone a:hover { color: #60704f; }
 
 /* -------------------------------------------------- */
 /* Footer                                              */
@@ -456,6 +473,8 @@ main h2 { font-size: clamp(1.9rem, 3vw, 2.4rem); }
 .footer-actions { display: flex; align-items: center; gap: 18px; }
 .site-footer .icon-link { color: #d8ccbf; }
 .site-footer .icon-link:hover { color: #fff; }
+.footer-phone { color: #d8ccbf; font-size: 0.95rem; white-space: nowrap; }
+.footer-phone:hover { color: #fff; }
 
 /* -------------------------------------------------- */
 /* Responsive                                          */
@@ -480,6 +499,7 @@ main h2 { font-size: clamp(1.9rem, 3vw, 2.4rem); }
     gap: 16px;
   }
   .nav-toggle { display: flex; }
+  .header-phone { display: block; }
   .header-actions { gap: 12px; }
   /* Mark stays in the corner; the name moves to the middle of the header */
   .brand-name {
@@ -507,4 +527,9 @@ main h2 { font-size: clamp(1.9rem, 3vw, 2.4rem); }
   .stat { border-left: none; padding-left: 0; }
   .rating-pill { white-space: normal; border-radius: 18px; }
   .footer-actions .btn { display: none; } /* like the header, the CTA drops on phones */
+  .footer-phone { display: none; } /* the header's call icon covers phones */
+}
+@media (max-width: 480px) {
+  /* Room for the call icon beside the centered name; LinkedIn stays in the footer */
+  .header-actions .icon-link:not(.header-phone) { display: none; }
 }

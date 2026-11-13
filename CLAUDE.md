@@ -60,7 +60,9 @@ Source: `Website - Arbur CPA/ARBUR _ BRAND guidlines.pdf`.
 
 ## Content notes
 
-No placeholder content remains. No phone number or email address is shown on the site, by choice; visitors book a consultation through the embedded Google Calendar appointment schedule (`#book`), or use the contact form below it if they are not ready to book. Every "Book a free consultation" button links to `#book`; the "Contact" nav link goes to the form. Don't add a phone number or email back.
+No placeholder content remains. No email address is shown on the site, by choice; don't add one. Visitors book a consultation through the embedded Google Calendar appointment schedule (`#book`), use the contact form below it if they are not ready to book, or call or text the business phone number. Every "Book a free consultation" button links to `#book`; the "Contact" nav link goes to the form.
+
+The phone number (`site.phone` for display, `site.phoneLink` for `tel:`/`sms:` links and the structured data) is a Google Voice number on the Workspace account, not Arwa's personal cell: calls ring her phone and she answers texts in Google Voice. It appears in the contact section (call and text links), the footer (above 720px), and, below 1040px, as a call icon in the header; below 480px that icon replaces the header's LinkedIn icon, which would otherwise crowd the centered name.
 
 The booking section embeds Google's appointment page in an iframe (`site.bookingEmbedUrl`). Its height is set by hand in `styles.css`, with ~90px to spare: Google stacks the calendar above the time slots when the frame is narrower than 600px, so narrow frames get a taller height. That switch is a container query on the frame's own width, not a media query on the window: Windows scrollbars take ~17px of width (macOS ones take none), so a window-width breakpoint picked the wrong height on Windows and the calendar scrolled inside the frame. To check for that on a Mac, launch Playwright's Chromium with `ignoreDefaultArgs: ["--hide-scrollbars"]` to get space-taking scrollbars. If Google changes its layout and the calendar gets cut off or leaves a big gap, re-measure and adjust the two heights.
 
