@@ -91,9 +91,6 @@ button { font-family: inherit; }
 }
 .btn-outline:hover { background: var(--dark-green); color: #fff; }
 
-/* dark sections need a light outline button */
-.testimonials .btn-outline,
-
 /* -------------------------------------------------- */
 /* Sections                                            */
 /* -------------------------------------------------- */
