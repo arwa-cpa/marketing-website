@@ -7,7 +7,8 @@
   "scripts": {
     "start": "eleventy --serve",
     "build": "eleventy",
-    "test": "playwright test",
+    "test": "playwright test --project=site",
+    "test:live": "playwright test --project=live",
     "screenshots": "node scripts/screenshots.mjs",
     "pretest": "npm run browsers --silent",
     "prescreenshots": "npm run browsers --silent",

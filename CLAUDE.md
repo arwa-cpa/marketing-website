@@ -29,6 +29,7 @@ src/assets/images/              logo variants, hero photo, headshot
 src/assets/favicon.ico
 playwright.config.js            test config; keeps the browser in node_modules
 tests/site.spec.js              browser checks against the running site (npm test)
+tests/live/domains.spec.js      checks the real domains: HTTPS, old-domain redirect, email MX (npm run test:live)
 scripts/screenshots.mjs         saves screenshots to screenshots/ for visual review (npm run screenshots)
 .githooks/pre-push              runs npm test against its own server before every push (enabled by npm install)
 .claude/skills/run-site/        how to preview and verify the site locally
@@ -72,4 +73,4 @@ Everything else (bio paragraphs, service descriptions, intro copy) is drafted sa
 
 ## Previewing / verifying changes
 
-See `.claude/skills/run-site/SKILL.md`. Short version: `npm install` once, then `npm start` (live-reload dev server at http://localhost:8080). After a change, with `npm start` running, run `npm test` (browser checks) and, for visual changes, `npm run screenshots` and look at the images in `screenshots/`. Neither starts a server itself.
+See `.claude/skills/run-site/SKILL.md`. Short version: `npm install` once, then `npm start` (live-reload dev server at http://localhost:8080). After a change, with `npm start` running, run `npm test` (browser checks) and, for visual changes, `npm run screenshots` and look at the images in `screenshots/`. Neither starts a server itself. After any DNS, forwarding or hosting change, run `npm run test:live` (no server needed): it checks the live domains over the internet, so it's deliberately not part of `npm test`, the pre-push hook, or CI.

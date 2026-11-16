@@ -48,6 +48,8 @@ npm run screenshots  # scripts/screenshots.mjs: saves images, asserts nothing
 
 If no server is running, every test fails with `net::ERR_CONNECTION_REFUSED`. On other failures, `npx playwright show-report` opens the HTML report (`playwright-report/`, gitignored).
 
+`npm run test:live` is separate and needs no server: `tests/live/domains.spec.js` checks the real domains over the internet. The site loads over HTTPS at the domain in `src/CNAME`, plain HTTP redirects to HTTPS, the old arwacpa.com domain 301-redirects to the new one keeping the path, and both domains' MX records point to Google Workspace. Run it after any DNS, forwarding or hosting change. It's a separate Playwright project, so `npm test`, the pre-push hook and CI never run it, and a network hiccup can't block a deploy.
+
 `npm run screenshots` saves `desktop.png`, `mobile.png` (both full page) and `mobile-menu.png` (menu open) to `screenshots/` (gitignored). After a visual change, run it and read the images to check the result: the tests catch breakage, not whether it looks right.
 
 Playwright's browser is kept inside `node_modules` (`PLAYWRIGHT_BROWSERS_PATH=0`), never a machine-wide cache, so the repo stays self-contained. The `pretest`/`prescreenshots` hooks run `npm run browsers` to download it if it's missing.
