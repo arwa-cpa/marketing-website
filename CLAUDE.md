@@ -17,7 +17,7 @@ GitHub Pages, deployed by `.github/workflows/deploy.yml`: every push to `main` s
 ```
 eleventy.config.js              input src/, output _site/, passthrough copies
 src/index.njk                   page front matter (title, description) + section includes, in page order
-src/_includes/sections/         one file per page section: hero, highlights, services, about, testimonials, booking, contact
+src/_includes/sections/         one file per page section: hero, highlights, cross-border, services, about, testimonials, booking, contact
 src/_includes/base.njk          <head>, fonts, header/footer includes, script tag
 src/_includes/partials/         header.njk, footer.njk
 src/_data/site.js               LinkedIn/Google URLs, rating text, booking embed URL, Formspree ID
@@ -35,7 +35,7 @@ scripts/screenshots.mjs         saves screenshots to screenshots/ for visual rev
 .claude/skills/run-site/        how to preview and verify the site locally
 ```
 
-Each section of the page lives in its own file under `src/_includes/sections/`. That's the main reason the site moved to Eleventy, so keep it that way: add a new section as a new file and include it from `index.njk`, rather than putting markup in `index.njk` directly. Section anchor IDs (`#about`, `#services`, …) must keep matching the nav links in the header and footer.
+Each section of the page lives in its own file under `src/_includes/sections/`. That's the main reason the site moved to Eleventy, so keep it that way: add a new section as a new file and include it from `index.njk`, rather than putting markup in `index.njk` directly. Section anchor IDs (`#about`, `#services`, …) must keep matching the nav links in the header and footer. Services are split into two sections: `#cross-border` (labelled "Cross-border services", her specialty, shown first) and `#services` ("Other services"). The "Services" nav link and the hero's "View services" button go to `#cross-border`, so visitors land on the first and scroll into the second.
 
 Sections share a header pattern: a small uppercase `.eyebrow` label (matching the nav link name where there is one), the `h2` title, and an optional one-line `.subtitle`. Layouts are shared too: `.split` (text left, picture or form right) for hero/about/contact, `.section-head` (title block left, action right) for services/reviews/booking, and `.card` for every card. New sections should reuse these rather than adding one-off styles.
 
