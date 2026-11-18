@@ -33,6 +33,7 @@ tests/live/domains.spec.js      checks the real domains: HTTPS, old-domain redir
 scripts/screenshots.mjs         saves screenshots to screenshots/ for visual review (npm run screenshots)
 .githooks/pre-push              runs npm test against its own server before every push (enabled by npm install)
 .claude/skills/run-site/        how to preview and verify the site locally
+TODO.md                         what's still pending (site and off-site tasks); keep it current
 ```
 
 Each section of the page lives in its own file under `src/_includes/sections/`. That's the main reason the site moved to Eleventy, so keep it that way: add a new section as a new file and include it from `index.njk`, rather than putting markup in `index.njk` directly. Section anchor IDs (`#about`, `#services`, …) must keep matching the nav links in the header and footer. Services are split into two sections: `#cross-border` (labelled "Cross-border services", her specialty, shown first) and `#services` ("Other services"). The "Services" nav link and the hero's "View services" button go to `#cross-border`, so visitors land on the first and scroll into the second.
