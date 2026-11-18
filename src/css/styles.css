@@ -330,16 +330,30 @@ main h2 { font-size: clamp(1.9rem, 3vw, 2.4rem); }
 /* -------------------------------------------------- */
 /* Leaf green like the hero: it sits between the white intro and cream services */
 .cross-border { background: var(--bg-leaf); }
-.cross-border-card h3 { font-size: 1.2rem; margin-bottom: 10px; }
-.cross-border-card p { color: var(--text-muted); font-size: 0.95rem; margin: 0; }
-.cross-border-note { margin: 32px 0 0; max-width: 70ch; }
+/* U.S. flag, one description card, Canadian flag */
+.cross-border-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.6fr 1fr;
+  grid-template-areas: "us text ca";
+  align-items: center;
+  gap: 32px;
+}
+.flag-us { grid-area: us; }
+.flag-ca { grid-area: ca; }
+.cross-border-card { grid-area: text; }
+.cross-border-flag {
+  width: 100%;
+  border-radius: 6px;
+  box-shadow: 0 2px 10px rgba(32,50,46,.15);
+}
+.cross-border-card h3 { font-size: 1.35rem; margin-bottom: 12px; }
+.cross-border-card p { color: var(--text-muted); font-size: 1rem; margin: 0; }
 
 /* -------------------------------------------------- */
 /* Services                                            */
 /* -------------------------------------------------- */
 .services { background: var(--bg-cream); }
-.service-grid,
-.cross-border-grid {
+.service-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-auto-rows: 1fr; /* every card matches the tallest, even when the grid wraps */
@@ -542,8 +556,13 @@ main h2 { font-size: clamp(1.9rem, 3vw, 2.4rem); }
   .split { grid-template-columns: 1fr; gap: 40px; }
   /* Three-up card rows stack to one column */
   .service-grid,
-  .cross-border-grid,
   .testimonial-grid { grid-template-columns: 1fr; }
+  /* Flags side by side above the card */
+  .cross-border-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: "us ca" "text text";
+    gap: 20px;
+  }
 }
 
 @media (max-width: 720px) {
