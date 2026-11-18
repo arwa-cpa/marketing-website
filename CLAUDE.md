@@ -4,7 +4,7 @@ Single-page marketing site for **Arbur CPA** (Arwa Naalwala, CPA) — a rebrand 
 
 ## Stack
 
-[Eleventy](https://www.11ty.dev/) (v3) with Nunjucks templates, plain CSS, and vanilla JS. Eleventy is the only build dependency (`@playwright/test` is used only for browser tests and screenshots), and there's no bundler or client-side framework. The site is edited rarely, and the owner wanted to avoid the overhead that made Squarespace feel harder than necessary. Keep it lean: don't add a bundler, framework, CMS, extra Eleventy plugins, or a test framework without checking first.
+[Eleventy](https://www.11ty.dev/) (v3) with Nunjucks templates, plain CSS, and vanilla JS. Eleventy is the only build dependency (`@playwright/test` is used only for browser tests and screenshots, and `backlog.md` only for task tracking), and there's no bundler or client-side framework. The site is edited rarely, and the owner wanted to avoid the overhead that made Squarespace feel harder than necessary. Keep it lean: don't add a bundler, framework, CMS, extra Eleventy plugins, or a test framework without checking first.
 
 Node is pinned in `.nvmrc`. A SessionStart hook in `.claude/settings.json` activates it for Claude's Bash tool, so `npm` commands need no prefix; if `node -v` doesn't match, fall back to `source ~/.nvm/nvm.sh && nvm use`.
 
@@ -33,7 +33,7 @@ tests/live/domains.spec.js      checks the real domains: HTTPS, old-domain redir
 scripts/screenshots.mjs         saves screenshots to screenshots/ for visual review (npm run screenshots)
 .githooks/pre-push              runs npm test against its own server before every push (enabled by npm install)
 .claude/skills/run-site/        how to preview and verify the site locally
-TODO.md                         what's still pending (site and off-site tasks); keep it current
+backlog/                        pending tasks, site and off-site (Backlog.md; see "Task tracking")
 ```
 
 Each section of the page lives in its own file under `src/_includes/sections/`. That's the main reason the site moved to Eleventy, so keep it that way: add a new section as a new file and include it from `index.njk`, rather than putting markup in `index.njk` directly. Section anchor IDs (`#about`, `#services`, …) must keep matching the nav links in the header and footer. Services are split into two sections: `#cross-border` (labelled "Cross-border services", her specialty, shown first) and `#services` ("Other services"). The "Services" nav link and the hero's "View services" button go to `#cross-border`, so visitors land on the first and scroll into the second.
@@ -71,6 +71,10 @@ The booking section embeds Google's appointment page in an iframe (`site.booking
 Testimonials in `src/_data/testimonials.js` are real client reviews copied verbatim from the old site (including the reviewers' own typos). Don't edit or paraphrase them. Don't add them (or the Google rating) to the structured data: Google disallows marking up reviews copied from another site. The Google rating text in `site.js` (`5.0 stars from 11 Google reviews` as of 2026-11-07) is updated by hand.
 
 Everything else (bio paragraphs, service descriptions, intro copy) is drafted sample copy meant to be reviewed/personalized before launch, not placeholder brackets — it's safe to ship as-is but better if Arwa edits it in her own voice.
+
+## Task tracking
+
+What's still pending, on the site or off it (domain, profiles, copy review), is tracked with [Backlog.md](https://github.com/MrLesk/Backlog.md): one Markdown file per task in `backlog/tasks/`. It's a local dev dependency, not installed globally, so run it with `npx backlog` (`npx backlog task list --plain`, `npx backlog task create "Title" -d "…" -l label`, `npx backlog task edit 3 -s Done`). Change tasks through the CLI rather than editing the files by hand. `auto_commit` is off, so task changes are committed like any other change. When work here finishes or uncovers a follow-up, update the backlog to match.
 
 ## Previewing / verifying changes
 

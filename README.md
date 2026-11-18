@@ -10,6 +10,7 @@ npm run build  # one-off build into _site/
 npm test             # browser checks (Playwright); needs npm start running
 npm run screenshots  # save screenshots to screenshots/; needs npm start running
 npm run test:live    # check the real domains, redirects and email DNS; no server needed
+npx backlog board    # pending tasks (Backlog.md, files in backlog/); npx backlog browser for the web view
 
 # git push runs the tests first (.githooks/pre-push); skip with --no-verify
 ```
