@@ -2,9 +2,10 @@
 id: TASK-1
 title: 'Search Console: change of address to arburcpa.com'
 status: In Progress
-assignee: []
+assignee:
+  - '@murtuza'
 created_date: '2026-11-18T18:59:00Z'
-updated_date: '2026-11-18T19:53:00Z'
+updated_date: '2026-11-18T20:12:00Z'
 due_date: '2026-11-19'
 labels:
   - domain

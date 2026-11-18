@@ -2,8 +2,10 @@
 id: TASK-3
 title: Rename Workspace email to @arburcpa.com
 status: To Do
-assignee: []
+assignee:
+  - '@murtuza'
 created_date: '2026-11-18T18:59:00Z'
+updated_date: '2026-11-18T20:12:00Z'
 labels:
   - domain
   - email
