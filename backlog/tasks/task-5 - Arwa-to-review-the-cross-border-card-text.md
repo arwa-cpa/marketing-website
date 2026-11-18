@@ -2,8 +2,10 @@
 id: TASK-5
 title: Arwa to review the cross-border card text
 status: To Do
-assignee: []
+assignee:
+  - '@arwa'
 created_date: '2026-11-18T18:59:00Z'
+updated_date: '2026-11-18T20:08:00Z'
 labels:
   - content
 dependencies: []
