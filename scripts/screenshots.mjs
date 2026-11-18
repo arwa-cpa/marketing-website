@@ -22,16 +22,35 @@ try {
   process.exit(1);
 }
 
+// Full-page shot with the Google Calendar booking frame drawn. Chromium
+// doesn't paint a cross-origin frame while it's off-screen, so Playwright's
+// fullPage option leaves it blank. Instead, grow the window to the page's
+// full height so everything is on-screen, wait for the calendar, then shoot.
+async function fullPageShot(page, file) {
+  const { width, height } = page.viewportSize();
+  const pageHeight = await page.evaluate(() => document.documentElement.scrollHeight);
+  await page.setViewportSize({ width, height: pageHeight });
+  try {
+    await page.frameLocator(".booking-frame").getByText("Select an appointment time").waitFor({ timeout: 15000 });
+    await page.waitForTimeout(500); // let the slots finish drawing
+  } catch {
+    console.warn(`${file}: booking calendar didn't finish loading; it may be blank`);
+  }
+  await page.screenshot({ path: join(shotsDir, file) });
+  await page.setViewportSize({ width, height });
+}
+
 mkdirSync(shotsDir, { recursive: true });
 const browser = await chromium.launch();
 try {
   const desktop = await browser.newPage({ viewport: { width: 1280, height: 800 } });
   await desktop.goto(url, { waitUntil: "networkidle" });
-  await desktop.screenshot({ path: join(shotsDir, "desktop.png"), fullPage: true });
+  await fullPageShot(desktop, "desktop.png");
 
   const mobile = await browser.newPage({ viewport: { width: 390, height: 844 } });
   await mobile.goto(url, { waitUntil: "networkidle" });
-  await mobile.screenshot({ path: join(shotsDir, "mobile.png"), fullPage: true });
+  await fullPageShot(mobile, "mobile.png");
+  await mobile.evaluate(() => window.scrollTo(0, 0));
   await mobile.locator("#nav-toggle").click();
   await mobile.screenshot({ path: join(shotsDir, "mobile-menu.png") });
 } finally {
