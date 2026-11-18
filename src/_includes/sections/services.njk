@@ -4,35 +4,39 @@
           <div>
             <p class="eyebrow">Other services</p>
             <h2>Tax and accounting, made simple</h2>
-            <p class="subtitle">Tax returns and year-round accounting for individuals, families and small businesses.</p>
           </div>
           <a class="btn btn-primary" href="#book">Book a consultation</a>
         </div>
 
-        <div class="service-grid">
-          <article class="card service-card">
-            <div class="service-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="28" height="28"><path fill="currentColor" d="M16 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-8 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
-            </div>
-            <h3>Individual &amp; family tax preparation</h3>
-            <p>Personal returns for individuals and families &mdash; accurate, on time, with the deductions and credits you qualify for, and explained in plain language.</p>
+        <div class="service-layout">
+          <article class="card">
+            <ul class="service-list">
+              <li>
+                <span class="service-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="28" height="28"><path fill="currentColor" d="M16 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-8 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+                </span>
+                Individual &amp; family tax preparation
+              </li>
+              <li>
+                <span class="service-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="28" height="28"><path fill="currentColor" d="M3 7l9-4 9 4v2H3zm1 3h16v9H4zm3 2v5h2v-5zm4 0v5h2v-5zm4 0v5h2v-5z"/></svg>
+                </span>
+                Business tax preparation
+              </li>
+              <li>
+                <span class="service-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="28" height="28"><path fill="currentColor" d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zM9 17H7v-7h2zm4 0h-2V7h2zm4 0h-2v-4h2z"/></svg>
+                </span>
+                Year-round accounting support
+              </li>
+            </ul>
           </article>
-
-          <article class="card service-card">
-            <div class="service-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="28" height="28"><path fill="currentColor" d="M3 7l9-4 9 4v2H3zm1 3h16v9H4zm3 2v5h2v-5zm4 0v5h2v-5zm4 0v5h2v-5z"/></svg>
-            </div>
-            <h3>Business tax preparation</h3>
-            <p>Returns for S corps, C corps and other small businesses, filed accurately and on time, so you can stay focused on running the business.</p>
-          </article>
-
-          <article class="card service-card">
-            <div class="service-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="28" height="28"><path fill="currentColor" d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zM9 17H7v-7h2zm4 0h-2V7h2zm4 0h-2v-4h2z"/></svg>
-            </div>
-            <h3>Accounting services</h3>
-            <p>Year-round support for small businesses, solopreneurs and freelancers: bookkeeping, quarterly reviews to catch issues early, and tax preparation at year-end.</p>
-          </article>
+          {%- for testimonial in testimonials | selectattr("excerpt") %}
+          <figure class="service-quote">
+            <blockquote>{{ testimonial.excerpt }}</blockquote>
+            <figcaption>{{ testimonial.name }}</figcaption>
+          </figure>
+          {%- endfor %}
         </div>
       </div>
     </section>

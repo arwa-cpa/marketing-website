@@ -7,6 +7,8 @@ export default [
   },
   {
     name: "Shoeb and Munira Ali",
+    // First sentence of the quote, also shown beside the Other services list
+    excerpt: "Arwa provides professional advice that we trust and rely upon for planning our business.",
     quote: "Arwa provides professional advice that we trust and rely upon for planning our business. It’s good to feel like our accountant is there for us. Her pricing structure is also very reasonable. Based on our experiences with Arwa for tax preparation, we have recommended her to a few people now, and will continue to do so.",
   },
   {

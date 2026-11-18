@@ -353,13 +353,58 @@ main h2 { font-size: clamp(1.9rem, 3vw, 2.4rem); }
 /* Services                                            */
 /* -------------------------------------------------- */
 .services { background: var(--bg-cream); }
-.service-grid {
+/* The list of services beside a client quote, at the same height */
+.service-layout {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-auto-rows: 1fr; /* every card matches the tallest, even when the grid wraps */
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+.service-layout .card { display: flex; align-items: center; }
+.service-quote {
+  margin: 0;
+  padding: 28px 32px;
+  border-radius: var(--radius);
+  background: var(--dark-green);
+  color: var(--bg-cream);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.service-quote::before {
+  content: "\201C";
+  font-family: var(--font-heading);
+  font-size: 4.5rem;
+  line-height: .6;
+  color: var(--accent-tan);
+  margin-top: 18px;
+}
+.service-quote blockquote {
+  margin: 0 0 14px;
+  font-family: var(--font-heading);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 1.4rem;
+  line-height: 1.35;
+}
+.service-quote figcaption { font-size: 0.9rem; color: var(--accent-tan); }
+/* One card listing the services, each with its icon */
+.service-list {
+  list-style: none;
+  display: grid;
   gap: 20px;
 }
+.service-list li {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-family: var(--font-heading);
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--dark-green);
+  line-height: 1.25;
+}
 .service-icon {
+  flex: none;
   width: 48px;
   height: 48px;
   border-radius: 50%;
@@ -368,10 +413,7 @@ main h2 { font-size: clamp(1.9rem, 3vw, 2.4rem); }
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 18px;
 }
-.service-card h3 { font-size: 1.2rem; margin-bottom: 10px; }
-.service-card p { color: var(--text-muted); font-size: 0.95rem; margin: 0; }
 
 /* -------------------------------------------------- */
 /* About                                               */
@@ -555,8 +597,8 @@ main h2 { font-size: clamp(1.9rem, 3vw, 2.4rem); }
 @media (max-width: 920px) {
   .split { grid-template-columns: 1fr; gap: 40px; }
   /* Three-up card rows stack to one column */
-  .service-grid,
   .testimonial-grid { grid-template-columns: 1fr; }
+  .service-layout { grid-template-columns: 1fr; gap: 20px; }
   /* Flags side by side above the card */
   .cross-border-grid {
     grid-template-columns: 1fr 1fr;
