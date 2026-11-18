@@ -74,7 +74,7 @@ Everything else (bio paragraphs, service descriptions, intro copy) is drafted sa
 
 ## Task tracking
 
-What's still pending, on the site or off it (domain, profiles, copy review), is tracked with [Backlog.md](https://github.com/MrLesk/Backlog.md): one Markdown file per task in `backlog/tasks/`. It's a local dev dependency, not installed globally, so run it with `npx backlog` (`npx backlog task list --plain`, `npx backlog task create "Title" -d "…" -l label`, `npx backlog task edit 3 -s Done`). Change tasks through the CLI rather than editing the files by hand. `auto_commit` is off, so task changes are committed like any other change. When work here finishes or uncovers a follow-up, update the backlog to match.
+What's still pending, on the site or off it (domain, profiles, copy review), is tracked with [Backlog.md](https://github.com/MrLesk/Backlog.md): one Markdown file per task in `backlog/tasks/`. It's a local dev dependency, not installed globally, so run it with `npx backlog` (`npx backlog task list --plain`, `npx backlog task create "Title" -d "…" -l label`, `npx backlog task edit 3 -s Done`). Change tasks through the CLI rather than editing the files by hand. `auto_commit` is off, so task changes are committed like any other change. When work here finishes or uncovers a follow-up, update the backlog to match. A PreToolUse hook (`.claude/hooks/backlog-check.sh`) enforces this for Claude: `git commit` is blocked unless `backlog/` is staged (or staged in the same command), or the command starts with `BACKLOG_CHECKED=1` after checking that nothing needs updating. It needs `jq` (`brew install jq`); without it, every commit is blocked until jq is installed. Commits made in a terminal aren't affected.
 
 ## Previewing / verifying changes
 
