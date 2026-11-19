@@ -16,11 +16,12 @@ mainNav.querySelectorAll('a').forEach((link) => {
   });
 });
 
-// Contact form submission via Formspree (fetch keeps the user on-page)
+// Contact form submission via Formspree (fetch keeps the user on-page).
+// The form is only on the home page.
 const form = document.getElementById('contact-form');
 const status = document.getElementById('form-status');
 
-form.addEventListener('submit', async (event) => {
+form?.addEventListener('submit', async (event) => {
   event.preventDefault();
   status.textContent = 'Sending...';
   status.className = 'form-status';

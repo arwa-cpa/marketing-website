@@ -45,7 +45,7 @@ Sections share a header pattern: a small uppercase `.eyebrow` label (matching th
 
 Sections share sizing through the `main > section` rule in `styles.css`: the same vertical padding (`--section-pad`) everywhere, and on desktop a shared minimum height (`--section-min`) with content centered vertically. Don't add per-section `padding` to a section; adjust the tokens instead.
 
-Asset links are relative (`css/styles.css`, not `/css/styles.css`), matching the pre-Eleventy site. Text in front matter or data files is autoescaped, so write a plain `&` there, not `&amp;`.
+Internal links are root-relative, the usual Eleventy approach, so they work from any page: `/css/styles.css`, `/assets/images/hero.jpg`, and `/#about` for a home-page section (it still smooth-scrolls when clicked on the home page). The one exception is the "Skip to content" link, `#main`, which stays on the current page. The site is served from the root of its domain; if it ever moves to a subfolder, turn on Eleventy's bundled HTML Base plugin rather than going back to relative links. `src/js/main.js` runs on every page, so it must not assume home-page elements like the contact form exist. Text in front matter or data files is autoescaped, so write a plain `&` there, not `&amp;`.
 
 ## Design tokens
 

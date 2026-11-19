@@ -6,12 +6,12 @@
   <title>{{ title }}</title>
   <meta name="description" content="{{ description }}">
 
-  <link rel="icon" type="image/png" sizes="192x192" href="assets/images/favicon-192.png">
-  <link rel="icon" type="image/png" sizes="512x512" href="assets/images/favicon-512.png">
-  <link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png">
-  <link rel="shortcut icon" href="assets/favicon.ico">
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/images/favicon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="/assets/images/favicon-512.png">
+  <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+  <link rel="shortcut icon" href="/assets/favicon.ico">
 
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="/css/styles.css">
 
   <script type="application/ld+json">{{ structuredData | dump | safe }}</script>
 </head>
@@ -27,6 +27,6 @@
 
   {% include "partials/footer.njk" %}
 
-  <script src="js/main.js"></script>
+  <script src="/js/main.js"></script>
 </body>
 </html>

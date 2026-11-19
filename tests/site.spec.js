@@ -32,14 +32,15 @@ test.describe("desktop", () => {
 
     for (const link of await page.locator(".main-nav a").all()) {
       const href = await link.getAttribute("href");
+      const section = page.locator(new URL(href, baseURL).hash); // "/#about" → "#about"
       await test.step(href, async () => {
         await link.click();
         // Smooth scroll: wait for the section's top to settle just under the sticky header
         await expect
-          .poll(() => page.locator(href).evaluate((el) => el.getBoundingClientRect().top))
+          .poll(() => section.evaluate((el) => el.getBoundingClientRect().top))
           .toBeGreaterThanOrEqual(-2);
         await expect
-          .poll(() => page.locator(href).evaluate((el) => el.getBoundingClientRect().top))
+          .poll(() => section.evaluate((el) => el.getBoundingClientRect().top))
           .toBeLessThanOrEqual(headerHeight + 40);
       });
     }
