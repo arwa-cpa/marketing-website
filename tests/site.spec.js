@@ -88,6 +88,26 @@ test.describe("mobile", () => {
   });
 });
 
+// The site needs no cookie banner because nothing on it tracks visitors.
+// Analytics and ad scripts store their IDs on the site's own domain, so any
+// cookie or storage here means one crept in. The embedded Google Calendar
+// sets its own cookies on google.com (e.g. reCAPTCHA); those aren't ours.
+test("stores no cookies or browser storage of its own", async ({ page, context, baseURL }) => {
+  await openPage(page, baseURL);
+  // The booking frame loads lazily: scroll to it so its cookies are set too
+  await page.locator(".booking-frame").scrollIntoViewIfNeeded();
+  await page.frameLocator(".booking-frame").locator("body").waitFor();
+  await page.waitForLoadState("networkidle");
+
+  const cookies = (await context.cookies())
+    .filter((c) => !/(^|\.)google\.com$/.test(c.domain))
+    .map((c) => `${c.domain} ${c.name}`);
+  expect(cookies).toEqual([]);
+
+  const storage = await page.evaluate(() => [...Object.keys(localStorage), ...Object.keys(sessionStorage)]);
+  expect(storage).toEqual([]);
+});
+
 test("robots.txt points to the sitemap, which lists the homepage", async ({ request }) => {
   const robots = await (await request.get("/robots.txt")).text();
   const sitemapUrl = robots.match(/^Sitemap: (.+)$/m)?.[1];
