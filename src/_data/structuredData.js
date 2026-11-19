@@ -1,12 +1,10 @@
 // JSON-LD for search engines, rendered into <head> by base.njk.
-// The site URL comes from src/CNAME so the domain lives in one place.
 // Reviews/ratings are deliberately left out: Google doesn't allow marking up
 // reviews copied from another site, and ignores self-published business ratings.
-import { readFileSync } from "node:fs";
 import site from "./site.js";
+import siteUrl from "./siteUrl.js";
 
-const domain = readFileSync(new URL("../CNAME", import.meta.url), "utf8").trim();
-const url = `https://${domain}/`;
+const url = `${siteUrl}/`;
 
 export default {
   "@context": "https://schema.org",

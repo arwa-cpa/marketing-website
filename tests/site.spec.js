@@ -87,3 +87,12 @@ test.describe("mobile", () => {
     await expect(text).toHaveAttribute("href", /^sms:\+1\d{10}$/);
   });
 });
+
+test("robots.txt points to the sitemap, which lists the homepage", async ({ request }) => {
+  const robots = await (await request.get("/robots.txt")).text();
+  const sitemapUrl = robots.match(/^Sitemap: (.+)$/m)?.[1];
+  expect(sitemapUrl).toMatch(/^https:\/\/[^/]+\/sitemap\.xml$/);
+
+  const sitemap = await (await request.get("/sitemap.xml")).text();
+  expect(sitemap).toContain(`<loc>${new URL("/", sitemapUrl)}</loc>`);
+});

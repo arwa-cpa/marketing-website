@@ -10,18 +10,20 @@ Node is pinned in `.nvmrc`. A SessionStart hook in `.claude/settings.json` activ
 
 ## Hosting
 
-GitHub Pages, deployed by `.github/workflows/deploy.yml`: every push to `main` starts the dev server, runs `npm test` against it, then runs `npm run build` and publishes `_site/`. A failing test blocks the deploy. The repo's Pages source must be set to **GitHub Actions** (Settings → Pages), not "Deploy from a branch". `CNAME` and `.nojekyll` live in `src/` and are passthrough-copied into the build. The site's domain is `arburcpa.com` (switched 2026-11-13 from `arwacpa.com`, the pre-rebrand domain, which is meant to forward to it (a permanent redirect set up in Squarespace Domains) and still carries Arwa's Google Workspace email). Both domains are registered at Squarespace Domains. Don't hard-code either domain anywhere in the site. `src/CNAME` is the single source of the domain inside the site: `src/_data/structuredData.js` reads it at build time to build absolute URLs. Because the site deploys through GitHub Actions, GitHub ignores the CNAME file when deciding what domain to serve; that's set in the repo's Settings → Pages. A domain switch means changing both, plus DNS.
+GitHub Pages, deployed by `.github/workflows/deploy.yml`: every push to `main` starts the dev server, runs `npm test` against it, then runs `npm run build` and publishes `_site/`. A failing test blocks the deploy. The repo's Pages source must be set to **GitHub Actions** (Settings → Pages), not "Deploy from a branch". `CNAME` and `.nojekyll` live in `src/` and are passthrough-copied into the build. The site's domain is `arburcpa.com` (switched 2026-11-13 from `arwacpa.com`, the pre-rebrand domain, which is meant to forward to it (a permanent redirect set up in Squarespace Domains) and still carries Arwa's Google Workspace email). Both domains are registered at Squarespace Domains. Don't hard-code either domain anywhere in the site. `src/CNAME` is the single source of the domain inside the site: `src/_data/siteUrl.js` reads it at build time, and the structured data, sitemap and robots.txt build their absolute URLs from it. Because the site deploys through GitHub Actions, GitHub ignores the CNAME file when deciding what domain to serve; that's set in the repo's Settings → Pages. A domain switch means changing both, plus DNS.
 
 ## File layout
 
 ```
 eleventy.config.js              input src/, output _site/, passthrough copies
 src/index.njk                   page front matter (title, description) + section includes, in page order
+src/sitemap.njk, robots.njk     /sitemap.xml and /robots.txt for search engines
 src/_includes/sections/         one file per page section: hero, highlights, cross-border, services, about, testimonials, booking, contact
 src/_includes/base.njk          <head>, fonts, header/footer includes, script tag
 src/_includes/partials/         header.njk, footer.njk
 src/_data/site.js               LinkedIn/Google URLs, rating text, booking embed URL, Formspree ID
 src/_data/testimonials.js       client review quotes
+src/_data/siteUrl.js            https:// + the domain in src/CNAME, for absolute URLs
 src/_data/structuredData.js     JSON-LD (AccountingService + Person + WebSite) rendered into <head>
 src/css/styles.css              all styles; design tokens as CSS custom properties at the top
 src/js/main.js                  mobile nav toggle + Formspree contact form submit (fetch, no page redirect)
