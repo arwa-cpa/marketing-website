@@ -39,6 +39,7 @@ scripts/screenshots.mjs         saves screenshots to screenshots/ for visual rev
 .githooks/pre-push              runs npm test against its own server before every push (enabled by npm install)
 .claude/skills/run-site/        how to preview and verify the site locally
 backlog/                        pending tasks, site and off-site (Backlog.md; see "Task tracking")
+backlog/docs/                   living documents, e.g. the BrandScript the site's copy is built from
 ```
 
 Each section of the page lives in its own file under `src/_includes/sections/`. That's the main reason the site moved to Eleventy, so keep it that way: add a new section as a new file and include it from `index.njk`, rather than putting markup in `index.njk` directly. Section anchor IDs (`#cross-border`, `#reviews`, …) must keep matching the nav links in the header and footer. The header's "About" link goes to the About page (`/about/`), which holds Arwa's full story and her philosophy; the home page's `#about` section is a short teaser that links there, so the home page can stay focused on the client. Services are split into two sections: `#cross-border` (labelled "Cross-border services", her specialty, shown first) and `#services` ("Other services"). The "Services" nav link and the hero's "View services" button go to `#cross-border`, so visitors land on the first and scroll into the second.
@@ -78,6 +79,8 @@ The booking section embeds Google's appointment page in an iframe (`site.booking
 Testimonials in `src/_data/testimonials.js` are real client reviews copied verbatim from the old site (including the reviewers' own typos). Don't edit or paraphrase them. A review's `excerpt` is a word-for-word sentence from its quote, shown on its own beside the Other services list. Don't add them (or the Google rating) to the structured data: Google disallows marking up reviews copied from another site. The Google rating text in `site.js` (`5.0 stars from 11 Google reviews` as of 2026-11-07) is updated by hand.
 
 Everything else (bio paragraphs, service descriptions, intro copy) is drafted sample copy meant to be reviewed/personalized before launch, not placeholder brackets — it's safe to ship as-is but better if Arwa edits it in her own voice.
+
+The site's message comes from the StoryBrand BrandScript in `backlog/docs/doc-1 - BrandScript.md` (the client is the hero, Arwa the guide; lead with "she makes it understandable", not with detail). Write or review copy against it, and when the message changes, update the BrandScript first. It's a plain Markdown file meant to be edited directly (unlike tasks, which go through the CLI); TASK-11 links to it.
 
 ## Task tracking
 
