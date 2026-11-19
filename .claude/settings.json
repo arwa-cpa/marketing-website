@@ -37,6 +37,16 @@
             "command": "[ -s \"$HOME/.nvm/nvm.sh\" ] && echo 'source \"$HOME/.nvm/nvm.sh\" && nvm use --silent >/dev/null' >> \"$CLAUDE_ENV_FILE\" || true"
           }
         ]
+      },
+      {
+        "matcher": "startup|clear",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/backlog-start.sh",
+            "timeout": 30
+          }
+        ]
       }
     ]
   }
