@@ -3,9 +3,9 @@
 import { test, expect } from "@playwright/test";
 
 // Load the page, recording console errors, uncaught exceptions, and failed
-// requests from the site itself. Third-party ones (Google Fonts, the Google
-// Calendar booking frame, which logs its own cookie-permission errors) are
-// ignored: they aren't ours to fix.
+// requests from the site itself. Third-party ones (the Google Calendar booking
+// frame, which logs its own cookie-permission errors) are ignored: they aren't
+// ours to fix.
 async function openPage(page, baseURL) {
   const errors = [];
   page.on("console", (msg) => {
@@ -106,6 +106,24 @@ test("stores no cookies or browser storage of its own", async ({ page, context, 
 
   const storage = await page.evaluate(() => [...Object.keys(localStorage), ...Object.keys(sessionStorage)]);
   expect(storage).toEqual([]);
+});
+
+// The privacy notice lists every service that sees visitors' details, so the
+// page itself must load nothing from anywhere else (fonts are self-hosted for
+// this reason). The booking frame's own page is allowed, and whatever it loads
+// inside itself is Google's, covered in the notice under Google Calendar.
+test("loads nothing from third parties outside the booking frame", async ({ page, baseURL }) => {
+  const requests = [];
+  page.on("request", (req) => {
+    if (req.frame() === page.mainFrame()) requests.push(req.url());
+  });
+  await openPage(page, baseURL);
+  await page.locator(".booking-frame").scrollIntoViewIfNeeded();
+  await page.waitForLoadState("networkidle");
+
+  const bookingUrl = await page.locator(".booking-frame").getAttribute("src");
+  const thirdParty = requests.filter((url) => !url.startsWith(baseURL) && url !== bookingUrl && !url.startsWith("data:"));
+  expect(thirdParty).toEqual([]);
 });
 
 test("robots.txt points to the sitemap, which lists the homepage", async ({ request }) => {

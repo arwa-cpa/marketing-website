@@ -1,10 +1,10 @@
 ---
 id: TASK-9
 title: Add a privacy notice to the site
-status: To Do
+status: In Progress
 assignee: []
 created_date: '2026-11-19T05:45:00Z'
-updated_date: '2026-11-19T15:48:00Z'
+updated_date: '2026-11-19T16:02:00Z'
 labels:
   - content
 dependencies: []
@@ -49,3 +49,11 @@ Steps (separate commits):
    Add a footer link, extend npm test to cover the page (loads, nav links reach the home page sections, no cookies or storage), check screenshots, and update CLAUDE.md (multiple pages, the privacy email exception, self-hosted fonts).
 4. Off-site (Murtuza): add arburcpa.com to Google Workspace, add its MX records at Squarespace Domains, create the privacy@ group, and send a test email from an outside address.
 <!-- SECTION:PLAN:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+Step 1 (fonts) done: self-hosted in src/assets/fonts/, no visual change (same page heights, only anti-aliasing differences). A new test fails if the page loads anything from a third party outside the booking frame.
+
+For the notice: the Google Calendar booking frame loads as the visitor scrolls near it (loading=lazy), whether or not they book, and loads Google's own fonts and a reCAPTCHA inside it. So Google sees the IP address of anyone who scrolls toward #book, and the Google Calendar entry should say so.
+<!-- SECTION:NOTES:END -->

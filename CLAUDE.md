@@ -28,6 +28,7 @@ src/_data/structuredData.js     JSON-LD (AccountingService + Person + WebSite) r
 src/css/styles.css              all styles; design tokens as CSS custom properties at the top
 src/js/main.js                  mobile nav toggle + Formspree contact form submit (fetch, no page redirect)
 src/assets/images/              logo variants, hero photo, headshot
+src/assets/fonts/               self-hosted woff2 fonts (see "Design tokens")
 src/assets/favicon.ico
 playwright.config.js            test config; keeps the browser in node_modules
 tests/site.spec.js              browser checks against the running site (npm test)
@@ -51,7 +52,7 @@ Asset links are relative (`css/styles.css`, not `/css/styles.css`), matching the
 Source: `Website - Arbur CPA/ARBUR _ BRAND guidlines.pdf`.
 
 - Colors: `--bg-cream:#F6F4F1` `--bg-taupe:#E6DED6` `--accent-tan:#D3C3A6` `--sage:#738063` `--dark-green:#20322E`
-- Fonts: **Cormorant Garamond** (headings), **Roboto** (body) — loaded via Google Fonts `<link>` tags in `src/_includes/base.njk`
+- Fonts: **Cormorant Garamond** (headings), **Roboto** (body) — self-hosted in `src/assets/fonts/` with `@font-face` rules at the top of `styles.css`, so no third party sees visitors' IP addresses (the privacy notice relies on it). The files are Google Fonts' variable woff2 files (latin and latin-ext subsets). To add a weight or style, download it the same way, from the Google Fonts CSS with a modern browser user agent, rather than linking to Google. A test in `npm test` fails if the page loads anything from a third party outside the booking frame.
 - Logo usage: the header uses the sage tree mark alone (`logo-mark-sage.png`, cropped out of `logo-horizontal-sage.png`) with "Arbur CPA" set as live text in Cormorant Garamond beside it. Below 1040px the header collapses to the hamburger and the name centers in the header; at 420px and below it moves back beside the mark, since a centered name collides with the header's Call and Text buttons. The footer uses the white mark (`logo-mark-white.png`) with the same live-text wordmark. `logo-stacked-sage.png` is the logo in the structured data; `logo-horizontal-sage.png` is kept but not currently used. The U.S. and Canadian flags in the cross-border section (`flag-us.svg`, `flag-ca.svg`) are hand-written SVGs recolored in the brand palette (sage, dark green, cream) on purpose; don't restore the official red, white and blue.
 
 ## Source vs. site assets
