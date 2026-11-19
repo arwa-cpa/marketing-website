@@ -4,10 +4,11 @@ title: Add a privacy notice to the site
 status: In Progress
 assignee: []
 created_date: '2026-11-19T05:45:00Z'
-updated_date: '2026-11-19T16:02:00Z'
+updated_date: '2026-11-19T16:16:00Z'
 labels:
   - content
-dependencies: []
+dependencies:
+  - TASK-12
 ordinal: 9000
 ---
 
@@ -26,7 +27,7 @@ The contact form and the booking calendar collect names, emails and phone number
 
 <!-- SECTION:PLAN:BEGIN -->
 Decisions (2026-11-19):
-- A separate /privacy/ page linked from the footer, not a home-page section. The multi-page plumbing it needs is reused by TASK-10.
+- A separate /privacy/ page linked from the footer, not a home-page section. TASK-12 prepares the site for pages other than the home page first.
 - No retention period: the notice says where the information is stored and that visitors can ask for it to be deleted, without promising a timeline nobody maintains.
 - Privacy requests go to privacy@arburcpa.com (a Google Group), shown on the privacy page only, as the one exception to the no-email rule. It must work before pushing (AC #1).
 - Arwa is named as the person responsible for privacy (Quebec's Law 25; good practice under PIPEDA too).
@@ -36,8 +37,7 @@ Decisions (2026-11-19):
 
 Steps (separate commits):
 1. Self-host the fonts: Cormorant Garamond and Roboto (the weights in use) into src/assets/fonts/, @font-face rules in styles.css, and remove the Google Fonts <link> tags from base.njk. Check screenshots for layout shifts. Update CLAUDE.md's font note.
-2. Multi-page plumbing: asset paths that work from any page depth (a path prefix in the layout, keeping links relative); header and footer nav links go to /#about etc. when not on the home page; each page has its own title and description front matter.
-3. Privacy page (src/privacy.njk), in plain language:
+2. Privacy page (src/privacy.njk), in plain language:
    - Who we are: Arbur CPA, Arwa Naalwala, and how to reach her
    - What we collect and why: contact form (name, email, message), booking calendar (what Google's booking form asks for), calls and texts, and on every page load the IP address and browser details seen by the host. Used only to respond and schedule; never sold or used for marketing.
    - Services that handle it, with links to their privacy policies: Formspree, Google (Calendar, Voice), GitHub Pages. Data may be stored in the U.S.
@@ -46,8 +46,8 @@ Steps (separate commits):
    - Person responsible for privacy: Arwa Naalwala
    - Scope: website only (the one line above)
    - Last updated date
-   Add a footer link, extend npm test to cover the page (loads, nav links reach the home page sections, no cookies or storage), check screenshots, and update CLAUDE.md (multiple pages, the privacy email exception, self-hosted fonts).
-4. Off-site (Murtuza): add arburcpa.com to Google Workspace, add its MX records at Squarespace Domains, create the privacy@ group, and send a test email from an outside address.
+   Add a footer link, extend npm test to cover the page (loads with no errors at desktop and phone widths, nav links reach the home page sections, no cookies or storage), check screenshots, and update CLAUDE.md (the privacy page, the privacy email exception).
+3. Off-site (Murtuza): add arburcpa.com to Google Workspace, add its MX records at Squarespace Domains, create the privacy@ group, and send a test email from an outside address.
 <!-- SECTION:PLAN:END -->
 
 ## Implementation Notes
