@@ -4,7 +4,7 @@ title: Cut down the Other services text
 status: Done
 assignee: []
 created_date: '2026-11-18T18:59:00Z'
-updated_date: '2026-11-18T20:06:00Z'
+updated_date: '2026-11-19T19:41:00Z'
 labels:
   - content
 dependencies: []
@@ -19,9 +19,9 @@ Shorten the text in the Other services section (#services, src/_includes/section
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 Each card's description is noticeably shorter, and all three services stay
-- [ ] #2 The heading and subtitle still read well with the shorter cards
-- [ ] #3 Checked in screenshots at desktop and phone widths, and npm test passes
+- [x] #1 Each card's description is noticeably shorter, and all three services stay
+- [x] #2 The heading and subtitle still read well with the shorter cards
+- [x] #3 Checked in screenshots at desktop and phone widths, and npm test passes
 <!-- AC:END -->
 
 ## Implementation Notes
