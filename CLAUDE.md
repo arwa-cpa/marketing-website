@@ -17,6 +17,7 @@ GitHub Pages, deployed by `.github/workflows/deploy.yml`: every push to `main` s
 ```
 eleventy.config.js              input src/, output _site/, passthrough copies
 src/index.njk                   page front matter (title, description) + section includes, in page order
+src/about.njk                   /about/, Arwa's story and her philosophy (the header's About link)
 src/privacy.njk                 /privacy/, the privacy notice (linked from the footer)
 src/sitemap.njk, robots.njk     /sitemap.xml and /robots.txt for search engines
 src/_includes/sections/         one file per page section: hero, highlights, cross-border, services, about, testimonials, booking, contact
@@ -40,11 +41,11 @@ scripts/screenshots.mjs         saves screenshots to screenshots/ for visual rev
 backlog/                        pending tasks, site and off-site (Backlog.md; see "Task tracking")
 ```
 
-Each section of the page lives in its own file under `src/_includes/sections/`. That's the main reason the site moved to Eleventy, so keep it that way: add a new section as a new file and include it from `index.njk`, rather than putting markup in `index.njk` directly. Section anchor IDs (`#about`, `#services`, …) must keep matching the nav links in the header and footer. Services are split into two sections: `#cross-border` (labelled "Cross-border services", her specialty, shown first) and `#services` ("Other services"). The "Services" nav link and the hero's "View services" button go to `#cross-border`, so visitors land on the first and scroll into the second.
+Each section of the page lives in its own file under `src/_includes/sections/`. That's the main reason the site moved to Eleventy, so keep it that way: add a new section as a new file and include it from `index.njk`, rather than putting markup in `index.njk` directly. Section anchor IDs (`#cross-border`, `#reviews`, …) must keep matching the nav links in the header and footer. The header's "About" link goes to the About page (`/about/`), which holds Arwa's full story and her philosophy; the home page's `#about` section is a short teaser that links there, so the home page can stay focused on the client. Services are split into two sections: `#cross-border` (labelled "Cross-border services", her specialty, shown first) and `#services` ("Other services"). The "Services" nav link and the hero's "View services" button go to `#cross-border`, so visitors land on the first and scroll into the second.
 
 Sections share a header pattern: a small uppercase `.eyebrow` label (matching the nav link name where there is one), the `h2` title, and an optional one-line `.subtitle`. Layouts are shared too: `.split` (text left, picture or form right) for hero/about/contact, `.section-head` (title block left, action right) for services/reviews/booking, and `.card` for every card. New sections should reuse these rather than adding one-off styles.
 
-Sections share sizing through the `main > section` rule in `styles.css`: the same vertical padding (`--section-pad`) everywhere, and on desktop a shared minimum height (`--section-min`) with content centered vertically. Don't add per-section `padding` to a section; adjust the tokens instead.
+Sections share sizing through the `main > section` rule in `styles.css`: the same vertical padding (`--section-pad`) everywhere, and on desktop a shared minimum height (`--section-min`) with content centered vertically. Don't add per-section `padding` to a section; adjust the tokens instead. The one exception to the minimum height is the home page's stats strip (`.highlights`), a slim band that would otherwise float in empty space.
 
 Internal links are root-relative, the usual Eleventy approach, so they work from any page: `/css/styles.css`, `/assets/images/hero.jpg`, and `/#about` for a home-page section (it still smooth-scrolls when clicked on the home page). The one exception is the "Skip to content" link, `#main`, which stays on the current page. The site is served from the root of its domain; if it ever moves to a subfolder, turn on Eleventy's bundled HTML Base plugin rather than going back to relative links. `src/js/main.js` runs on every page, so it must not assume home-page elements like the contact form exist. Text in front matter or data files is autoescaped, so write a plain `&` there, not `&amp;`.
 

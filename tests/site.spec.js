@@ -30,7 +30,8 @@ test.describe("desktop", () => {
     await openPage(page, baseURL);
     const headerHeight = await page.locator(".site-header").evaluate((el) => el.offsetHeight);
 
-    for (const link of await page.locator(".main-nav a").all()) {
+    // Only links to home-page sections ("/#…"); About goes to its own page
+    for (const link of await page.locator('.main-nav a[href^="/#"]').all()) {
       const href = await link.getAttribute("href");
       const section = page.locator(new URL(href, baseURL).hash); // "/#about" → "#about"
       await test.step(href, async () => {
@@ -70,7 +71,7 @@ test.describe("mobile", () => {
     await expect(toggle).toHaveAttribute("aria-expanded", "true");
     await expect(nav).toBeVisible();
 
-    await nav.getByRole("link", { name: "About" }).click();
+    await nav.getByRole("link", { name: "Contact" }).click();
     await expect(toggle).toHaveAttribute("aria-expanded", "false");
     await expect(nav).toBeHidden();
   });
@@ -127,40 +128,66 @@ test("loads nothing from third parties outside the booking frame", async ({ page
   expect(thirdParty).toEqual([]);
 });
 
-test.describe("privacy page", () => {
-  for (const viewport of [{ width: 1280, height: 800 }, { width: 390, height: 844 }]) {
-    test(`has no console or network errors at ${viewport.width}px`, async ({ page, baseURL }) => {
-      await page.setViewportSize(viewport);
-      expect(await openPage(page, baseURL, "/privacy/")).toEqual([]);
-      await expect(page.locator("h1")).toHaveText("Privacy notice");
-    });
-  }
-
-  test("is linked from the footer", async ({ page, baseURL }) => {
-    await openPage(page, baseURL);
-    await page.locator(".site-footer").getByRole("link", { name: "Privacy" }).click();
-    await expect(page).toHaveURL(/\/privacy\/$/);
-  });
-
-  test("nav links go back to the home page sections", async ({ page, baseURL }) => {
-    await page.setViewportSize({ width: 1280, height: 800 });
-    for (const name of ["About", "Contact"]) {
-      await test.step(name, async () => {
-        await openPage(page, baseURL, "/privacy/");
-        const href = await page.locator(".main-nav").getByRole("link", { name }).getAttribute("href");
-        await page.locator(".main-nav").getByRole("link", { name }).click();
-        await expect(page).toHaveURL(new URL(href, baseURL).href);
-        await expect(page.locator(new URL(href, baseURL).hash)).toBeInViewport();
+// Checks shared by every page other than the home page
+for (const { path, title } of [
+  { path: "/about/", title: "Arwa Naalwala, CPA" },
+  { path: "/privacy/", title: "Privacy notice" },
+]) {
+  test.describe(`${path} page`, () => {
+    for (const viewport of [{ width: 1280, height: 800 }, { width: 390, height: 844 }]) {
+      test(`has no console or network errors at ${viewport.width}px`, async ({ page, baseURL }) => {
+        await page.setViewportSize(viewport);
+        expect(await openPage(page, baseURL, path)).toEqual([]);
+        await expect(page.locator("h1")).toHaveText(title);
+        const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+        expect(overflow).toBe(0);
       });
     }
-  });
 
-  test("loads nothing from third parties", async ({ page, baseURL }) => {
-    const requests = [];
-    page.on("request", (req) => requests.push(req.url()));
-    await openPage(page, baseURL, "/privacy/");
-    expect(requests.filter((url) => !url.startsWith(baseURL) && !url.startsWith("data:"))).toEqual([]);
+    test("nav links go back to the home page sections", async ({ page, baseURL }) => {
+      await page.setViewportSize({ width: 1280, height: 800 });
+      for (const name of ["Services", "Contact"]) {
+        await test.step(name, async () => {
+          await openPage(page, baseURL, path);
+          const href = await page.locator(".main-nav").getByRole("link", { name }).getAttribute("href");
+          await page.locator(".main-nav").getByRole("link", { name }).click();
+          await expect(page).toHaveURL(new URL(href, baseURL).href);
+          await expect(page.locator(new URL(href, baseURL).hash)).toBeInViewport();
+        });
+      }
+    });
+
+    test("loads nothing from third parties", async ({ page, baseURL }) => {
+      const requests = [];
+      page.on("request", (req) => requests.push(req.url()));
+      await openPage(page, baseURL, path);
+      expect(requests.filter((url) => !url.startsWith(baseURL) && !url.startsWith("data:"))).toEqual([]);
+    });
   });
+}
+
+test("privacy page is linked from the footer", async ({ page, baseURL }) => {
+  await openPage(page, baseURL);
+  await page.locator(".site-footer").getByRole("link", { name: "Privacy" }).click();
+  await expect(page).toHaveURL(/\/privacy\/$/);
+});
+
+test("About page is linked from the nav and the home page's About section", async ({ page, baseURL }) => {
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await openPage(page, baseURL);
+  await page.locator(".main-nav").getByRole("link", { name: "About" }).click();
+  await expect(page).toHaveURL(/\/about\/$/);
+
+  await openPage(page, baseURL);
+  await page.locator("#about").getByRole("link", { name: "Read Arwa’s story" }).click();
+  await expect(page).toHaveURL(/\/about\/$/);
+});
+
+test("About page's Book a consultation button goes to the booking section", async ({ page, baseURL }) => {
+  await openPage(page, baseURL, "/about/");
+  await page.locator(".philosophy-cta").getByRole("link", { name: "Book a consultation" }).click();
+  await expect(page).toHaveURL(/\/#book$/);
+  await expect(page.locator("#book")).toBeInViewport();
 });
 
 test("robots.txt points to the sitemap, which lists the homepage", async ({ request }) => {

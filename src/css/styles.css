@@ -177,11 +177,12 @@ main > section { padding: var(--section-pad) 0; }
 .section-head .subtitle { margin: 10px 0 0; }
 
 /* Shared building blocks, so sections that do the same job look the same */
+main h1 { font-size: clamp(2.4rem, 4vw, 3.4rem); line-height: 1.12; }
 main h2 { font-size: clamp(1.9rem, 3vw, 2.4rem); }
 /* Every section header: .eyebrow label, h2 title, optional .subtitle */
 .eyebrow,
 .split-copy .eyebrow,
-.intro-inner .eyebrow {
+.philosophy-intro .eyebrow {
   text-transform: uppercase;
   letter-spacing: .08em;
   font-size: 0.8rem;
@@ -338,11 +339,7 @@ main h2 { font-size: clamp(1.9rem, 3vw, 2.4rem); }
 /* Hero                                                */
 /* -------------------------------------------------- */
 .hero { background: var(--bg-leaf); }
-.hero h1 {
-  font-size: clamp(2.4rem, 4vw, 3.4rem);
-  line-height: 1.12;
-  margin-bottom: 20px;
-}
+.hero h1 { margin-bottom: 20px; }
 .hero-ctas {
   display: flex;
   gap: 16px;
@@ -351,8 +348,11 @@ main h2 { font-size: clamp(1.9rem, 3vw, 2.4rem); }
 }
 
 /* -------------------------------------------------- */
-/* Highlights: stats row + intro copy                 */
+/* Stats row (home highlights, About page principles) */
 /* -------------------------------------------------- */
+/* On the home page the stats are a slim band of their own, so they skip the
+   shared desktop minimum height (it would leave them floating in empty space). */
+main > section.highlights { min-height: 0; }
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -369,11 +369,14 @@ main h2 { font-size: clamp(1.9rem, 3vw, 2.4rem); }
 }
 .stat-label { color: var(--text-muted); font-size: 0.92rem; margin: 0; }
 
-.intro-inner {
+/* About page: philosophy intro above the principles, then a CTA */
+.philosophy { background: var(--bg-leaf); }
+.philosophy-intro {
   max-width: 760px;
-  margin-top: 72px;
+  margin-bottom: 56px;
 }
-.intro-inner p { color: var(--text-muted); font-size: 1.05rem; }
+.philosophy-intro p { color: var(--text-muted); font-size: 1.05rem; }
+.philosophy-cta { margin-top: 56px; text-align: center; }
 .pull-line,
 .split-copy .pull-line {
   font-weight: 600;
@@ -476,7 +479,6 @@ main h2 { font-size: clamp(1.9rem, 3vw, 2.4rem); }
 /* -------------------------------------------------- */
 /* Portrait photo in the shared 4:3 frame: keep the face, trim background and robe */
 .about .split-media img { object-position: 50% 30%; }
-.about .pull-line { margin-top: 1.2em; }
 
 /* -------------------------------------------------- */
 /* Testimonials                                        */
@@ -579,7 +581,6 @@ main h2 { font-size: clamp(1.9rem, 3vw, 2.4rem); }
    at a readable line length. */
 .text-page { background: var(--bg-cream); }
 .text-page .wrap > * { max-width: 68ch; }
-.text-page h1 { font-size: clamp(2.4rem, 4vw, 3.4rem); line-height: 1.12; }
 .text-page h2 { font-size: 1.6rem; margin-top: 1.8em; }
 .text-page-updated { font-size: 0.9rem; color: var(--text-muted); }
 .text-page ul { padding-left: 1.2em; margin-bottom: 1em; }
@@ -688,7 +689,8 @@ main h2 { font-size: clamp(1.9rem, 3vw, 2.4rem); }
 
 @media (max-width: 720px) {
   :root { --section-pad: 56px; }
-  .intro-inner { margin-top: 48px; }
+  .philosophy-intro { margin-bottom: 40px; }
+  .philosophy-cta { margin-top: 40px; }
   .stats-grid { grid-template-columns: 1fr; row-gap: 24px; }
   .stat { border-left: none; padding-left: 0; }
   .rating-pill { white-space: normal; border-radius: 18px; }
