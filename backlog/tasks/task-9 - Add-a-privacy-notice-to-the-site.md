@@ -1,10 +1,10 @@
 ---
 id: TASK-9
 title: Add a privacy notice to the site
-status: In Progress
+status: Done
 assignee: []
 created_date: '2026-11-19T05:45:00Z'
-updated_date: '2026-11-19T16:16:00Z'
+updated_date: '2026-11-19T16:47:00Z'
 labels:
   - content
 dependencies:
@@ -20,7 +20,7 @@ The contact form and the booking calendar collect names, emails and phone number
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 privacy@arburcpa.com exists (Google Group in Workspace, arburcpa.com added to Workspace with MX records at Squarespace Domains) and a test email sent to it from an outside address arrives, before the privacy page is pushed
+- [x] #1 privacy@arburcpa.com exists (Google Group in Workspace, arburcpa.com added to Workspace with MX records at Squarespace Domains) and a test email sent to it from an outside address arrives, before the privacy page is pushed
 <!-- AC:END -->
 
 ## Implementation Plan
@@ -56,4 +56,8 @@ Steps (separate commits):
 Step 1 (fonts) done: self-hosted in src/assets/fonts/, no visual change (same page heights, only anti-aliasing differences). A new test fails if the page loads anything from a third party outside the booking frame.
 
 For the notice: the Google Calendar booking frame loads as the visitor scrolls near it (loading=lazy), whether or not they book, and loads Google's own fonts and a reCAPTCHA inside it. So Google sees the IP address of anyone who scrolls toward #book, and the Google Calendar entry should say so.
+
+Step 2 (privacy page) drafted: src/privacy.njk at /privacy/, footer link, site.privacyEmail. Booking form fields checked on the live booking page (first name, last name, email; Google adds a Meet link). GitHub Pages docs: visitor IP addresses are logged and stored for security. Formspree's policy: uses US infrastructure. arburcpa.com MX points to Google (smtp.google.com). Arwa's review of the notice added to TASK-5.
+
+AC #1 confirmed 2026-11-19: a test email from an outside Gmail address to privacy@arburcpa.com was delivered to Arwa's Workspace inbox in 15 seconds (SPF, DKIM and DMARC pass).
 <!-- SECTION:NOTES:END -->

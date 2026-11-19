@@ -1,4 +1,4 @@
-// Checks the page in headless Chromium at desktop and phone widths.
+// Checks the pages in headless Chromium at desktop and phone widths.
 // The contact form is never submitted: it sends a real message.
 import { test, expect } from "@playwright/test";
 
@@ -6,7 +6,7 @@ import { test, expect } from "@playwright/test";
 // requests from the site itself. Third-party ones (the Google Calendar booking
 // frame, which logs its own cookie-permission errors) are ignored: they aren't
 // ours to fix.
-async function openPage(page, baseURL) {
+async function openPage(page, baseURL, path = "/") {
   const errors = [];
   page.on("console", (msg) => {
     if (msg.type() === "error" && msg.location().url.startsWith(baseURL)) errors.push(msg.text());
@@ -15,7 +15,7 @@ async function openPage(page, baseURL) {
   page.on("response", (res) => {
     if (res.url().startsWith(baseURL) && res.status() >= 400) errors.push(`${res.status()} ${res.url()}`);
   });
-  await page.goto("/", { waitUntil: "networkidle" });
+  await page.goto(path, { waitUntil: "networkidle" });
   return errors;
 }
 
@@ -125,6 +125,42 @@ test("loads nothing from third parties outside the booking frame", async ({ page
   const bookingUrl = await page.locator(".booking-frame").getAttribute("src");
   const thirdParty = requests.filter((url) => !url.startsWith(baseURL) && url !== bookingUrl && !url.startsWith("data:"));
   expect(thirdParty).toEqual([]);
+});
+
+test.describe("privacy page", () => {
+  for (const viewport of [{ width: 1280, height: 800 }, { width: 390, height: 844 }]) {
+    test(`has no console or network errors at ${viewport.width}px`, async ({ page, baseURL }) => {
+      await page.setViewportSize(viewport);
+      expect(await openPage(page, baseURL, "/privacy/")).toEqual([]);
+      await expect(page.locator("h1")).toHaveText("Privacy notice");
+    });
+  }
+
+  test("is linked from the footer", async ({ page, baseURL }) => {
+    await openPage(page, baseURL);
+    await page.locator(".site-footer").getByRole("link", { name: "Privacy" }).click();
+    await expect(page).toHaveURL(/\/privacy\/$/);
+  });
+
+  test("nav links go back to the home page sections", async ({ page, baseURL }) => {
+    await page.setViewportSize({ width: 1280, height: 800 });
+    for (const name of ["About", "Contact"]) {
+      await test.step(name, async () => {
+        await openPage(page, baseURL, "/privacy/");
+        const href = await page.locator(".main-nav").getByRole("link", { name }).getAttribute("href");
+        await page.locator(".main-nav").getByRole("link", { name }).click();
+        await expect(page).toHaveURL(new URL(href, baseURL).href);
+        await expect(page.locator(new URL(href, baseURL).hash)).toBeInViewport();
+      });
+    }
+  });
+
+  test("loads nothing from third parties", async ({ page, baseURL }) => {
+    const requests = [];
+    page.on("request", (req) => requests.push(req.url()));
+    await openPage(page, baseURL, "/privacy/");
+    expect(requests.filter((url) => !url.startsWith(baseURL) && !url.startsWith("data:"))).toEqual([]);
+  });
 });
 
 test("robots.txt points to the sitemap, which lists the homepage", async ({ request }) => {

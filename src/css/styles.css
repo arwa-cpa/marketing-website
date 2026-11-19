@@ -573,6 +573,27 @@ main h2 { font-size: clamp(1.9rem, 3vw, 2.4rem); }
 .contact .subtitle a:hover { color: #60704f; }
 
 /* -------------------------------------------------- */
+/* Text pages (privacy notice)                         */
+/* -------------------------------------------------- */
+/* A page of running text: the usual section header, then h2s and paragraphs
+   at a readable line length. */
+.text-page { background: var(--bg-cream); }
+.text-page .wrap > * { max-width: 68ch; }
+.text-page h1 { font-size: clamp(2.4rem, 4vw, 3.4rem); line-height: 1.12; }
+.text-page h2 { font-size: 1.6rem; margin-top: 1.8em; }
+.text-page-updated { font-size: 0.9rem; color: var(--text-muted); }
+.text-page ul { padding-left: 1.2em; margin-bottom: 1em; }
+.text-page li { line-height: 1.65; margin-bottom: 0.5em; }
+.text-page p a,
+.text-page li a {
+  color: var(--sage);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.text-page p a:hover,
+.text-page li a:hover { color: #60704f; }
+
+/* -------------------------------------------------- */
 /* Footer                                              */
 /* -------------------------------------------------- */
 .site-footer {
@@ -599,6 +620,8 @@ main h2 { font-size: clamp(1.9rem, 3vw, 2.4rem); }
   margin: 0;
 }
 .footer-copyright { margin: 2px 0 0; font-size: 0.8rem; line-height: 1.3; color: #a5937f; }
+.footer-copyright a { text-decoration: underline; text-underline-offset: 2px; }
+.footer-copyright a:hover { color: #fff; }
 .footer-actions { display: flex; align-items: center; gap: 18px; }
 .site-footer .icon-link { color: #d8ccbf; }
 .site-footer .icon-link:hover { color: #fff; }

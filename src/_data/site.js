@@ -8,6 +8,10 @@ export default {
   phone: "(248) 537-2210",
   phoneLink: "+12485372210",
 
+  // A Google Group on the Workspace account, for privacy requests. Shown on
+  // the privacy page only: the one exception to showing no email address.
+  privacyEmail: "privacy@arburcpa.com",
+
   // Arwa's personal LinkedIn profile
   linkedinUrl: "https://www.linkedin.com/in/anaalwala",
 
