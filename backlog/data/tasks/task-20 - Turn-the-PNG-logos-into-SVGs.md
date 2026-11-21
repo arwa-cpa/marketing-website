@@ -4,7 +4,7 @@ title: Turn the PNG logos into SVGs
 status: In Progress
 assignee: []
 created_date: '2026-11-21T20:58:00Z'
-updated_date: '2026-11-21T22:57:00Z'
+updated_date: '2026-11-21T23:06:00Z'
 labels:
   - site
   - brand
@@ -29,4 +29,6 @@ Things to check:
 
 <!-- SECTION:NOTES:BEGIN -->
 Step 1: site/src/assets/images/logo-mark.svg exists: the tree mark redrawn as clean geometry (an arc, two chevrons, a stem with a flared foot), fitted to logo-mark-sage.png to within antialiasing, since no vector original was available. It fills with currentColor, so it can be colored as needed. Nothing uses it yet; the site and flyer still use the PNGs. Next steps to be taken one at a time.
+
+Step 2: the header's mark uses logo-mark.svg, inlined by a {% logoMark "class" %} shortcode in eleventy.config.js and colored sage by .brand-mark's color. logo-mark-sage.png is no longer used by the site but is kept for now. The footer (logo-mark-white.png) and the flyer still use PNGs.
 <!-- SECTION:NOTES:END -->
