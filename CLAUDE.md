@@ -49,7 +49,7 @@ partner-doc/package.json        node-tectonic (the LaTeX engine) and the build s
 partner-doc/partner-services.tex  every word of the partner flyer
 partner-doc/arbur-brand.sty     the flyer's look: page, brand colors and fonts, layout macros, \tbd
 partner-doc/send-email.mjs      emails the built PDF through the Gmail API (run by the workflow)
-partner-doc/assets/             the white tree mark for the flyer's header (a copy of the site's)
+partner-doc/assets/             the sage and white tree marks for the flyer's header and footer (copies of the site's)
 .github/workflows/partner-doc.yml  builds the flyer and emails it when partner-doc/ changes
 
 backlog/package.json            the backlog.md CLI
@@ -100,7 +100,7 @@ The site's message comes from the StoryBrand BrandScript in `backlog/data/docs/d
 
 ## Partner flyer
 
-`partner-doc/` builds a one-page US Letter PDF for other CPA firms that contract Arwa for the cross-border parts of their clients' returns: what she takes on, her price for each, and how an engagement works (TASK-16). It's written in LaTeX, not HTML, by choice: `partner-services.tex` holds every word, and `arbur-brand.sty` holds the look (the design tokens, Cormorant Garamond and Roboto at the site's weights, the header band, the services table, the numbered steps), so content edits never touch styling. Write its copy against the BrandScript, with the partner CPA as the hero.
+`partner-doc/` builds a one-page US Letter PDF for other CPA firms that contract Arwa for the cross-border parts of their clients' returns: what she takes on, her price for each, and how an engagement works (TASK-16). It's written in LaTeX, not HTML, by choice: `partner-services.tex` holds every word, and `arbur-brand.sty` holds the look (the site's colors, Cormorant Garamond and Roboto at the site's weights, the services table, the numbered steps), so content edits never touch styling. It's laid out like the site, top to bottom: a dark-green top bar with the phone number, a white header with the sage mark and name, a leaf-green hero, and a root-brown footer band with the white mark. Its colors are copied from `site/src/css/styles.css` (including `--bg-leaf`, `--bg-root`, `--text-body` and `--text-muted`), so when the site's palette changes, change `arbur-brand.sty` to match. Write its copy against the BrandScript, with the partner CPA as the hero.
 
 `npm run partner-doc` builds it to `partner-doc/build/partner-services.pdf` (gitignored; the PDF is a build artifact, never committed). The engine is Tectonic, from the npm package `node-tectonic`, which ships Tectonic's binary per platform the way esbuild does, so `npm install` is the whole setup, with no TeX install. Its Linux binary was checked to be byte-identical to the official Tectonic 0.16.9 release; it's pinned to an exact version, so recheck when bumping it. Tectonic downloads the LaTeX packages and fonts a document uses on its first build (from relay.fullyjustified.net, which redirects to data1b.fullyjustified.net; a cloud session's network must allow both) and caches them. The fonts come from CTAN that way, so the site's woff2 files aren't used: Roboto is `.otf`, Cormorant Garamond `.ttf`, as named in `arbur-brand.sty`.
 
