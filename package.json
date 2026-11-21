@@ -2,10 +2,11 @@
   "name": "arbur-cpa-marketing-website",
   "version": "1.0.0",
   "private": true,
-  "description": "Arbur CPA: marketing site and task backlog, as npm workspaces",
+  "description": "Arbur CPA: marketing site, partner flyer and task backlog, as npm workspaces",
   "workspaces": [
     "site",
-    "backlog"
+    "backlog",
+    "partner-doc"
   ],
   "scripts": {
     "start": "npm start -w site",
@@ -13,6 +14,7 @@
     "test": "npm test -w site",
     "test:live": "npm run test:live -w site",
     "screenshots": "npm run screenshots -w site",
+    "partner-doc": "npm run build -w partner-doc",
     "backlog": "npm exec -w backlog -- backlog",
     "prepare": "git config core.hooksPath .githooks || true"
   },

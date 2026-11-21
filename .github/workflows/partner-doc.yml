@@ -1,0 +1,72 @@
+name: Email the partner flyer
+
+# Builds the partner flyer PDF from partner-doc/ and emails it to Arwa, only
+# when the flyer's source changes on main (or when run by hand from the
+# Actions tab). The PDF is never committed; this email and the run's
+# artifact are where it lands.
+on:
+  push:
+    branches: [main]
+    paths:
+      - partner-doc/**
+      - .github/workflows/partner-doc.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  TO: arwa@arburcpa.com
+  PDF: partner-doc/build/partner-services.pdf
+
+jobs:
+  build-and-email:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      # Only the partner-doc workspace's packages (node-tectonic and its binary)
+      - run: npm ci --workspace partner-doc
+      - run: npm run partner-doc
+      - uses: actions/upload-artifact@v4
+        with:
+          name: partner-flyer
+          path: ${{ env.PDF }}
+      - name: Email the PDF
+        env:
+          SMTP_USER: ${{ secrets.PARTNER_DOC_SMTP_USER }}
+          SMTP_PASSWORD: ${{ secrets.PARTNER_DOC_SMTP_PASSWORD }}
+          COMMIT_URL: ${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}
+        run: |
+          if [ -z "$SMTP_USER" ] || [ -z "$SMTP_PASSWORD" ]; then
+            echo "::error::Add the PARTNER_DOC_SMTP_USER and PARTNER_DOC_SMTP_PASSWORD secrets (Settings > Secrets and variables > Actions) to email the flyer. The PDF is in this run's artifacts."
+            exit 1
+          fi
+
+          # \tbd{...} marks what Arwa still has to confirm (comment lines skipped)
+          tbds=$(grep -v '^[[:space:]]*%' partner-doc/partner-services.tex | grep -o '\\tbd{' | wc -l)
+          subject="Partner flyer updated: $(git log -1 --format=%s)"
+          if [ "$tbds" -gt 0 ]; then
+            subject="[DRAFT] $subject"
+            note="It's still a draft: $tbds item(s) are highlighted for you to confirm."
+          else
+            note="Nothing is left to confirm, so this version is ready to send to partners."
+          fi
+
+          printf '%s\n' \
+            "Hi Arwa," "" \
+            "The partner flyer changed, so here's the new PDF." "$note" "" \
+            "What changed: $COMMIT_URL" > body.txt
+
+          # curl's own SMTP and MIME support: no third-party action needed.
+          curl --silent --show-error --fail --ssl-reqd \
+            --url smtps://smtp.gmail.com:465 \
+            --user "$SMTP_USER:$SMTP_PASSWORD" \
+            --mail-from "$SMTP_USER" --mail-rcpt "$TO" \
+            -H "Subject: $subject" -H "From: $SMTP_USER" -H "To: $TO" \
+            -F '=<body.txt;type=text/plain; charset=utf-8;encoder=8bit' \
+            -F "file=@$PDF;type=application/pdf;filename=Arbur-CPA-partner-services.pdf;encoder=base64"
+          echo "Emailed the flyer to $TO"

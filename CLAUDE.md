@@ -4,7 +4,7 @@ Single-page marketing site for **Arbur CPA** (Arwa Naalwala, CPA) — a rebrand 
 
 ## Stack
 
-[Eleventy](https://www.11ty.dev/) (v3) with Nunjucks templates, plain CSS, and vanilla JS. Eleventy is the only build dependency (`@playwright/test` is used only for browser tests and screenshots, and `backlog.md` only for task tracking), and there's no bundler or client-side framework. The site is edited rarely, and the owner wanted to avoid the overhead that made Squarespace feel harder than necessary. Keep it lean: don't add a bundler, framework, CMS, extra Eleventy plugins, or a test framework without checking first.
+[Eleventy](https://www.11ty.dev/) (v3) with Nunjucks templates, plain CSS, and vanilla JS. Eleventy is the only build dependency (`@playwright/test` is used only for browser tests and screenshots, `backlog.md` only for task tracking, and `node-tectonic` only for the partner flyer PDF), and there's no bundler or client-side framework. The site is edited rarely, and the owner wanted to avoid the overhead that made Squarespace feel harder than necessary. Keep it lean: don't add a bundler, framework, CMS, extra Eleventy plugins, or a test framework without checking first.
 
 Node is pinned in `.nvmrc`. A SessionStart hook in `.claude/settings.json` activates it for Claude's Bash tool, so `npm` commands need no prefix; if `node -v` doesn't match, fall back to `source ~/.nvm/nvm.sh && nvm use`.
 
@@ -14,7 +14,7 @@ GitHub Pages, deployed by `.github/workflows/deploy.yml`: every push to `main` s
 
 ## File layout
 
-The repo is a set of npm workspaces, one folder per part, each with its own `package.json` and dependencies: `site/` (the website) and `backlog/` (the task tracker). A partner referral PDF for other CPA firms will get its own `partner-doc/` folder (TASK-16). There's one `npm install`, one `package-lock.json` and one `node_modules/`, all at the top, and the top-level `package.json` only lists the workspaces and passes commands through, so every command runs from the top folder. npm runs a workspace's scripts inside its folder, so paths in the site's configs are relative to `site/`.
+The repo is a set of npm workspaces, one folder per part, each with its own `package.json` and dependencies: `site/` (the website), `partner-doc/` (the partner referral flyer for other CPA firms, see "Partner flyer") and `backlog/` (the task tracker). There's one `npm install`, one `package-lock.json` and one `node_modules/`, all at the top, and the top-level `package.json` only lists the workspaces and passes commands through, so every command runs from the top folder. npm runs a workspace's scripts inside its folder, so paths in the site's configs are relative to `site/`.
 
 ```
 package.json                    workspace list + pass-through scripts (npm start → site, npm run backlog → backlog)
@@ -44,6 +44,12 @@ site/playwright.config.js       test config; keeps the browser in node_modules
 site/tests/site.spec.js         browser checks against the running site (npm test)
 site/tests/live/domains.spec.js  checks the real domains: HTTPS, old-domain redirect, email MX (npm run test:live)
 site/scripts/screenshots.mjs    saves screenshots to site/screenshots/ for visual review (npm run screenshots)
+
+partner-doc/package.json        node-tectonic (the LaTeX engine) and the build script
+partner-doc/partner-services.tex  every word of the partner flyer
+partner-doc/arbur-brand.sty     the flyer's look: page, brand colors and fonts, layout macros, \tbd
+partner-doc/assets/             the white tree mark for the flyer's header (a copy of the site's)
+.github/workflows/partner-doc.yml  builds the flyer and emails it to Arwa when partner-doc/ changes
 
 backlog/package.json            the backlog.md CLI
 backlog/backlog.config.yml      Backlog.md settings; backlog_directory points it at data/
@@ -90,6 +96,16 @@ Testimonials in `site/src/_data/testimonials.js` are real client reviews copied 
 Everything else (bio paragraphs, service descriptions, intro copy) is drafted sample copy meant to be reviewed/personalized before launch, not placeholder brackets — it's safe to ship as-is but better if Arwa edits it in her own voice.
 
 The site's message comes from the StoryBrand BrandScript in `backlog/data/docs/doc-1 - BrandScript.md` (the client is the hero, Arwa the guide; lead with "she makes it understandable", not with detail). Write or review copy against it, and when the message changes, update the BrandScript first. It's a plain Markdown file meant to be edited directly (unlike tasks, which go through the CLI); TASK-11 links to it.
+
+## Partner flyer
+
+`partner-doc/` builds a one-page US Letter PDF for other CPA firms that contract Arwa for the cross-border parts of their clients' returns: what she takes on, her price for each, and how an engagement works (TASK-16). It's written in LaTeX, not HTML, by choice: `partner-services.tex` holds every word, and `arbur-brand.sty` holds the look (the design tokens, Cormorant Garamond and Roboto at the site's weights, the header band, the services table, the numbered steps), so content edits never touch styling. Write its copy against the BrandScript, with the partner CPA as the hero.
+
+`npm run partner-doc` builds it to `partner-doc/build/partner-services.pdf` (gitignored; the PDF is a build artifact, never committed). The engine is Tectonic, from the npm package `node-tectonic`, which ships Tectonic's binary per platform the way esbuild does, so `npm install` is the whole setup, with no TeX install. Its Linux binary was checked to be byte-identical to the official Tectonic 0.16.9 release; it's pinned to an exact version, so recheck when bumping it. Tectonic downloads the LaTeX packages and fonts a document uses on its first build (from relay.fullyjustified.net, which redirects to data1b.fullyjustified.net; a cloud session's network must allow both) and caches them. The fonts come from CTAN that way, so the site's woff2 files aren't used: Roboto is `.otf`, Cormorant Garamond `.ttf`, as named in `arbur-brand.sty`.
+
+Anything not yet confirmed with Arwa goes in `\tbd{…}`: it prints on a tan highlight, and while any remain the page carries a DRAFT watermark (the page is a single page, so a flag set while typesetting is enough; no manual switch). Remove the last `\tbd` and the watermark goes away. Keep the flyer to one page: check the build output for "Overfull" warnings and look at the PDF after a change.
+
+`.github/workflows/partner-doc.yml` runs on pushes to `main` that touch `partner-doc/` (or itself), and by hand from the Actions tab. It builds the PDF, keeps it as the run's artifact, and emails it to arwa@arburcpa.com with curl's built-in SMTP (no third-party action), marking the subject "[DRAFT]" while any `\tbd` remains. It sends through Gmail with the repo secrets `PARTNER_DOC_SMTP_USER` (a Workspace address) and `PARTNER_DOC_SMTP_PASSWORD` (a Google app password for it); without them the email step fails with a message saying so. The site's deploy doesn't build or publish the flyer.
 
 ## Task tracking
 

@@ -1,0 +1,69 @@
+% Arbur CPA partner flyer: what Arwa offers other CPA firms, and the price
+% of each. All the flyer's words are in this file; arbur-brand.sty holds the
+% look. Build with `npm run partner-doc` from the top folder.
+%
+% Anything not yet confirmed with Arwa is wrapped in \tbd{...}: it prints on
+% a tan highlight, and the page shows a DRAFT watermark until none are left.
+\documentclass[10pt]{article}
+\usepackage{arbur-brand}
+
+\begin{document}
+
+\flyerheader{logo-mark-white.png}%
+  {Partner services for CPA firms}%
+  {Your client stays yours}%
+  {Arwa Naalwala, CPA \textbullet{} Licensed in Michigan and Ontario}
+
+\lead{When a client's return reaches across the U.S.--Canada border, you don't
+have to turn them away or learn two tax systems overnight. Send me the
+cross-border pieces. I complete them, explain what I found in plain terms, and
+hand everything back to you to file. The client relationship stays with you.}
+
+\flyersection{Partner services}{What I can take on for you}
+
+\begin{services}
+  \service{Canadian personal return (T1)}
+    {For your U.S. clients who live, work or own property in Canada, including
+     departure and arrival-year returns.}
+    {\tbd{\$\,price}}
+  \service{U.S. return for Canadian residents}
+    {Form 1040 or 1040-NR for Canadian-resident clients with U.S. citizenship,
+     income or property.}
+    {\tbd{\$\,price}}
+  \service{Foreign tax credits and treaty positions}
+    {Form 1116 and T2209 so the same income isn't taxed twice, and Form 8833
+     where a treaty position needs disclosing.}
+    {\tbd{\$\,price}}
+  \service{Foreign account and asset reporting}
+    {FBAR (FinCEN 114), Form 8938 and T1135: the forms people most often miss.}
+    {\tbd{\$\,price}}
+  \service{Cross-border review}
+    {A second look at a return you've prepared, with written notes on anything
+     to change.}
+    {\tbd{\$\,price}}
+\end{services}
+
+{\fontsize{8.5}{11}\selectfont\color{sage}\tbd{Service list and prices to confirm with Arwa.}\par}
+
+\flyersection{How it works}{Simple for you, clear for your client}
+
+\begin{steps}
+  \item \textbf{You refer.} Tell me about the client and which parts of the
+    return you'd like me to take on. I confirm the scope and price in writing
+    before any work starts.
+  \item \textbf{You send what I need.} \tbd{Prior-year returns, the current
+    year's slips and statements, and an organizer I'll send you.}
+  \item \textbf{I complete the work.} Turnaround is \tbd{X business days} once
+    I have everything. \tbd{Questions go through you, or straight to the
+    client if you prefer.}
+  \item \textbf{You file.} I send back the completed forms and a plain-language
+    summary of what applies and why, so you and your client both understand it.
+\end{steps}
+
+\contactstrip{%
+  {\headingfont\fontsize{15}{18}\selectfont Let's talk about a client}\\[4pt]
+  Call or text (248) 537-2210\contactsep \tbd{email address}\contactsep
+  \href{https://arburcpa.com}{arburcpa.com}%
+}
+
+\end{document}
