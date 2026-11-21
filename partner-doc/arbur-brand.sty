@@ -49,8 +49,13 @@
 
 % ---- Graphics, tables, lists --------------------------------------------
 \RequirePackage{graphicx}
-\graphicspath{{assets/}}
 \RequirePackage{tikz}
+\usetikzlibrary{svg.path}
+% \arburmark{<height>}{<color>}: the site's tree mark, generated from
+% site/src/assets/images/logo-mark.svg by logo-mark.mjs (npm run build).
+\input{build/logo-mark.tex}
+\newsavebox{\arbur@headmark}
+\newsavebox{\arbur@footmark}
 \RequirePackage{eso-pic}
 \RequirePackage{tabularx}
 \RequirePackage{array}
@@ -87,6 +92,7 @@
 \newsavebox{\arbur@hero}
 \newlength{\arbur@herobottom}
 \newcommand{\flyerheader}[5]{%
+  \sbox{\arbur@headmark}{\arburmark{0.42in}{sage}}% boxed: a tikzpicture can't nest in the overlay below
   \sbox{\arbur@hero}{\parbox[t]{\linewidth}{%
     {\fontsize{8.5}{10}\selectfont\color{sage}\addfontfeature{LetterSpace=15}\MakeUppercase{#3}}\par\vspace{8pt}
     {\headingfont\fontsize{32}{34}\selectfont\color{darkgreen}#4\par}\vspace{9pt}
@@ -99,7 +105,7 @@
         {\fontsize{8.5}{10}\selectfont #1};
       \fill[bgtaupe] ([yshift=-1.14in]current page.north west) rectangle ([yshift=-1.15in]current page.north east);
       \node[anchor=west, inner sep=0pt] at ([xshift=0.6in, yshift=-0.725in]current page.north west)
-        {\includegraphics[height=0.42in]{logo-mark-sage.png}\hspace{7pt}%
+        {\usebox{\arbur@headmark}\hspace{7pt}%
          \raisebox{0.1in}{\headingfont\fontsize{21}{21}\selectfont\color{sage}Arbur CPA}};
       \node[anchor=east, inner sep=0pt, text=darkgreen] at ([xshift=-0.6in, yshift=-0.725in]current page.north east)
         {\fontsize{8.5}{10}\selectfont\addfontfeature{LetterSpace=15}\MakeUppercase{#2}};
@@ -152,6 +158,7 @@
 % Set into a box now, so a \tbd in it counts towards the DRAFT watermark.
 \newsavebox{\arbur@footer}
 \newcommand{\flyerfooter}[2]{%
+  \sbox{\arbur@footmark}{\arburmark{0.4in}{bgcream}}%
   \sbox{\arbur@footer}{\begin{tabular}{@{}r@{}}
     {\headingfont\fontsize{17}{19}\selectfont\color{bgcream}#1}\\[3pt]
     {\fontsize{9.5}{12}\selectfont\color{footertext}#2}
@@ -160,7 +167,7 @@
     \begin{tikzpicture}[remember picture, overlay]
       \fill[bgroot] ([yshift=0.95in]current page.south west) rectangle (current page.south east);
       \node[anchor=west, inner sep=0pt] at ([xshift=0.6in, yshift=0.475in]current page.south west)
-        {\includegraphics[height=0.4in]{logo-mark-white.png}\hspace{7pt}%
+        {\usebox{\arbur@footmark}\hspace{7pt}%
          \raisebox{0.09in}{\headingfont\fontsize{19}{19}\selectfont\color{bgcream}Arbur CPA}};
       \node[anchor=east, inner sep=0pt] at ([xshift=-0.6in, yshift=0.475in]current page.south east)
         {\usebox{\arbur@footer}};

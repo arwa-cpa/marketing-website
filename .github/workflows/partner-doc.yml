@@ -9,6 +9,7 @@ on:
     branches: [main]
     paths:
       - partner-doc/**
+      - site/src/assets/images/logo-mark.svg # the flyer draws its logo from it
       - .github/workflows/partner-doc.yml
   workflow_dispatch:
 

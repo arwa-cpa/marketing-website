@@ -4,7 +4,7 @@
   "private": true,
   "description": "Arbur CPA partner referral flyer, written in LaTeX and built to PDF with Tectonic",
   "scripts": {
-    "build": "mkdir -p build && tectonic --outdir build partner-services.tex",
+    "build": "node logo-mark.mjs && tectonic --outdir build partner-services.tex",
     "email": "node send-email.mjs"
   },
   "devDependencies": {
