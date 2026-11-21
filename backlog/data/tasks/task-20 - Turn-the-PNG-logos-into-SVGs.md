@@ -4,7 +4,7 @@ title: Turn the PNG logos into SVGs
 status: Done
 assignee: []
 created_date: '2026-11-21T20:58:00Z'
-updated_date: '2026-11-21T21:32:00Z'
+updated_date: '2026-11-21T21:50:00Z'
 labels:
   - site
   - brand
@@ -32,7 +32,7 @@ The tree mark is now one SVG, site/src/assets/images/logo-mark.svg (896 bytes, r
 
 Site: a {% logoMark "class" %} shortcode in eleventy.config.js inlines the SVG; .brand-mark colors it sage, .footer-logo-mark white.
 
-Flyer: partner-doc/logo-mark.mjs (run by npm run partner-doc) turns the SVG's paths into a TikZ drawing (svg.path library), \arburmark{height}{color}, so partner-doc/assets/ is gone and the flyer workflow also runs when the SVG changes.
+Flyer: partner-doc/logo-mark.mjs (run by npm run partner-doc) turns the SVG's paths into a TikZ drawing (svg.path library), \arburmark{height}{color}, so partner-doc/assets/ is gone. A logo change alone doesn't start the flyer workflow; the new mark goes out with the next flyer build.
 
 Kept as PNG: logo-stacked-sage.png (structured data logo, includes the name), logo-horizontal-sage.png (unused), and the favicons/apple-touch-icon.
 <!-- SECTION:FINAL_SUMMARY:END -->
