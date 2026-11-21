@@ -1,0 +1,50 @@
+name: Email the partner flyer
+
+# Builds the partner flyer PDF from partner-doc/ and emails it, only
+# when the flyer's source changes on main (or when run by hand from the
+# Actions tab). The PDF is never committed; this email and the run's
+# artifact are where it lands.
+on:
+  push:
+    branches: [main]
+    paths:
+      - partner-doc/**
+      - .github/workflows/partner-doc.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write # lets google-github-actions/auth sign in to Google Cloud
+
+jobs:
+  build-and-email:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      # Only the partner-doc workspace's packages (node-tectonic and its binary)
+      - run: npm ci --workspace partner-doc
+      - run: npm run partner-doc
+      - uses: actions/upload-artifact@v4
+        with:
+          name: partner-flyer
+          path: partner-doc/build/partner-services.pdf
+      # Signs in to the Google Cloud service account with Workload Identity
+      # Federation (no stored key), then send-email.mjs sends the PDF through
+      # the Gmail API. Setup is described in CLAUDE.md; if the repo variables
+      # aren't set, this step fails asking for workload_identity_provider.
+      - id: gcp
+        uses: google-github-actions/auth@v3
+        with:
+          workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
+          token_format: access_token
+      - run: npm run email -w partner-doc
+        env:
+          GCP_ACCESS_TOKEN: ${{ steps.gcp.outputs.access_token }}
+          GCP_SERVICE_ACCOUNT: ${{ vars.GCP_SERVICE_ACCOUNT }}
+          PARTNER_DOC_SENDER: ${{ vars.PARTNER_DOC_SENDER }}
+          PARTNER_DOC_RECIPIENT: ${{ vars.PARTNER_DOC_RECIPIENT }}

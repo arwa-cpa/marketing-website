@@ -165,3 +165,6 @@ screenshots/
 # Playwright test output
 test-results/
 playwright-report/
+
+# Partner flyer PDF from npm run partner-doc (built, never committed)
+partner-doc/build/

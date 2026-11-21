@@ -1,0 +1,13 @@
+{
+  "name": "arbur-cpa-partner-doc",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Arbur CPA partner referral flyer, written in LaTeX and built to PDF with Tectonic",
+  "scripts": {
+    "build": "mkdir -p build && tectonic --outdir build partner-services.tex",
+    "email": "node send-email.mjs"
+  },
+  "devDependencies": {
+    "node-tectonic": "1.1.0"
+  }
+}

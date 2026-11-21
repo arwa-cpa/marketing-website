@@ -1,9 +1,10 @@
 ---
 id: TASK-16
 title: Create a partner referral PDF of Arwa's services and pricing
-status: To Do
+status: In Progress
 assignee: []
 created_date: '2026-11-21T16:21:00Z'
+updated_date: '2026-11-21T17:29:00Z'
 labels:
   - content
 dependencies:
@@ -24,7 +25,15 @@ Needs from Arwa: the list of partner services (which forms or parts of a return 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
 - [ ] #1 Partner services, pricing and engagement process confirmed with Arwa
-- [ ] #2 PDF source lives in partner-doc/ with a documented command to regenerate it
+- [x] #2 PDF source lives in partner-doc/ with a documented command to regenerate it
 - [ ] #3 PDF uses the brand fonts, colors and logo and reads well printed and on screen
 - [ ] #4 Arwa approves the final PDF
 <!-- AC:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+2026-11-21: Built as LaTeX, by choice: partner-doc/partner-services.tex holds every word and partner-doc/arbur-brand.sty the look (brand colors, Cormorant Garamond and Roboto at the site's weights, white tree mark in a dark-green header band). npm run partner-doc builds partner-doc/build/partner-services.pdf with Tectonic from the npm package node-tectonic (its Linux binary is byte-identical to the official 0.16.9 release), so there's no TeX install. The PDF is never committed: .github/workflows/partner-doc.yml builds it on pushes to main that touch partner-doc/ and emails it to arwa@arburcpa.com, through the Gmail API once it's connected to Google Cloud (setup described in CLAUDE.md).
+
+The copy is a one-page draft written from the site's cross-border copy: services (Canadian T1, U.S. return for Canadian residents, foreign tax credits and treaty positions, FBAR/8938/T1135, cross-border review), a four-step 'how it works', and a contact strip. Everything still to confirm with Arwa (all prices, the service list, what she needs from the referring CPA, turnaround, who talks to the client, the contact email) is in \tbd{...}, which prints highlighted and puts a DRAFT watermark on the page until none are left. Written in Arwa's first person, unlike the site's 'we'; switch if she prefers. AC #3 waits on a review of the PDF.
+<!-- SECTION:NOTES:END -->

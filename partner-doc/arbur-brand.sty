@@ -1,0 +1,135 @@
+% Arbur CPA brand layer for the partner flyer: page, colors, fonts and the
+% building blocks partner-services.tex uses. Content lives in that file;
+% this one only decides how it looks.
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{arbur-brand}[2026/11/21 Arbur CPA brand styles]
+
+% ---- Page --------------------------------------------------------------
+\RequirePackage[letterpaper, top=2.35in, bottom=0.55in, left=0.6in, right=0.6in]{geometry}
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+
+% ---- Colors (the design tokens in CLAUDE.md) ----------------------------
+\RequirePackage{xcolor}
+\definecolor{bgcream}{HTML}{F6F4F1}
+\definecolor{bgtaupe}{HTML}{E6DED6}
+\definecolor{accenttan}{HTML}{D3C3A6}
+\definecolor{sage}{HTML}{738063}
+\definecolor{darkgreen}{HTML}{20322E}
+
+% ---- Fonts: Cormorant Garamond headings, Roboto body ------------------
+% Both come from CTAN; Tectonic downloads them on the first build. Weights
+% match the site: Roboto 400 body with 500 for bold, Cormorant 600 headings.
+\RequirePackage{fontspec}
+\setmainfont{Roboto}[
+  Extension      = .otf,
+  UprightFont    = *-Regular,
+  BoldFont       = *-Medium,
+  ItalicFont     = *-Italic,
+  BoldItalicFont = *-MediumItalic,
+]
+\newfontfamily\headingfont{CormorantGaramond}[
+  Extension      = .ttf,
+  UprightFont    = *-SemiBold,
+  BoldFont       = *-Bold,
+  ItalicFont     = *-SemiBoldItalic,
+  BoldItalicFont = *-BoldItalic,
+]
+\color{darkgreen}
+
+% ---- Graphics, tables, lists --------------------------------------------
+\RequirePackage{graphicx}
+\graphicspath{{assets/}}
+\RequirePackage{tikz}
+\RequirePackage{eso-pic}
+\RequirePackage{tabularx}
+\RequirePackage{array}
+\RequirePackage{colortbl}
+\RequirePackage{enumitem}
+\RequirePackage{soul}
+\RequirePackage[hidelinks]{hyperref}
+
+% ---- Unconfirmed content -------------------------------------------------
+% \tbd{text} marks anything Arwa still has to confirm: it prints on a tan
+% highlight, and while any \tbd remains the page carries a DRAFT watermark.
+% The flyer is one page, so every \tbd is typeset before the page ships out.
+% The highlight is soul's \hl, so long notes wrap across lines.
+\newif\ifarbur@draft
+\sethlcolor{accenttan}
+\newcommand{\tbd}[1]{%
+  \global\arbur@drafttrue
+  \hl{#1}%
+}
+\AddToShipoutPictureBG{%
+  \ifarbur@draft
+    \AtPageCenter{%
+      \makebox[0pt]{\rotatebox{40}{%
+        \fontsize{150}{150}\selectfont\headingfont\bfseries
+        \textcolor{accenttan!35}{DRAFT}}}}%
+  \fi
+}
+
+% ---- Header band ----------------------------------------------------------
+% \flyerheader{logo file}{eyebrow}{title}{subtitle}: the dark-green band
+% across the top of the page.
+\newcommand{\flyerheader}[4]{%
+  \AddToShipoutPictureBG*{%
+    \begin{tikzpicture}[remember picture, overlay]
+      \fill[darkgreen] (current page.north west) rectangle
+        ([yshift=-1.95in]current page.north east);
+      \fill[sage] ([yshift=-1.95in]current page.north west) rectangle
+        ([yshift=-2.0in]current page.north east);
+      \node[anchor=west, inner sep=0pt, text=bgcream] at ([xshift=0.6in, yshift=-0.975in]current page.north west)
+        {\includegraphics[height=0.75in]{#1}\hspace{9pt}%
+         \raisebox{0.27in}{\headingfont\fontsize{24}{24}\selectfont Arbur CPA}};
+      \node[anchor=east, align=right, inner sep=0pt, text=bgcream]
+        at ([xshift=-0.6in, yshift=-0.975in]current page.north east) {%
+          {\fontsize{8.5}{10}\selectfont\addfontfeature{LetterSpace=18}\MakeUppercase{#2}}\\[6pt]
+          {\headingfont\fontsize{28}{30}\selectfont #3}\\[7pt]
+          {\fontsize{10}{12}\selectfont\color{accenttan}#4}};
+    \end{tikzpicture}%
+  }%
+}
+
+% ---- Section headings: small uppercase eyebrow + Cormorant title --------
+\newcommand{\eyebrow}[1]{%
+  {\fontsize{8}{10}\selectfont\color{sage}\addfontfeature{LetterSpace=18}\MakeUppercase{#1}}\par\vspace{2pt}}
+\newcommand{\flyersection}[2]{%
+  \par\vspace{14pt}\eyebrow{#1}%
+  {\headingfont\fontsize{19}{21}\selectfont #2\par}\vspace{6pt}}
+
+\newcommand{\lead}[1]{{\fontsize{11.5}{16}\selectfont #1\par}}
+
+% ---- Services and pricing table -----------------------------------------
+% \begin{services} ... \service{name}{what's included}{price} ... \end{services}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\newcommand{\service}[3]{%
+  {\headingfont\fontsize{12.5}{14}\selectfont\bfseries #1} & #2 & \raggedleft #3 \tabularnewline[3pt]
+  \arrayrulecolor{bgtaupe}\hline\noalign{\vspace{3pt}}}
+\newenvironment{services}{%
+  \fontsize{9.5}{12.5}\selectfont
+  \renewcommand{\arraystretch}{1.15}%
+  \setlength{\tabcolsep}{5pt}%
+  \tabularx{\linewidth}{@{}>{\raggedright\arraybackslash}p{1.95in} Y >{\raggedleft\arraybackslash}p{0.95in}@{}}
+    {\fontsize{7.5}{9}\selectfont\color{sage}\addfontfeature{LetterSpace=12}SERVICE} &
+    {\fontsize{7.5}{9}\selectfont\color{sage}\addfontfeature{LetterSpace=12}WHAT'S INCLUDED} &
+    {\fontsize{7.5}{9}\selectfont\color{sage}\addfontfeature{LetterSpace=12}PRICE}\tabularnewline[2pt]
+    \arrayrulecolor{sage}\hline\noalign{\vspace{4pt}}%
+}{\endtabularx}
+
+% ---- "How it works" numbered steps ---------------------------------------
+\newlist{steps}{enumerate}{1}
+\setlist[steps]{
+  label={\headingfont\bfseries\fontsize{15}{15}\selectfont\color{sage}\arabic*},
+  leftmargin=22pt, labelsep=8pt, itemsep=4pt, topsep=0pt,
+  before={\fontsize{9.5}{12.5}\selectfont},
+}
+
+% ---- Contact strip at the foot of the page --------------------------------
+\newcommand{\contactstrip}[1]{%
+  \par\vfill
+  {\setlength{\fboxsep}{10pt}%
+   \colorbox{bgtaupe}{\parbox{\dimexpr\linewidth-2\fboxsep}{\centering\fontsize{10}{13}\selectfont #1}}}%
+}
+\newcommand{\contactsep}{\quad{\color{sage}\textbullet}\quad}
