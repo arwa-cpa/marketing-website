@@ -23,7 +23,7 @@ package.json                    workspace list + pass-through scripts (npm start
 .claude/skills/run-site/        how to preview and verify the site locally
 
 site/package.json               Eleventy + Playwright, and the site's scripts
-site/eleventy.config.js         input src/, output _site/, passthrough copies, the logoMark shortcode
+site/eleventy.config.js         input src/, output _site/, passthrough copies
 site/src/index.njk              page front matter (title, description) + section includes, in page order
 site/src/about.njk              /about/, Arwa's story and her philosophy (the header's About link)
 site/src/privacy.njk            /privacy/, the privacy notice (linked from the footer)
@@ -37,7 +37,7 @@ site/src/_data/siteUrl.js       https:// + the domain in src/CNAME, for absolute
 site/src/_data/structuredData.js  JSON-LD (AccountingService + Person + WebSite) rendered into <head>
 site/src/css/styles.css         all styles; design tokens as CSS custom properties at the top
 site/src/js/main.js             mobile nav toggle + Formspree contact form submit (fetch, no page redirect)
-site/src/assets/images/         logo mark (SVG) and logo PNGs, hero photo, headshot, flags, icons
+site/src/assets/images/         logo variants, hero photo, headshot
 site/src/assets/fonts/          self-hosted woff2 fonts (see "Design tokens")
 site/src/assets/favicon.ico
 site/playwright.config.js       test config; keeps the browser in node_modules
@@ -49,7 +49,7 @@ partner-doc/package.json        node-tectonic (the LaTeX engine) and the build s
 partner-doc/partner-services.tex  every word of the partner flyer
 partner-doc/arbur-brand.sty     the flyer's look: page, brand colors and fonts, layout macros, \tbd
 partner-doc/send-email.mjs      emails the built PDF through the Gmail API (run by the workflow)
-partner-doc/logo-mark.mjs       turns the site's logo-mark.svg into TikZ for the flyer (run by the build)
+partner-doc/assets/             the sage and white tree marks for the flyer's header and footer (copies of the site's)
 .github/workflows/partner-doc.yml  builds the flyer and emails it when partner-doc/ changes
 
 backlog/package.json            the backlog.md CLI
@@ -72,7 +72,7 @@ Source: `Website - Arbur CPA/ARBUR _ BRAND guidlines.pdf`.
 
 - Colors: `--bg-cream:#F6F4F1` `--bg-taupe:#E6DED6` `--accent-tan:#D3C3A6` `--sage:#738063` `--dark-green:#20322E`
 - Fonts: **Cormorant Garamond** (headings), **Roboto** (body) — self-hosted in `site/src/assets/fonts/` with `@font-face` rules at the top of `styles.css`, so no third party sees visitors' IP addresses (the privacy notice relies on it). The files are Google Fonts' variable woff2 files (latin and latin-ext subsets). To add a weight or style, download it the same way, from the Google Fonts CSS with a modern browser user agent, rather than linking to Google. A test in `npm test` fails if the page loads anything from a third party outside the booking frame.
-- Logo usage: the tree mark is one SVG, `logo-mark.svg`, drawn in `currentColor` so the page colors it. The `{% logoMark "class" %}` shortcode (in `eleventy.config.js`) inlines it into the page, and the class's `color` sets it: sage for `.brand-mark`, white for `.footer-logo-mark`. Use the shortcode rather than an `<img>`, which can't be recolored. The SVG was redrawn as clean geometry (an arc, two chevrons and a stem), fitted to within antialiasing of the old PNG mark, since no vector original was available; if the designer supplies one, it can replace the paths, keeping `fill="currentColor"`. The header uses the sage mark alone with "Arbur CPA" set as live text in Cormorant Garamond beside it. Below 1040px the header collapses to the hamburger and the name centers in the header; at 420px and below it moves back beside the mark, since a centered name collides with the header's Call and Text buttons. The footer uses the white mark with the same live-text wordmark. `logo-stacked-sage.png` (the mark with the name set under it) stays a PNG as the logo in the structured data, a raster file being what search engines handle most reliably; `logo-horizontal-sage.png` is kept but not currently used. The favicons and apple-touch-icon stay PNG too, since browsers and phones expect them that way. The U.S. and Canadian flags in the cross-border section (`flag-us.svg`, `flag-ca.svg`) are hand-written SVGs recolored in the brand palette on purpose (slightly richer shades of sage, dark green and cream, so they don't look washed out); don't restore the official red, white and blue. Each sits in a white mat (a border in `styles.css`) to match the card between them.
+- Logo usage: the header uses the sage tree mark alone (`logo-mark-sage.png`, cropped out of `logo-horizontal-sage.png`) with "Arbur CPA" set as live text in Cormorant Garamond beside it. Below 1040px the header collapses to the hamburger and the name centers in the header; at 420px and below it moves back beside the mark, since a centered name collides with the header's Call and Text buttons. The footer uses the white mark (`logo-mark-white.png`) with the same live-text wordmark. `logo-stacked-sage.png` is the logo in the structured data; `logo-horizontal-sage.png` is kept but not currently used. The U.S. and Canadian flags in the cross-border section (`flag-us.svg`, `flag-ca.svg`) are hand-written SVGs recolored in the brand palette on purpose (slightly richer shades of sage, dark green and cream, so they don't look washed out); don't restore the official red, white and blue. Each sits in a white mat (a border in `styles.css`) to match the card between them.
 
 ## Source vs. site assets
 
@@ -80,7 +80,7 @@ Source: `Website - Arbur CPA/ARBUR _ BRAND guidlines.pdf`.
 
 `site/src/assets/images/` holds the versions actually used on the site:
 - Hero and headshot were re-encoded as JPEG (cut file size by ~90% with no visible quality loss)
-- The logo PNGs were cropped to their content bounding box, and `logo-mark.svg`'s viewBox is cropped the same way — the originals have large transparent margins that make the logo render illegibly tiny if used as-is. If re-exporting a logo from source, re-crop to content bounds the same way.
+- All three logo PNGs were cropped to their content bounding box — the originals have large transparent margins that make the logo render illegibly tiny if used as-is. If re-exporting a logo from source, re-crop to content bounds the same way.
 
 ## Content notes
 
@@ -100,7 +100,7 @@ The site's message comes from the StoryBrand BrandScript in `backlog/data/docs/d
 
 ## Partner flyer
 
-`partner-doc/` builds a one-page US Letter PDF for other CPA firms that contract Arwa for the cross-border parts of their clients' returns: what she takes on, her price for each, and how an engagement works (TASK-16). It's written in LaTeX, not HTML, by choice: `partner-services.tex` holds every word, and `arbur-brand.sty` holds the look (the site's colors, Cormorant Garamond and Roboto at the site's weights, the services table, the numbered steps), so content edits never touch styling. It's laid out like the site, top to bottom: a dark-green top bar with the phone number, a white header with the sage mark and name, a leaf-green hero, and a root-brown footer band with the white mark. Both marks come from the site's `logo-mark.svg`: XeTeX can't include an SVG, so the build first runs `logo-mark.mjs`, which copies its path data into `build/logo-mark.tex` as a TikZ drawing (TikZ's `svg.path` library), and `arbur-brand.sty` colors it with `\arburmark{<height>}{<color>}`. Change the logo in the SVG, never in the flyer. A logo change alone doesn't start the flyer workflow; the new mark goes out with the next flyer build. Its colors are copied from `site/src/css/styles.css` (including `--bg-leaf`, `--bg-root`, `--text-body` and `--text-muted`), so when the site's palette changes, change `arbur-brand.sty` to match. Write its copy against the BrandScript, with the partner CPA as the hero.
+`partner-doc/` builds a one-page US Letter PDF for other CPA firms that contract Arwa for the cross-border parts of their clients' returns: what she takes on, her price for each, and how an engagement works (TASK-16). It's written in LaTeX, not HTML, by choice: `partner-services.tex` holds every word, and `arbur-brand.sty` holds the look (the site's colors, Cormorant Garamond and Roboto at the site's weights, the services table, the numbered steps), so content edits never touch styling. It's laid out like the site, top to bottom: a dark-green top bar with the phone number, a white header with the sage mark and name, a leaf-green hero, and a root-brown footer band with the white mark. Its colors are copied from `site/src/css/styles.css` (including `--bg-leaf`, `--bg-root`, `--text-body` and `--text-muted`), so when the site's palette changes, change `arbur-brand.sty` to match. Write its copy against the BrandScript, with the partner CPA as the hero.
 
 `npm run partner-doc` builds it to `partner-doc/build/partner-services.pdf` (gitignored; the PDF is a build artifact, never committed). The engine is Tectonic, from the npm package `node-tectonic`, which ships Tectonic's binary per platform the way esbuild does, so `npm install` is the whole setup, with no TeX install. Its Linux binary was checked to be byte-identical to the official Tectonic 0.16.9 release; it's pinned to an exact version, so recheck when bumping it. Tectonic downloads the LaTeX packages and fonts a document uses on its first build (from relay.fullyjustified.net, which redirects to data1b.fullyjustified.net; a cloud session's network must allow both) and caches them. The fonts come from CTAN that way, so the site's woff2 files aren't used: Roboto is `.otf`, Cormorant Garamond `.ttf`, as named in `arbur-brand.sty`.
 
