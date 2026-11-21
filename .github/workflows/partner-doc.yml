@@ -14,6 +14,7 @@ on:
 
 permissions:
   contents: read
+  id-token: write # lets google-github-actions/auth sign in to Google Cloud
 
 env:
   TO: arwa@arburcpa.com
@@ -35,17 +36,33 @@ jobs:
         with:
           name: partner-flyer
           path: ${{ env.PDF }}
-      - name: Email the PDF
+      # Sends through the Gmail API as a Workspace user, signed in to Google
+      # Cloud with Workload Identity Federation: no stored key or password.
+      # Setup (Google Cloud project, service account, domain-wide delegation
+      # and the three repo variables) is in TASK-18 and CLAUDE.md.
+      - name: Check the Google Cloud settings
         env:
-          SMTP_USER: ${{ secrets.PARTNER_DOC_SMTP_USER }}
-          SMTP_PASSWORD: ${{ secrets.PARTNER_DOC_SMTP_PASSWORD }}
-          COMMIT_URL: ${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}
+          PROVIDER: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          SA: ${{ vars.GCP_SERVICE_ACCOUNT }}
+          SENDER: ${{ vars.PARTNER_DOC_SENDER }}
         run: |
-          if [ -z "$SMTP_USER" ] || [ -z "$SMTP_PASSWORD" ]; then
-            echo "::error::Add the PARTNER_DOC_SMTP_USER and PARTNER_DOC_SMTP_PASSWORD secrets (Settings > Secrets and variables > Actions) to email the flyer. The PDF is in this run's artifacts."
+          if [ -z "$PROVIDER" ] || [ -z "$SA" ] || [ -z "$SENDER" ]; then
+            echo "::error::Set the GCP_WORKLOAD_IDENTITY_PROVIDER, GCP_SERVICE_ACCOUNT and PARTNER_DOC_SENDER repo variables (Settings > Secrets and variables > Actions > Variables) to email the flyer. The PDF is in this run's artifacts."
             exit 1
           fi
-
+      - id: gcp
+        uses: google-github-actions/auth@v3
+        with:
+          workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
+          token_format: access_token
+      - name: Email the PDF
+        env:
+          GCP_TOKEN: ${{ steps.gcp.outputs.access_token }}
+          SA: ${{ vars.GCP_SERVICE_ACCOUNT }}
+          SENDER: ${{ vars.PARTNER_DOC_SENDER }}
+          COMMIT_URL: ${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}
+        run: |
           # \tbd{...} marks what Arwa still has to confirm (comment lines skipped)
           tbds=$(grep -v '^[[:space:]]*%' partner-doc/partner-services.tex | grep -o '\\tbd{' | wc -l)
           subject="Partner flyer updated: $(git log -1 --format=%s)"
@@ -56,17 +73,44 @@ jobs:
             note="Nothing is left to confirm, so this version is ready to send to partners."
           fi
 
-          printf '%s\n' \
-            "Hi Arwa," "" \
-            "The partner flyer changed, so here's the new PDF." "$note" "" \
-            "What changed: $COMMIT_URL" > body.txt
+          # 1. A Gmail token for the sender. The auth step signs in as the
+          # service account; acting as a Workspace user (domain-wide
+          # delegation) needs a JWT naming that user, signed by the service
+          # account and exchanged for a token limited to sending mail.
+          now=$(date +%s)
+          claims=$(jq -nc --arg sa "$SA" --arg sub "$SENDER" --argjson now "$now" '{
+            iss: $sa, sub: $sub, scope: "https://www.googleapis.com/auth/gmail.send",
+            aud: "https://oauth2.googleapis.com/token", iat: $now, exp: ($now + 600)}')
+          jwt=$(curl -sS --fail-with-body -X POST \
+            -H "Authorization: Bearer $GCP_TOKEN" -H "Content-Type: application/json" \
+            -d "$(jq -nc --arg p "$claims" '{payload: $p}')" \
+            "https://iamcredentials.googleapis.com/v1/projects/-/serviceAccounts/$SA:signJwt" | jq -r .signedJwt)
+          gmail_token=$(curl -sS --fail-with-body \
+            -d grant_type=urn:ietf:params:oauth:grant-type:jwt-bearer \
+            --data-urlencode "assertion=$jwt" \
+            https://oauth2.googleapis.com/token | jq -r .access_token)
+          echo "::add-mask::$gmail_token"
 
-          # curl's own SMTP and MIME support: no third-party action needed.
-          curl --silent --show-error --fail --ssl-reqd \
-            --url smtps://smtp.gmail.com:465 \
-            --user "$SMTP_USER:$SMTP_PASSWORD" \
-            --mail-from "$SMTP_USER" --mail-rcpt "$TO" \
-            -H "Subject: $subject" -H "From: $SMTP_USER" -H "To: $TO" \
-            -F '=<body.txt;type=text/plain; charset=utf-8;encoder=8bit' \
-            -F "file=@$PDF;type=application/pdf;filename=Arbur-CPA-partner-services.pdf;encoder=base64"
+          # 2. The email: a text note plus the PDF, as one MIME message.
+          boundary="flyer-$(date +%s%N)"
+          {
+            printf 'From: %s\r\nTo: %s\r\n' "$SENDER" "$TO"
+            printf 'Subject: =?UTF-8?B?%s?=\r\n' "$(printf '%s' "$subject" | base64 -w 0)"
+            printf 'MIME-Version: 1.0\r\nContent-Type: multipart/mixed; boundary="%s"\r\n\r\n' "$boundary"
+            printf -- '--%s\r\nContent-Type: text/plain; charset=utf-8\r\n\r\n' "$boundary"
+            printf '%s\r\n' "Hi Arwa," "" \
+              "The partner flyer changed, so here's the new PDF." "$note" "" \
+              "What changed: $COMMIT_URL"
+            printf -- '--%s\r\nContent-Type: application/pdf; name="Arbur-CPA-partner-services.pdf"\r\n' "$boundary"
+            printf 'Content-Disposition: attachment; filename="Arbur-CPA-partner-services.pdf"\r\n'
+            printf 'Content-Transfer-Encoding: base64\r\n\r\n'
+            base64 -w 76 "$PDF" | sed 's/$/\r/'
+            printf -- '--%s--\r\n' "$boundary"
+          } > message.eml
+
+          # 3. Send it. Gmail also keeps a copy in the sender's Sent folder.
+          curl -sS --fail-with-body -o /dev/null -X POST \
+            -H "Authorization: Bearer $gmail_token" -H "Content-Type: message/rfc822" \
+            --data-binary @message.eml \
+            "https://gmail.googleapis.com/upload/gmail/v1/users/me/messages/send?uploadType=media"
           echo "Emailed the flyer to $TO"
