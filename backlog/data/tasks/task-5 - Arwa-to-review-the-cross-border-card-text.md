@@ -5,7 +5,7 @@ status: To Do
 assignee:
   - '@arwa'
 created_date: '2026-11-18T18:59:00Z'
-updated_date: '2026-11-19T18:13:00Z'
+updated_date: '2026-11-21T16:33:00Z'
 labels:
   - content
 dependencies: []
@@ -32,5 +32,5 @@ Questions for Arwa for the About page (/about/, drafted 2026-11-19 from what we 
 - Is the drafted story accurate? In particular: "the forms nobody warned you about, the deadlines that don't line up, and the nagging worry that you've missed something", and the three principles (Plain language, The whole picture, Personal).
 - One more photo for the About page, e.g. at work or something personal.
 
-BrandScript (backlog/docs/doc-1 - BrandScript.md, drafted 2026-11-19): Arwa reads it and confirms or corrects it, especially the lines about her (U.S. and Canadian citizenship, cross-border tax teams at public accounting firms, how her plan works) and the positioning: the site leads with cross-border as her specialty, with other clients welcomed through Other services. She may love that or reject it; TASK-11 rewrites the home page from the BrandScript.
+BrandScript (backlog/data/docs/doc-1 - BrandScript.md, drafted 2026-11-19): Arwa reads it and confirms or corrects it, especially the lines about her (U.S. and Canadian citizenship, cross-border tax teams at public accounting firms, how her plan works) and the positioning: the site leads with cross-border as her specialty, with other clients welcomed through Other services. She may love that or reject it; TASK-11 rewrites the home page from the BrandScript.
 <!-- SECTION:NOTES:END -->

@@ -5,12 +5,12 @@ status: Done
 assignee:
   - '@murtuza'
 created_date: '2026-11-19T06:21:00Z'
-updated_date: '2026-11-19T18:15:00Z'
+updated_date: '2026-11-21T16:33:00Z'
 labels:
   - content
 dependencies: []
 documentation:
-  - backlog/docs/doc-1 - BrandScript.md
+  - backlog/data/docs/doc-1 - BrandScript.md
 ordinal: 11000
 ---
 

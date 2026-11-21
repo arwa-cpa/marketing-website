@@ -1,0 +1,9 @@
+{
+  "name": "arbur-cpa-backlog",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Arbur CPA task backlog (Backlog.md); the tasks live in data/",
+  "devDependencies": {
+    "backlog.md": "^1.55.3"
+  }
+}

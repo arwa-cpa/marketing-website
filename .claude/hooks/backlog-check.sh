@@ -1,6 +1,6 @@
 #!/bin/bash
 # PreToolUse hook (Bash): before Claude runs `git commit`, make it check
-# whether the Backlog.md tasks in backlog/ need updating.
+# whether the Backlog.md tasks in backlog/data/ need updating.
 #
 # The commit goes through when:
 #   - backlog/ already has staged changes, or
@@ -28,10 +28,10 @@ cd "${CLAUDE_PROJECT_DIR:-.}" || exit 0
 [ -n "$(git diff --cached --name-only -- backlog 2>/dev/null)" ] && exit 0
 
 cat >&2 <<'EOF'
-Before committing, check the Backlog.md tasks (npx backlog task list --plain):
+Before committing, check the Backlog.md tasks (npm run -s backlog -- task list --plain):
 does this change finish a task, change one, or leave a follow-up?
-- If so, update them with npx backlog (e.g. npx backlog task edit 3 -s Done)
-  and stage backlog/ in this commit.
+- If so, update them with the backlog CLI
+  (e.g. npm run -s backlog -- task edit 3 -s Done) and stage backlog/ in this commit.
 - If nothing needs updating, re-run the commit prefixed with BACKLOG_CHECKED=1,
   e.g. BACKLOG_CHECKED=1 git commit -m "..."
 EOF

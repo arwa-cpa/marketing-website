@@ -35,11 +35,11 @@ jobs:
         if: failure()
         with:
           name: playwright-report
-          path: playwright-report
+          path: site/playwright-report
       - run: npm run build
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: _site
+          path: site/_site
 
   deploy:
     needs: build

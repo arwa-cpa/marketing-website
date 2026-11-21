@@ -12,9 +12,10 @@ if [ -s "$HOME/.nvm/nvm.sh" ]; then
   nvm use --silent >/dev/null
 fi
 
-# Own server on its own port, so a running `npm start` (8080) is left alone
+# Own server on its own port, so a running `npm start` (8080) is left alone.
+# Eleventy runs from site/ (exec, so $server is Eleventy itself, not a shell).
 port=8282
-node_modules/.bin/eleventy --serve --quiet --port=$port >/dev/null 2>&1 &
+(cd site && exec ../node_modules/.bin/eleventy --serve --quiet --port=$port) >/dev/null 2>&1 &
 server=$!
 trap 'kill $server 2>/dev/null' EXIT
 

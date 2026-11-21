@@ -2,26 +2,22 @@
   "name": "arbur-cpa-marketing-website",
   "version": "1.0.0",
   "private": true,
-  "description": "Arbur CPA marketing site, built with Eleventy",
-  "type": "module",
+  "description": "Arbur CPA: marketing site and task backlog, as npm workspaces",
+  "workspaces": [
+    "site",
+    "backlog"
+  ],
   "scripts": {
-    "start": "eleventy --serve",
-    "build": "eleventy",
-    "test": "playwright test --project=site",
-    "test:live": "playwright test --project=live",
-    "screenshots": "node scripts/screenshots.mjs",
-    "pretest": "npm run browsers --silent",
-    "prescreenshots": "npm run browsers --silent",
-    "browsers": "PLAYWRIGHT_BROWSERS_PATH=0 playwright install --only-shell chromium",
+    "start": "npm start -w site",
+    "build": "npm run build -w site",
+    "test": "npm test -w site",
+    "test:live": "npm run test:live -w site",
+    "screenshots": "npm run screenshots -w site",
+    "backlog": "npm exec -w backlog -- backlog",
     "prepare": "git config core.hooksPath .githooks || true"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/arwa-cpa/marketing-website.git"
-  },
-  "devDependencies": {
-    "@11ty/eleventy": "^3.1.8",
-    "@playwright/test": "^1.65.0",
-    "backlog.md": "^1.55.3"
   }
 }
