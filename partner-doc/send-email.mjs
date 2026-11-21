@@ -37,8 +37,12 @@ function mask(value) {
   if (process.env.GITHUB_ACTIONS) console.log(`::add-mask::${value}`);
 }
 
-async function callGoogle(url, options) {
-  const response = await fetch(url, options);
+// Each call reports itself and gives up after a minute rather than hanging.
+async function callGoogle(step, url, options) {
+  console.log(`${step}...`);
+  const response = await fetch(url, { ...options, signal: AbortSignal.timeout(60_000) }).catch((error) => {
+    throw new Error(`${step} failed: ${error.message} (${url})`);
+  });
   const text = await response.text();
   if (!response.ok) throw new Error(`${url} answered ${response.status}: ${text}`);
   return text ? JSON.parse(text) : {};
@@ -102,6 +106,7 @@ const serviceAccount = env("GCP_SERVICE_ACCOUNT");
 // 1. A JWT naming the user to send as, signed by the service account.
 const now = Math.floor(Date.now() / 1000);
 const { signedJwt } = await callGoogle(
+  "Signing the request to send as the sender",
   `https://iamcredentials.googleapis.com/v1/projects/-/serviceAccounts/${serviceAccount}:signJwt`,
   {
     method: "POST",
@@ -121,7 +126,7 @@ const { signedJwt } = await callGoogle(
 mask(signedJwt);
 
 // 2. Traded for a token that can only send mail as that user.
-const { access_token: gmailToken } = await callGoogle("https://oauth2.googleapis.com/token", {
+const { access_token: gmailToken } = await callGoogle("Getting a Gmail token", "https://oauth2.googleapis.com/token", {
   method: "POST",
   body: new URLSearchParams({
     grant_type: "urn:ietf:params:oauth:grant-type:jwt-bearer",
@@ -131,9 +136,11 @@ const { access_token: gmailToken } = await callGoogle("https://oauth2.googleapis
 mask(gmailToken);
 
 // 3. Send. Gmail also keeps a copy in the sender's Sent folder.
-await callGoogle("https://gmail.googleapis.com/upload/gmail/v1/users/me/messages/send?uploadType=media", {
+await callGoogle("Sending the email", "https://gmail.googleapis.com/upload/gmail/v1/users/me/messages/send?uploadType=media", {
   method: "POST",
   headers: { Authorization: `Bearer ${gmailToken}`, "Content-Type": "message/rfc822" },
   body: message,
 });
 console.log(`Emailed the flyer to ${recipient} (subject: ${subject})`);
+// Don't wait for idle connections to close.
+process.exit(0);
