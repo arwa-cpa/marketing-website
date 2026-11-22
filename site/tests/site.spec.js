@@ -111,9 +111,10 @@ test("stores no cookies or browser storage of its own", async ({ page, context, 
 });
 
 // The privacy notice lists every service that sees visitors' details, so the
-// page itself must load nothing from anywhere else (fonts are self-hosted for
-// this reason). The booking frame's own page is allowed, and whatever it loads
-// inside itself is Google's, covered in the notice under Google Calendar.
+// page itself must load nothing from anywhere else (which is why it uses the
+// device's own fonts rather than Google Fonts). The booking frame's own page
+// is allowed, and whatever it loads inside itself is Google's, covered in the
+// notice under Google Calendar.
 test("loads nothing from third parties outside the booking frame", async ({ page, baseURL }) => {
   const requests = [];
   page.on("request", (req) => {
