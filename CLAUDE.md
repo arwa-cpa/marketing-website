@@ -4,7 +4,7 @@ Single-page marketing site for **Arbur CPA** (Arwa Naalwala, CPA) — a rebrand 
 
 ## Stack
 
-[Eleventy](https://www.11ty.dev/) (v3) with Nunjucks templates, plain CSS, and vanilla JS. Eleventy is the only build dependency (`@playwright/test` is used only for browser tests and screenshots, `backlog.md` only for task tracking, and `node-tectonic` only for the partner flyer PDF), and there's no bundler or client-side framework. The site is edited rarely, and the owner wanted to avoid the overhead that made Squarespace feel harder than necessary. Keep it lean: don't add a bundler, framework, CMS, extra Eleventy plugins, or a test framework without checking first.
+[Eleventy](https://www.11ty.dev/) (v3) with Nunjucks templates, plain CSS, and vanilla JS. Eleventy and its official image plugin, `@11ty/eleventy-img` (which makes the photos' sized copies, see "Source vs. site assets"), are the only build dependencies (`@playwright/test` is used only for browser tests and screenshots, `backlog.md` only for task tracking, and `node-tectonic` only for the partner flyer PDF), and there's no bundler or client-side framework. The site is edited rarely, and the owner wanted to avoid the overhead that made Squarespace feel harder than necessary. Keep it lean: don't add a bundler, framework, CMS, extra Eleventy plugins, or a test framework without checking first.
 
 Node is pinned in `.nvmrc`. A SessionStart hook in `.claude/settings.json` activates it for Claude's Bash tool, so `npm` commands need no prefix; if `node -v` doesn't match, fall back to `source ~/.nvm/nvm.sh && nvm use`.
 
@@ -23,7 +23,7 @@ package.json                    workspace list + pass-through scripts (npm start
 .claude/skills/run-site/        how to preview and verify the site locally
 
 site/package.json               Eleventy + Playwright, and the site's scripts
-site/eleventy.config.js         input src/, output _site/, passthrough copies
+site/eleventy.config.js         input src/, output _site/, passthrough copies, the {% photo %} shortcode
 site/src/index.njk              page front matter (title, description) + section includes, in page order
 site/src/about.njk              /about/, Arwa's story and her philosophy (the header's About link)
 site/src/privacy.njk            /privacy/, the privacy notice (linked from the footer)
@@ -37,7 +37,7 @@ site/src/_data/siteUrl.js       https:// + the domain in src/CNAME, for absolute
 site/src/_data/structuredData.js  JSON-LD (AccountingService + Person + WebSite) rendered into <head>
 site/src/css/styles.css         all styles; design tokens as CSS custom properties at the top
 site/src/js/main.js             mobile nav toggle + Formspree contact form submit (fetch, no page redirect)
-site/src/assets/images/         logo variants, hero photo, headshot
+site/src/assets/images/         logo variants, the cropped hero photo and headshot
 site/src/assets/favicon.ico
 site/playwright.config.js       test config; keeps the browser in node_modules
 site/tests/site.spec.js         browser checks against the running site (npm test)
@@ -78,7 +78,7 @@ Source: `Website - Arbur CPA/ARBUR _ BRAND guidlines.pdf`.
 `Website - Arbur CPA/` holds the original mockup PDFs, brand guidelines, and raw logo/photo files everything is derived from. It's **gitignored on purpose** — local-only reference material, not needed to build or serve the site. On a fresh clone it won't exist; that's expected, not a missing-file bug. If it's present locally, treat it as reference, not something the site links to directly.
 
 `site/src/assets/images/` holds the versions actually used on the site:
-- Hero and headshot were re-encoded as JPEG (cut file size by ~90% with no visible quality loss)
+- Hero and headshot were re-encoded as JPEG (cut file size by ~90% with no visible quality loss). Both are saved already cropped to the 4:3 frame the site shows them in (the hero centred, the headshot keeping her face with the top of the frame about 30% of the way down the original portrait), so visitors don't download parts that never show. To replace a photo, crop the new one to 4:3 in any image editor and save it over the old file under the same name. The pages don't link to the crops directly: they show them with `{% photo "hero.jpg", "Alt text", "eager" %}` (lazy by default), a shortcode in `site/eleventy.config.js` that uses Eleventy's image plugin to make AVIF, WebP and JPEG copies at 480, 800 and 1200px in `_site/assets/images/photos/` at build time and returns a `<picture>` with `srcset`, a `sizes` matching the `.split-media` frame, and `width`/`height`. Use it for any new photo; a test in `npm test` fails if a `.split-media` photo isn't one. The structured data still points at the cropped JPEGs themselves, which is why they're also copied into the build as-is.
 - All three logo PNGs were cropped to their content bounding box — the originals have large transparent margins that make the logo render illegibly tiny if used as-is. If re-exporting a logo from source, re-crop to content bounds the same way.
 
 ## Content notes

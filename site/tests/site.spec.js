@@ -199,3 +199,22 @@ test("robots.txt points to the sitemap, which lists the homepage", async ({ requ
   const sitemap = await (await request.get("/sitemap.xml")).text();
   expect(sitemap).toContain(`<loc>${new URL("/", sitemapUrl)}</loc>`);
 });
+
+// The photos go through the {% photo %} shortcode (eleventy.config.js), so
+// phones get a small modern-format copy and the layout doesn't jump while
+// they load. A plain <img> pointing at the full JPEG means one slipped back.
+for (const path of ["/", "/about/"]) {
+  test(`${path} photos are sized copies with width and height`, async ({ page, baseURL }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await openPage(page, baseURL, path);
+    const photos = page.locator(".split-media img");
+    expect(await photos.count()).toBeGreaterThan(0);
+    for (const img of await photos.all()) {
+      await expect(img.locator("xpath=..")).toHaveJSProperty("tagName", "PICTURE");
+      await expect(img.locator("xpath=../source[@type='image/avif']")).toHaveCount(1);
+      await expect(img).toHaveAttribute("width", /^\d+$/);
+      await expect(img).toHaveAttribute("height", /^\d+$/);
+      await expect(img).toHaveAttribute("sizes", /.+/);
+    }
+  });
+}

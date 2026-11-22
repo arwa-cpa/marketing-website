@@ -152,6 +152,7 @@ main h2 { font-size: clamp(1.9rem, 3vw, 2.4rem); }
 .split-media img {
   border-radius: var(--radius);
   width: 100%;
+  height: auto; /* the width and height attributes only set the ratio */
   object-fit: cover;
   aspect-ratio: 4 / 3;
 }
@@ -419,12 +420,6 @@ main > section.highlights { min-height: 0; }
   align-items: center;
   justify-content: center;
 }
-
-/* -------------------------------------------------- */
-/* About                                               */
-/* -------------------------------------------------- */
-/* Portrait photo in the shared 4:3 frame: keep the face, trim background and robe */
-.about .split-media img { object-position: 50% 30%; }
 
 /* -------------------------------------------------- */
 /* Testimonials                                        */
