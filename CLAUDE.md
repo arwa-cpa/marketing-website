@@ -37,7 +37,7 @@ site/src/_data/siteUrl.js       https:// + the domain in src/CNAME, for absolute
 site/src/_data/structuredData.js  JSON-LD (AccountingService + Person + WebSite) rendered into <head>
 site/src/css/styles.css         all styles; design tokens as CSS custom properties at the top
 site/src/js/main.js             mobile nav toggle + Formspree contact form submit (fetch, no page redirect)
-site/src/assets/images/         logo variants, hero photo, headshot
+site/src/assets/images/         logo variants, the cropped hero photo and headshot
 site/src/assets/favicon.ico
 site/playwright.config.js       test config; keeps the browser in node_modules
 site/tests/site.spec.js         browser checks against the running site (npm test)
@@ -78,7 +78,7 @@ Source: `Website - Arbur CPA/ARBUR _ BRAND guidlines.pdf`.
 `Website - Arbur CPA/` holds the original mockup PDFs, brand guidelines, and raw logo/photo files everything is derived from. It's **gitignored on purpose** — local-only reference material, not needed to build or serve the site. On a fresh clone it won't exist; that's expected, not a missing-file bug. If it's present locally, treat it as reference, not something the site links to directly.
 
 `site/src/assets/images/` holds the versions actually used on the site:
-- Hero and headshot were re-encoded as JPEG (cut file size by ~90% with no visible quality loss)
+- Hero and headshot were re-encoded as JPEG (cut file size by ~90% with no visible quality loss). Both are saved already cropped to the 4:3 frame the site shows them in (the hero centred, the headshot keeping her face with the top of the frame about 30% of the way down the original portrait), so visitors don't download parts that never show. To replace a photo, crop the new one to 4:3 in any image editor and save it over the old file under the same name.
 - All three logo PNGs were cropped to their content bounding box — the originals have large transparent margins that make the logo render illegibly tiny if used as-is. If re-exporting a logo from source, re-crop to content bounds the same way.
 
 ## Content notes
