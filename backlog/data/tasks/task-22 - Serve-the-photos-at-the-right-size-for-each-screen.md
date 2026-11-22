@@ -43,4 +43,6 @@ Approach:
 <!-- SECTION:NOTES:BEGIN -->
 Step 1: hero.jpg and headshot.jpg are saved cropped to 4:3, framed as the old CSS showed them (hero centred, headshot 50% 30%): hero 1365×1024, 97 KB (was 1536×1024, 131 KB); headshot 1200×900, 43 KB (was 1200×1789, 123 KB). The headshot's object-position rule is gone; the CSS 4:3 crop stays as a safety net. No crop script and no kept originals (owner's call): the photos change rarely, and a replacement can be cropped to 4:3 in any image editor. The uncropped versions are in main's history and the local-only Website - Arbur CPA/ folder.
 
+Step 2: added @11ty/eleventy-img (v7, which uses sharp) and a {% photo "file", "alt", loading %} shortcode in site/eleventy.config.js. It reads a photo from src/assets/images/ and returns a <picture> with AVIF, WebP and JPEG at 480, 800 and 1200px, generated into _site/assets/images/photos/, with width and height from the file and a sizes value for the .split-media frame ((max-width: 920px) calc(100vw - 48px), (max-width: 1040px) calc(50vw - 56px), 464px). A shortcode rather than the plugin's HTML transform, so only the photos are touched (not the logos, flags or favicons), and each photo is opted in where it's used. Not used by the pages yet. Sizes from a test build: hero 9/17/29 KB as AVIF at 480/800/1200, headshot 4/8/16 KB.
+
 <!-- SECTION:NOTES:END -->

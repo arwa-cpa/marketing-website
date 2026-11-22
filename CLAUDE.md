@@ -4,7 +4,7 @@ Single-page marketing site for **Arbur CPA** (Arwa Naalwala, CPA) — a rebrand 
 
 ## Stack
 
-[Eleventy](https://www.11ty.dev/) (v3) with Nunjucks templates, plain CSS, and vanilla JS. Eleventy is the only build dependency (`@playwright/test` is used only for browser tests and screenshots, `backlog.md` only for task tracking, and `node-tectonic` only for the partner flyer PDF), and there's no bundler or client-side framework. The site is edited rarely, and the owner wanted to avoid the overhead that made Squarespace feel harder than necessary. Keep it lean: don't add a bundler, framework, CMS, extra Eleventy plugins, or a test framework without checking first.
+[Eleventy](https://www.11ty.dev/) (v3) with Nunjucks templates, plain CSS, and vanilla JS. Eleventy and its official image plugin, `@11ty/eleventy-img` (which makes the photos' sized copies, see "Source vs. site assets"), are the only build dependencies (`@playwright/test` is used only for browser tests and screenshots, `backlog.md` only for task tracking, and `node-tectonic` only for the partner flyer PDF), and there's no bundler or client-side framework. The site is edited rarely, and the owner wanted to avoid the overhead that made Squarespace feel harder than necessary. Keep it lean: don't add a bundler, framework, CMS, extra Eleventy plugins, or a test framework without checking first.
 
 Node is pinned in `.nvmrc`. A SessionStart hook in `.claude/settings.json` activates it for Claude's Bash tool, so `npm` commands need no prefix; if `node -v` doesn't match, fall back to `source ~/.nvm/nvm.sh && nvm use`.
 
@@ -23,7 +23,7 @@ package.json                    workspace list + pass-through scripts (npm start
 .claude/skills/run-site/        how to preview and verify the site locally
 
 site/package.json               Eleventy + Playwright, and the site's scripts
-site/eleventy.config.js         input src/, output _site/, passthrough copies
+site/eleventy.config.js         input src/, output _site/, passthrough copies, the {% photo %} shortcode
 site/src/index.njk              page front matter (title, description) + section includes, in page order
 site/src/about.njk              /about/, Arwa's story and her philosophy (the header's About link)
 site/src/privacy.njk            /privacy/, the privacy notice (linked from the footer)
