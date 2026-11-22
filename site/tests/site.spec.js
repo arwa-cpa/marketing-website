@@ -133,6 +133,7 @@ test("loads nothing from third parties outside the booking frame", async ({ page
 for (const { path, title } of [
   { path: "/about/", title: "Arwa Naalwala, CPA" },
   { path: "/privacy/", title: "Privacy notice" },
+  { path: "/partners/", title: "Your client stays yours" },
 ]) {
   test.describe(`${path} page`, () => {
     for (const viewport of [{ width: 1280, height: 800 }, { width: 390, height: 844 }]) {
@@ -182,6 +183,23 @@ test("About page is linked from the nav and the home page's About section", asyn
   await openPage(page, baseURL);
   await page.locator("#about").getByRole("link", { name: "Read Arwa’s story" }).click();
   await expect(page).toHaveURL(/\/about\/$/);
+});
+
+test("partners page is linked from the nav, and its buttons go to booking and the phone", async ({ page, baseURL }) => {
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await openPage(page, baseURL);
+  await page.locator(".main-nav").getByRole("link", { name: "For CPAs" }).click();
+  await expect(page).toHaveURL(/\/partners\/$/);
+
+  // No partner prices on the public page: they stay in the flyer
+  await expect(page.locator("main")).not.toContainText("$");
+
+  const cta = page.locator(".partner-cta");
+  await expect(cta.getByRole("link", { name: "Call", exact: true })).toHaveAttribute("href", /^tel:\+/);
+  await expect(cta.getByRole("link", { name: "text", exact: true })).toHaveAttribute("href", /^sms:\+/);
+  await cta.getByRole("link", { name: "Book a call" }).click();
+  await expect(page).toHaveURL(/\/#book$/);
+  await expect(page.locator("#book")).toBeInViewport();
 });
 
 test("About page's Book a consultation button goes to the booking section", async ({ page, baseURL }) => {
