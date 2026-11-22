@@ -31,9 +31,9 @@ Approach:
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
 - [x] #1 Each photo is saved cropped to 4:3, so the site shows the same framing as now without downloading the parts that never show
-- [ ] #2 Each photo is served through <picture> with AVIF and WebP sources, a JPEG fallback, srcset and sizes
-- [ ] #3 A phone-width visit downloads well under the current ~130 KB for each photo
-- [ ] #4 Every photo <img> has width and height, and nothing shifts while the photos load
+- [x] #2 Each photo is served through <picture> with AVIF and WebP sources, a JPEG fallback, srcset and sizes
+- [x] #3 A phone-width visit downloads well under the current ~130 KB for each photo
+- [x] #4 Every photo <img> has width and height, and nothing shifts while the photos load
 - [x] #5 CLAUDE.md says how to replace a photo (crop it to 4:3 and save it over the old file)
 - [ ] #6 The photos look the same as before at every width (npm run screenshots), and npm test passes
 <!-- AC:END -->
@@ -45,4 +45,5 @@ Step 1: hero.jpg and headshot.jpg are saved cropped to 4:3, framed as the old CS
 
 Step 2: added @11ty/eleventy-img (v7, which uses sharp) and a {% photo "file", "alt", loading %} shortcode in site/eleventy.config.js. It reads a photo from src/assets/images/ and returns a <picture> with AVIF, WebP and JPEG at 480, 800 and 1200px, generated into _site/assets/images/photos/, with width and height from the file and a sizes value for the .split-media frame ((max-width: 920px) calc(100vw - 48px), (max-width: 1040px) calc(50vw - 56px), 464px). A shortcode rather than the plugin's HTML transform, so only the photos are touched (not the logos, flags or favicons), and each photo is opted in where it's used. Not used by the pages yet. Sizes from a test build: hero 9/17/29 KB as AVIF at 480/800/1200, headshot 4/8/16 KB.
 
+Step 3: the three photo tags (sections/hero.njk, sections/about.njk, about.njk) use {% photo %}. .split-media img got height: auto, because the height attribute otherwise overrides the CSS 4:3 frame and stretches the photo. Checked: the framing matches the old site at 1280 and 390px (screenshot diff ~1-2/255, encoding noise); an iPhone 13 and a 1440px laptop at 2x download hero 28 KB + headshot 15 KB as AVIF, down from 131 + 123 KB. A new test checks every .split-media photo on / and /about/ is a <picture> with AVIF, width, height and sizes (it fails if a plain <img> slips back). npm test: all pass in the cloud session except the cookie/storage test, which can't reach Google Calendar there; still to confirm on a machine with full network (or CI on merge).
 <!-- SECTION:NOTES:END -->
