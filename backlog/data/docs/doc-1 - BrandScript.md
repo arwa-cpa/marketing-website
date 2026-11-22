@@ -51,3 +51,16 @@ Without the right help, the moves that should feel like progress turn into a bur
 ## 7. Success
 
 You know where you stand in both countries. You're paying the right amount and reporting everything correctly, your finances are in order and stay that way, and you understand them. Each new move, whether a job, a property, a business or a marriage, feels like progress again, not paperwork. You can focus on living a rich life, not accounting for it.
+
+## Partner CPA firms
+
+A second, smaller audience, served by the partners page (`/partners/`) and the partner flyer (`partner-doc/`). Same guide, different hero.
+
+- **Character:** a CPA firm with a client whose return reaches across the U.S.–Canada border. It wants to keep serving that client well without learning a second tax system.
+- **Problem:** turning the client away loses them; taking on the cross-border pieces alone risks getting them wrong. Underneath, the worry that handing work out means handing the client over.
+- **Guide:** Arwa, licensed in Michigan and Ontario with cross-border experience at public accounting firms, who completes the cross-border pieces and explains them plainly. The client stays the firm's.
+- **Plan:** refer the client and agree scope and price in writing; send what she asks for; she completes the work; the firm files, with a plain-language summary for it and its client.
+- **Call to action:** book a call, or call or text.
+- **Success:** the firm keeps and serves the client well, with returns it understands and can stand behind. **Failure:** a lost client, or cross-border forms filed wrong.
+
+Prices go in the flyer only, never on the public page.
