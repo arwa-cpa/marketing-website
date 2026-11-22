@@ -4,7 +4,7 @@ title: Turn the PNG logos into SVGs
 status: In Progress
 assignee: []
 created_date: '2026-11-21T20:58:00Z'
-updated_date: '2026-11-22T03:24:00Z'
+updated_date: '2026-11-22T04:08:00Z'
 labels:
   - site
   - brand
@@ -31,4 +31,6 @@ Things to check:
 Step 1: site/src/assets/images/logo-mark.svg exists: the tree mark redrawn as clean geometry (an arc, two chevrons, a stem with a flared foot), fitted to logo-mark-sage.png to within antialiasing, since no vector original was available. Its paths sit in <g id="mark" fill="currentColor">, so a page can draw it with <use> and color it with CSS.
 
 Step 2: the header's mark uses it: <svg class="brand-mark" viewBox="0 0 346.88 439.25"><use href="/assets/images/logo-mark.svg#mark"/></svg>, colored sage by .brand-mark's color. The viewBox has to match the file's. logo-mark-sage.png is no longer used by the site but is kept for now. The footer (logo-mark-white.png) and the flyer still use PNGs.
+
+Step 3: the footer's mark uses it the same way, colored white by .footer-logo-mark to match the wordmark. logo-mark-white.png is no longer used by the site but is kept for now. The flyer still uses its PNG copies.
 <!-- SECTION:NOTES:END -->
