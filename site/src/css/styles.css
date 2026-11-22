@@ -258,7 +258,7 @@ main h2 { font-size: clamp(1.9rem, 3vw, 2.4rem); }
   align-items: center;
   gap: 12px;
 }
-.brand-mark { height: 36px; width: auto; }
+.brand-mark { height: 36px; width: auto; color: var(--sage); } /* inline SVG: color sets it */
 .brand-name {
   font-family: var(--font-heading);
   font-size: 1.45rem;
