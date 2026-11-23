@@ -178,7 +178,8 @@ main h2 { font-size: clamp(1.9rem, 3vw, 2.4rem); }
   border-bottom: 1px solid var(--bg-taupe);
   z-index: 100;
 }
-/* Phone number strip above the header, desktop only (phones get the call icon).
+/* Phone number strip above the header. Below 1040px it drops the number
+   (the header has Call and Text buttons) and keeps the seasonal message.
    It scrolls like a marquee: the track holds two identical groups, each at
    least a screen wide, and slides left by one group, then starts over.
    Hovering or focusing it pauses it; reduced motion shows it standing still. */
@@ -707,7 +708,14 @@ main h2 { font-size: clamp(1.9rem, 3vw, 2.4rem); }
     gap: 16px;
   }
   .nav-toggle { display: flex; }
-  .top-bar, .header-linkedin { display: none; }
+  .header-linkedin { display: none; }
+  /* The top bar stays, thinner, with only the seasonal message: the Call
+     and Text buttons sit right below it */
+  .top-bar { padding: 4px 0; font-size: 0.78rem; }
+  .top-bar-phone { display: none; }
+  /* The centered name and the open menu measure from the header row,
+     not the whole header with the top bar */
+  .header-inner { position: relative; }
   /* Padding makes each icon a bigger tap target without spacing them apart */
   .header-contact { display: flex; padding: 6px; }
   .header-actions { gap: 2px; }
