@@ -8,8 +8,8 @@ export default {
   phone: "(248) 537-2210",
   phoneLink: "+12485372210",
 
-  // Timely notes that scroll in the top bar beside the phone number (desktop
-  // only). main.js shows the one whose from–to range (month-day, inclusive)
+  // Timely notes that scroll in the top bar (beside the phone number on
+  // desktop, on their own below 1040px). main.js shows the one whose from–to range (month-day, inclusive)
   // holds today's date, so they change on their own without a rebuild.
   // Keep the ranges covering the whole year without overlapping.
   seasonalMessages: [
