@@ -1,10 +1,10 @@
 ---
 id: TASK-20
 title: Turn the PNG logos into SVGs
-status: In Progress
+status: Done
 assignee: []
 created_date: '2026-11-21T20:58:00Z'
-updated_date: '2026-11-22T04:08:00Z'
+updated_date: '2026-11-23T00:33:00Z'
 labels:
   - site
   - brand

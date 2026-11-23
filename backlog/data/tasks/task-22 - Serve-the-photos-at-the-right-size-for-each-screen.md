@@ -1,10 +1,10 @@
 ---
 id: TASK-22
 title: Serve the photos at the right size for each screen
-status: In Progress
+status: Done
 assignee: []
 created_date: '2026-11-22T12:08:00Z'
-updated_date: '2026-11-22T15:18:00Z'
+updated_date: '2026-11-23T00:33:00Z'
 labels:
   - site
   - performance

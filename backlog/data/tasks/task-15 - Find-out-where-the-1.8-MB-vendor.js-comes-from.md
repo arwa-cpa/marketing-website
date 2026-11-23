@@ -1,10 +1,10 @@
 ---
 id: TASK-15
 title: Find out where the 1.8 MB vendor.js comes from
-status: To Do
+status: Done
 assignee: []
 created_date: '2026-11-21T16:17:00Z'
-updated_date: '2026-11-21T16:33:00Z'
+updated_date: '2026-11-23T00:35:00Z'
 labels:
   - performance
 dependencies: []
@@ -19,6 +19,12 @@ Inspecting the running site in Chrome DevTools showed a 1.8 MB vendor.js file. T
 
 ## Acceptance Criteria
 <!-- AC:BEGIN -->
-- [ ] #1 Source of vendor.js identified (initiator/frame in the Network panel) and noted on this task
-- [ ] #2 If it comes from the site or the booking embed, decide whether to change anything (e.g. lazy-load the iframe), and do it or note why not
+- [x] #1 Source of vendor.js identified (initiator/frame in the Network panel) and noted on this task
+- [x] #2 If it comes from the site or the booking embed, decide whether to change anything (e.g. lazy-load the iframe), and do it or note why not
 <!-- AC:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+2026-11-22: vendor.js doesn't appear in the Network panel in an incognito window (where extensions are off by default), so it came from a Chrome extension, not the site or the booking embed. Nothing to change.
+<!-- SECTION:NOTES:END -->

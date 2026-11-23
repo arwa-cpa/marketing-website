@@ -1,10 +1,10 @@
 ---
 id: TASK-21
 title: Add a page for partner CPAs
-status: In Progress
+status: Done
 assignee: []
 created_date: '2026-11-21T20:58:00Z'
-updated_date: '2026-11-22T16:21:00Z'
+updated_date: '2026-11-23T00:33:00Z'
 labels:
   - site
   - content
