@@ -116,7 +116,7 @@ What's still pending, on the site or off it (domain, profiles, copy review), is 
 
 ## Commits
 
-Write commit messages by the seven rules in [How to Write a Git Commit Message](https://cbea.ms/git-commit/): a subject of 50 characters or fewer, capitalized, in the imperative mood ("Add", not "Added") and with no trailing period; a blank line; then a body wrapped at 72 characters that explains what changed and why, not how. Don't start the subject with a task number (older commits did, e.g. `TASK-17: …`); when a commit belongs to a task, put a `Task: TASK-17` line at the bottom of the message instead, below the body.
+Write commit messages by the seven rules in [How to Write a Git Commit Message](https://cbea.ms/git-commit/): a subject of 50 characters or fewer, capitalized, in the imperative mood ("Add", not "Added") and with no trailing period; a blank line; then a body wrapped at 72 characters that explains what changed and why, not how. Don't start the subject with a task number (older commits did, e.g. `TASK-17: …`); when a commit belongs to a task, put a `Task: TASK-17` line at the bottom of the message instead, below the body. A prompt hook in `.claude/settings.json` (PreToolUse on Bash, next to the backlog check) has a fast Claude model read each `git commit` Claude runs and block it, with the reasons, when the message breaks these rules; it repeats them in its prompt, so change both together. It runs on every Bash call (it waves through anything that isn't a commit), and terminal commits aren't checked.
 
 ## Previewing / verifying changes
 
