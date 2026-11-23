@@ -178,19 +178,44 @@ main h2 { font-size: clamp(1.9rem, 3vw, 2.4rem); }
   border-bottom: 1px solid var(--bg-taupe);
   z-index: 100;
 }
-/* Phone number strip above the header, desktop only (phones get the call icon) */
+/* Phone number strip above the header, desktop only (phones get the call icon).
+   It scrolls like a marquee: the track holds two identical groups, each at
+   least a screen wide, and slides left by one group, then starts over.
+   Hovering or focusing it pauses it; reduced motion shows it standing still. */
 .top-bar {
-  margin: 0;
-  padding: 6px 24px;
+  overflow: hidden;
+  padding: 6px 0;
   background: var(--dark-green);
   color: var(--bg-taupe);
   font-size: 0.85rem;
   line-height: 1.4;
   letter-spacing: .02em;
-  text-align: center;
+  white-space: nowrap;
+}
+.top-bar-track {
+  display: flex;
+  width: max-content;
+  animation: top-bar-scroll 40s linear infinite;
+}
+.top-bar:hover .top-bar-track,
+.top-bar:focus-within .top-bar-track { animation-play-state: paused; }
+.top-bar-group {
+  display: flex;
+  justify-content: space-around;
+  gap: 96px;
+  min-width: 100vw;
+  padding-right: 96px;
 }
 .top-bar a { color: #fff; font-weight: 500; margin-left: 4px; }
 .top-bar a:hover { text-decoration: underline; text-underline-offset: 3px; }
+@keyframes top-bar-scroll {
+  to { transform: translateX(-50%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .top-bar-track { animation: none; width: auto; }
+  .top-bar-group { min-width: 0; width: 100%; justify-content: center; gap: 48px; padding: 0 24px; }
+  .top-bar-group[aria-hidden] { display: none; }
+}
 
 .header-inner {
   display: flex;

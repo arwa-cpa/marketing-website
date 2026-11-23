@@ -1,5 +1,12 @@
 document.getElementById('year').textContent = new Date().getFullYear();
 
+// Show the top bar's seasonal message for today's date ("MM-DD" ranges)
+const today = new Date();
+const monthDay = `${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+document.querySelectorAll('.top-bar .season').forEach((msg) => {
+  msg.hidden = !(msg.dataset.from <= monthDay && monthDay <= msg.dataset.to);
+});
+
 // Mobile nav toggle
 const navToggle = document.getElementById('nav-toggle');
 const mainNav = document.getElementById('main-nav');
