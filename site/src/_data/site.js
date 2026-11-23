@@ -9,8 +9,9 @@ export default {
   phoneLink: "+12485372210",
 
   // Timely notes that scroll in the top bar (beside the phone number on
-  // desktop, on their own below 1040px). main.js shows the one whose from–to range (month-day, inclusive)
-  // holds today's date, so they change on their own without a rebuild.
+  // desktop, on their own below 1040px). main.js shows the one whose
+  // from–to range (month-day, inclusive) holds today's date, so they
+  // change on their own without a rebuild.
   // Keep the ranges covering the whole year without overlapping.
   seasonalMessages: [
     { from: "01-01", to: "04-15", text: "Tax season is open: U.S. returns are due April 15 and Canadian returns April 30. Book early to get a spot." },
