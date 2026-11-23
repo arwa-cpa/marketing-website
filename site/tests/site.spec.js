@@ -87,6 +87,13 @@ test.describe("mobile", () => {
   });
 
   // Links aren't followed: tel:/sms: would try to start a call or text.
+  test("top bar shows the seasonal message without the phone number", async ({ page, baseURL }) => {
+    await openPage(page, baseURL);
+    const group = page.locator(".top-bar-group").first();
+    await expect(group.locator(".season:visible")).toHaveCount(1);
+    await expect(group.locator(".top-bar-phone")).toBeHidden();
+  });
+
   test("header has call and text buttons", async ({ page, baseURL }) => {
     await openPage(page, baseURL);
     const header = page.locator(".site-header");

@@ -6,7 +6,7 @@
       <div class="top-bar-track">
         {%- for copy in [1, 2] %}
         <div class="top-bar-group"{% if copy == 2 %} aria-hidden="true"{% endif %}>
-          <span>Call or text <a href="tel:{{ site.phoneLink }}"{% if copy == 2 %} tabindex="-1"{% endif %}>{{ site.phone }}</a></span>
+          <span class="top-bar-phone">Call or text <a href="tel:{{ site.phoneLink }}"{% if copy == 2 %} tabindex="-1"{% endif %}>{{ site.phone }}</a></span>
           {%- for msg in site.seasonalMessages %}
           <span class="season" data-from="{{ msg.from }}" data-to="{{ msg.to }}" hidden>{{ msg.text }}</span>
           {%- endfor %}
