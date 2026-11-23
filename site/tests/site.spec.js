@@ -26,6 +26,16 @@ test.describe("desktop", () => {
     expect(await openPage(page, baseURL)).toEqual([]);
   });
 
+  test("top bar shows the phone and one seasonal message, with its marquee copy hidden", async ({ page, baseURL }) => {
+    await openPage(page, baseURL);
+    const groups = page.locator(".top-bar-group");
+    await expect(groups).toHaveCount(2);
+    await expect(groups.nth(0).locator(".season:visible")).toHaveCount(1);
+    await expect(groups.nth(0).locator("a[href^='tel:']")).toBeVisible();
+    await expect(groups.nth(1)).toHaveAttribute("aria-hidden", "true");
+    await expect(groups.nth(1).locator("a")).toHaveAttribute("tabindex", "-1");
+  });
+
   test("nav links scroll to their sections", async ({ page, baseURL }) => {
     await openPage(page, baseURL);
     const headerHeight = await page.locator(".site-header").evaluate((el) => el.offsetHeight);

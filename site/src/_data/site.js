@@ -8,6 +8,17 @@ export default {
   phone: "(248) 537-2210",
   phoneLink: "+12485372210",
 
+  // Timely notes that scroll in the top bar beside the phone number (desktop
+  // only). main.js shows the one whose from–to range (month-day, inclusive)
+  // holds today's date, so they change on their own without a rebuild.
+  // Keep the ranges covering the whole year without overlapping.
+  seasonalMessages: [
+    { from: "01-01", to: "04-15", text: "Tax season is open: U.S. returns are due April 15 and Canadian returns April 30. Book early to get a spot." },
+    { from: "04-16", to: "06-15", text: "Americans living in Canada: your U.S. return is due June 15, the same day as Canadian self-employed returns." },
+    { from: "06-16", to: "10-15", text: "On a U.S. extension? Extended returns and FBARs are due October 15." },
+    { from: "10-16", to: "12-31", text: "Year-end planning: most moves that lower this year's taxes have to happen by December 31." },
+  ],
+
   // A Google Group on the Workspace account, for privacy requests. Shown on
   // the privacy page only: the one exception to showing no email address.
   privacyEmail: "privacy@arburcpa.com",
