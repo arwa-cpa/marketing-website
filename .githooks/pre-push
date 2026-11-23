@@ -13,16 +13,33 @@ if [ -s "$HOME/.nvm/nvm.sh" ]; then
 fi
 
 # Own server on its own port, so a running `npm start` (8080) is left alone.
-# Eleventy runs from site/ (exec, so $server is Eleventy itself, not a shell).
 port=8282
-(cd site && exec ../node_modules/.bin/eleventy --serve --quiet --port=$port) >/dev/null 2>&1 &
-server=$!
-trap 'kill $server 2>/dev/null' EXIT
+if curl -s -o /dev/null "http://localhost:$port/"; then
+  echo "pre-push: something is already running on port $port; stop it and push again" >&2
+  exit 1
+fi
 
+# The first -- passes the flags to the top-level start script, the second on
+# to Eleventy. npm forwards the stop signal down to Eleventy, so killing the
+# outer npm stops the server.
+log=$(mktemp)
+npm start --silent -- -- --quiet --port=$port >"$log" 2>&1 &
+server=$!
+trap 'kill $server 2>/dev/null; rm -f "$log"' EXIT
+
+up=false
 for _ in $(seq 1 60); do
-  curl -s -o /dev/null "http://localhost:$port/" && break
+  if curl -s -o /dev/null "http://localhost:$port/"; then up=true; break; fi
+  kill -0 $server 2>/dev/null || break   # the server exited, no point waiting
   sleep 1
 done
+
+if [ "$up" != true ]; then
+  echo "pre-push: the test server didn't start; its output:" >&2
+  cat "$log" >&2
+  echo "pre-push: (if a package is missing, run npm install)" >&2
+  exit 1
+fi
 
 echo "pre-push: running browser tests (skip with git push --no-verify)"
 BASE_URL="http://localhost:$port/" npm test --silent
