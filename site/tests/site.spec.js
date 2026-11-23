@@ -174,14 +174,14 @@ test("privacy page is linked from the footer", async ({ page, baseURL }) => {
   await expect(page).toHaveURL(/\/privacy\/$/);
 });
 
-test("About page is linked from the nav and the home page's About section", async ({ page, baseURL }) => {
+test("About page is linked from the nav and from beside Arwa's photo on the home page", async ({ page, baseURL }) => {
   await page.setViewportSize({ width: 1280, height: 800 });
   await openPage(page, baseURL);
   await page.locator(".main-nav").getByRole("link", { name: "About" }).click();
   await expect(page).toHaveURL(/\/about\/$/);
 
   await openPage(page, baseURL);
-  await page.locator("#about").getByRole("link", { name: "Read Arwa’s story" }).click();
+  await page.locator(".highlights").getByRole("link", { name: "Read Arwa’s story" }).click();
   await expect(page).toHaveURL(/\/about\/$/);
 });
 
@@ -201,6 +201,19 @@ test("partners page is linked from the nav, and its buttons go to booking and th
   await expect(page).toHaveURL(/\/#book$/);
   await expect(page.locator("#book")).toBeInViewport();
 });
+
+// Step cards (.steps) sit in one row on desktop, however many there are:
+// three on the home page, four on the partners page.
+for (const [path, count] of [["/", 3], ["/partners/", 4]]) {
+  test(`${path} steps sit in one row on desktop`, async ({ page, baseURL }) => {
+    await page.setViewportSize({ width: 1280, height: 800 });
+    await openPage(page, baseURL, path);
+    const steps = page.locator("ol.steps > li");
+    await expect(steps).toHaveCount(count);
+    const tops = await steps.evaluateAll((els) => els.map((el) => el.getBoundingClientRect().top));
+    expect(new Set(tops).size).toBe(1);
+  });
+}
 
 test("About page's Book a consultation button goes to the booking section", async ({ page, baseURL }) => {
   await openPage(page, baseURL, "/about/");

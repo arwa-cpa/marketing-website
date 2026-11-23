@@ -3,17 +3,21 @@ id: doc-1
 title: BrandScript
 type: guide
 created_date: '2026-11-19T18:06:00Z'
-updated_date: '2026-11-19T18:07:00Z'
+updated_date: '2026-11-23T17:30:00Z'
 ---
 The StoryBrand BrandScript for Arbur CPA: the message the site's copy is built from. The client is the hero; Arwa is the guide. It's a living document: when the message changes, change it here first, then the site.
 
 The message in one line: Arwa makes your cross-border taxes understandable, by simplifying what applies to you and explaining it thoroughly. Lead with that, not with detail.
 
+The hook: more money, more problems. Success brings more income, more accounts and more rules in two countries; with Arwa it's more money, no problem. The home page's hero shows that move as two cards, before and after, with Arbur CPA between them.
+
+Voice: the site speaks as "we" ("we explain what applies to you"), and names Arwa where it introduces her as the guide. The sections below say "she" because they describe the guide, not how the site words it.
+
 ## 1. Character
 
 - **Who:** individuals and families who are making moves across the U.S.–Canada border: relocating, marrying, building careers or businesses on both sides. Life is going well, and they now have income, assets or a business in both countries.
 - **What they want:** to move forward confidently, knowing they're paying the right amount and reporting everything correctly in both countries, so they can focus on their work, their investments and a rich life, not on accounting.
-- **The wider circle:** the same thing happens without crossing a border. A growing business, rental properties or investments can slowly turn simple finances into complicated ones. Cross-border clients are the focus, but the skill that makes cross-border taxes understandable, the most complicated kind, works for any client whose success has made their taxes harder. The site leads with cross-border (Arwa as the specialist); these clients are welcomed through Other services.
+- **The wider circle:** the same thing happens without crossing a border. A growing business, rental properties or investments can slowly turn simple finances into complicated ones. Cross-border clients are the focus, but the skill that makes cross-border taxes understandable, the most complicated kind, works for any client whose success has made their taxes harder. The site leads with cross-border (Arwa as the specialist); the Services section lists cross-border tax first and welcomes these clients alongside it.
 
 ## 2. Problem
 

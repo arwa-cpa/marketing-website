@@ -1,11 +1,11 @@
 ---
 id: TASK-13
 title: Rewrite the home page from the BrandScript
-status: To Do
+status: Done
 assignee:
   - '@murtuza'
 created_date: '2026-11-19T18:15:00Z'
-updated_date: '2026-11-21T16:33:00Z'
+updated_date: '2026-11-23T19:14:00Z'
 labels:
   - content
 dependencies:
@@ -28,3 +28,9 @@ Rework the home page copy and section order from the BrandScript (backlog/data/d
 
 Arwa's review of the BrandScript (TASK-5) may change it; update the BrandScript first, then the site.
 <!-- SECTION:DESCRIPTION:END -->
+
+## Implementation Notes
+
+<!-- SECTION:NOTES:BEGIN -->
+Drafted on branch home-page-brandscript, in the BrandScript's story order: hero (headline 'Your success crossed the border. Your taxes followed.' over two cards, 'More money, more problems' → 'More money, no problem', with Arbur CPA as the arrow between them), highlights beside Arwa's photo with a 'Read Arwa's story' link, cross-border (the villain: two tax systems that don't talk), a new How it works section with the three steps, reviews, other services (the wider circle), booking (the success line), contact. The home page's About section was removed; the About page and the highlights link cover it. Voice is 'we' throughout, noted in the BrandScript. The numbered step cards from the partners page became a shared ol.steps. Waiting on the user's copy review; Arwa's goes with TASK-5.
+<!-- SECTION:NOTES:END -->
