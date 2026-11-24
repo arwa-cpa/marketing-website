@@ -753,11 +753,12 @@ main h2 { font-size: clamp(1.9rem, 3vw, 2.4rem); }
   .philosophy-cta { margin-top: 40px; }
   .stats-grid { grid-template-columns: 1fr; row-gap: 24px; }
   .journey { grid-template-columns: 1fr; }
-  /* The bridge becomes one row: down arrow, mark, "with Arbur CPA". The arrow
-     is drawn sideways and rotated, which doesn't shrink its layout box, so the
-     negative margins take back the width it no longer shows. */
+  /* The bridge becomes one row: down arrow, mark, "with Arbur CPA", down
+     arrow. The arrows are drawn sideways and rotated, which doesn't shrink
+     their layout boxes, so the negative margins take back the width they no
+     longer show. */
   .journey-bridge { flex-direction: row; gap: 12px; }
-  .journey-arrow { order: -1; width: 40px; height: 14px; transform: rotate(90deg); margin: 0 -13px; }
+  .journey-arrow { width: 40px; height: 14px; transform: rotate(90deg); margin: 0 -13px; }
   .journey-mark { width: 28px; height: 36px; }
   .stat { border-left: none; padding-left: 0; }
   .partner-service-grid { grid-template-columns: 1fr; }
