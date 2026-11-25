@@ -655,6 +655,14 @@ main h2 { font-size: clamp(1.9rem, 3vw, 2.4rem); }
   grid-auto-columns: 1fr;
   gap: 20px;
 }
+/* How it works climbs like a staircase, bottom left to top right: each step
+   starts one rise higher than the one before it, and the grid stretches
+   every card down to the same bottom line, so the cards read as stairs.
+   Counted from the last step, so it works for any number of steps. */
+.steps-stair { --stair-rise: 48px; }
+.steps-stair > :nth-last-child(2) { margin-top: var(--stair-rise); }
+.steps-stair > :nth-last-child(3) { margin-top: calc(2 * var(--stair-rise)); }
+.steps-stair > :nth-last-child(4) { margin-top: calc(3 * var(--stair-rise)); }
 .step-number {
   display: flex;
   align-items: center;
@@ -763,6 +771,7 @@ main h2 { font-size: clamp(1.9rem, 3vw, 2.4rem); }
   .stat { border-left: none; padding-left: 0; }
   .partner-service-grid { grid-template-columns: 1fr; }
   .steps { grid-auto-flow: row; grid-template-columns: 1fr; }
+  .steps-stair > li:nth-child(n) { margin-top: 0; } /* stacked steps need no stairs */
   .partner-cta { padding: 24px; }
   .rating-pill { white-space: normal; border-radius: 18px; }
   .footer-actions .btn { display: none; } /* like the header, the CTA drops on phones */

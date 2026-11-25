@@ -220,15 +220,25 @@ test("partners page is linked from the nav, and its buttons go to booking and th
 });
 
 // Step cards (.steps) sit in one row on desktop, however many there are:
-// three on the home page, four on the partners page.
-for (const [path, count] of [["/", 3], ["/partners/", 4]]) {
+// three on the home page, four on the partners page. The home page's climb
+// like stairs (.steps-stair): each step's top is higher than the one before,
+// and all of them share a bottom line.
+for (const [path, count, stair] of [["/", 3, true], ["/partners/", 4, false]]) {
   test(`${path} steps sit in one row on desktop`, async ({ page, baseURL }) => {
     await page.setViewportSize({ width: 1280, height: 800 });
     await openPage(page, baseURL, path);
     const steps = page.locator("ol.steps > li");
     await expect(steps).toHaveCount(count);
-    const tops = await steps.evaluateAll((els) => els.map((el) => el.getBoundingClientRect().top));
-    expect(new Set(tops).size).toBe(1);
+    const boxes = await steps.evaluateAll((els) => els.map((el) => {
+      const { top, bottom } = el.getBoundingClientRect();
+      return { top, bottom };
+    }));
+    expect(new Set(boxes.map((b) => b.bottom)).size).toBe(1);
+    if (stair) {
+      for (let i = 1; i < boxes.length; i++) expect(boxes[i].top).toBeLessThan(boxes[i - 1].top);
+    } else {
+      expect(new Set(boxes.map((b) => b.top)).size).toBe(1);
+    }
   });
 }
 
